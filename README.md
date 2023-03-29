@@ -37,6 +37,13 @@ a joystick, and a keypad sign-in.
 To set up the project, the user needs to have a proper installation of the Arduino IDE on their machine. 
 The Arduino IDE can be downloaded from the official website[1], and it is recommended to use the latest version. 
 Moreover, the user needs to have an Arduino board that supports the necessary sensors and components.
+- [ ] The user shall be able to set a keyword phrase for turning off the alarm.
+- [ ] The user shall be able to set a joystick pattern for turning off the alarm
+- [ ] The user shall be able to turn off the alarm using joystick And/Or saying the keyword phrase
+- [ ] The user shall be notified when alarm is triggered and intruder is in house or some shit.
+- [ ] The user shall be able to set trigger actions that occur when intruder triggers alarm
+- [ ] The user shall be able to modify settings (change keyword, change pattern)
+
 
 The project also requires various libraries to be installed in the Arduino IDE. These libraries include the PIR library,
 Keypad library, and Adafruit_SSD1306 library, among others. The installation of these libraries can be done using the 
@@ -62,5 +69,6 @@ Arduino board that supports necessary sensors and components,
 required libraries installed in Arduino IDE,
 Git installed,
 IntelliJ IDEA or any other IDE that supports Arduino development.
+
 
 
