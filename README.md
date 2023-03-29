@@ -43,7 +43,7 @@ Keypad library, and Adafruit_SSD1306 library, among others. The installation of 
 Arduino IDE's library manager.
 
 It is advised to use a version control system (VCS) such as Git to manage the project's source code. 
-The developers used Git and hosted the project on GitHub[2]. Collaborators and contributors can clone the project's 
+The developers used Git. Collaborators and contributors can clone the project's 
 repository to their local machine using the following command:
 
 ```
@@ -61,6 +61,6 @@ Arduino IDE installed,
 Arduino board that supports necessary sensors and components,
 required libraries installed in Arduino IDE,
 Git installed,
-Visual Studio Code or any other IDE that supports Arduino development.
+IntelliJ IDEA or any other IDE that supports Arduino development.
 
 
