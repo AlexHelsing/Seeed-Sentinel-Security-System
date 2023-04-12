@@ -13,13 +13,13 @@ system owners of an intrusion, and an android app to be able to control the syst
 ## What is the purpose of the project?
 
 Our project aims to create a security system using various sensors including an infrared motion sensor, a buzzer, an LED, 
-a microphone, and a joystick. The system is designed to provide a layer of security for homes 
-or businesses, allowing individuals to feel more secure and protected from potential burglaries or break-ins. 
-When the security system is activated, the person that activated it has a certain amount of time to deactivate the alarm on the WIO 
-terminal device before "Intruder mode" is initiated. The alarm can be deactivated by entering a joystick swipe combination
-or saying a keyword that the built-in WIO terminal microphone detects. During "Intruder mode" the system will send an automated message
-to the homeowner, alerting them of the intrusion. The homeowner can then react accordingly, such as calling
-the police or turning the system off from the mobile phone app in case of a false alarm.
+a microphone, and a joystick. The system is designed to provide a layer of security for homes or businesses, allowing 
+individuals to feel more secure and protected from potential burglaries or break-ins. 
+When the security system is activated, the person that activated it has a certain amount of time to deactivate the alarm 
+on the WIO terminal device before "Intruder mode" is initiated. The alarm can be deactivated by entering a joystick swipe 
+combination or saying a keyword that the built-in WIO terminal microphone detects. During "Intruder mode" the system will 
+send an automated message to the homeowner, alerting them of the intrusion. The homeowner can then react accordingly,
+such as calling the police or turning the system off from the mobile phone app in case of a false alarm.
 
 ## Key functionalities
 
@@ -34,15 +34,28 @@ the police or turning the system off from the mobile phone app in case of a fals
 - [Wiki](https://git.chalmers.se/courses/dit113/2023/group-4/thief-detector/-/wikis/SeeedSentinel/)
 
 
+## How is the system supposed to work?
+
+To handle communication between the UI and the SeedSentinel device, we will use HiveMQ, a MQTT broker.
+The SeedSentinel gadget is made up of Wio terminal and external sensors as PIR, buzzer, and LED. The Passive Infrared 
+Sensor (PIR), which is the main component, activates the alarm via Wio once it detects an object that emits heat such as
+human body within a range of (2 – 5m).
+Once an object is detected by the PIR the Wio sends a signal to turn on the LED and the buzzer, which start making a loud 
+buzzing noise to frighten the intruder away.
+When an alarm is detected, the owner will be notified through SMS. When entering a password, the database will be used 
+to store user credentials for convenience.
+
+
+
 ## ![alt text](https://i.imgur.com/GBdgh4z.png) Technologies used
 
 - C++
 - Java/Kotlin
 - Arduino IDE
 - Android Studio
-- MQTT
-- Wio Seeed Terminal with built-in sensors
-- External sensors - PIR, Buzzer, LED
+- HiveMQ 
+- Wio Seed Terminal with built-in sensors
+- External sensors such as (Grove-Mini PIR motion sensor,Grove - RGB LED Stick (10 WS2813 Mini),Grove-Buzzer)
 - Speech-to-text WIO Terminal library
 - MongoDB
 
