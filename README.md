@@ -1,10 +1,10 @@
-# Thief Detector 
+# SeeedSentinel
 
 
 
 ## Introduction
 
-The thief detector project is a security system designed and created by the Group 4 of DIT113-2023 of the University of Gothenburg to provide an added layer of protection for homes or 
+The SeeedSentinel project is a security system designed and created by the Group 4 of DIT113-2023 of the University of Gothenburg to provide an added layer of protection for homes or 
 businesses by detecting potential intrusions and sending alerts to the homeowner or business owner. 
 The system uses a variety of sensors, including a PIR sensor, a speaker, an LED, a microphone, a joystick, and 
 a keypad sign-in to detect any unauthorized entry. When the door is opened, the person has a certain amount of time to 
@@ -22,7 +22,7 @@ Team Members:
 
 
 Description:
-Our project aims to create a thief detection system using various sensors, including a PIR sensor, a speaker, an LED, 
+Our project aims to create a SeeedSentinel system using various sensors, including a PIR sensor, a speaker, an LED, 
 a microphone, a joystick, and a keypad sign-in. The system is designed to provide an added layer of security for homes 
 or businesses, allowing individuals to feel more secure and protected from potential burglaries or break-ins. 
 When the door is opened, the person has a certain amount of time to deactivate the alarm on the WIO 
