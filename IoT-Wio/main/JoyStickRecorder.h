@@ -76,8 +76,10 @@ class JoyStickRecorder {
 
       //////////////////////
 
+      // Save pressess to they are preserved even after restart
       writeButtonPressesToStorage();
 
+      // Prints all directions pressed in the serial monitor.
       printButtonPresses();
 
       IsInputting == false;
@@ -95,7 +97,7 @@ class JoyStickRecorder {
     }
   }
 
-  void printDirectionOnSreen(String direction, int x, int y) {
+  void printDirectionOnScreen(String direction, int x, int y) {
     tft.setTextDatum(TL_DATUM);
     tft.drawString(direction, x, y);
   }
@@ -117,6 +119,7 @@ class JoyStickRecorder {
     }
   }
 
+  
   void peekAtStorage() {
     String storedButtonPresses = storage.read();
     Serial.println(storedButtonPresses);
