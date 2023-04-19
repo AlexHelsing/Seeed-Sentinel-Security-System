@@ -134,7 +134,7 @@
                     android:id="@+id/history_button"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/ic_home"
+                    android:src="@drawable/ic_history"
                     android:layout_gravity="center_horizontal"
                     />
 
