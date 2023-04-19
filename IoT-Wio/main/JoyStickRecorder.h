@@ -44,21 +44,21 @@ class JoyStickRecorder {
     if (digitalRead(WIO_5S_UP) == LOW) {
       Serial.println("Key_Pressed: UP");
       addButtonPress("Up");
-      printDirectionOnSreen("UP", 110, 105);
+      printDirectionOnScreen("UP", 110, 105);
 
     } else if (digitalRead(WIO_5S_DOWN) == LOW) {
       Serial.println("Key_Pressed: DOWN");
       addButtonPress("Down");
-      printDirectionOnSreen("DOWN", 80, 105);
+      printDirectionOnScreen("DOWN", 80, 105);
     } else if (digitalRead(WIO_5S_LEFT) == LOW) {
       Serial.println("Key_Pressed: LEFT");
       addButtonPress("Left");
-      printDirectionOnSreen("LEFT", 80, 105);
+      printDirectionOnScreen("LEFT", 80, 105);
 
     } else if (digitalRead(WIO_5S_RIGHT) == LOW) {
       Serial.println("Key_Pressed: RIGHT");
       addButtonPress("Right");
-      printDirectionOnSreen("RIGHT", 60, 105);
+      printDirectionOnScreen("RIGHT", 60, 105);
 
     } else if (digitalRead(WIO_5S_PRESS) == LOW) {
       Serial.println("Submitting...");
