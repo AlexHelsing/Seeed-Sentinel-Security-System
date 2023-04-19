@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">AndroidApp</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="header">Header</string>
+    <string name="homebutton_icon">Homebutton icon</string>
+    <string name="setting_button_icon">Setting button icon</string>
+    <string name="history_button_icon">History button icon</string>
+    <string name="placeholder_icon">Placeholder icon</string>
 </resources>

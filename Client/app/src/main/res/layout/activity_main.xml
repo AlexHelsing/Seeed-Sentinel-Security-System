@@ -16,7 +16,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:src="@drawable/seeed_sentinel1" />
+        android:src="@drawable/seeed_sentinel1"
+        android:contentDescription="@string/header" />
 
     <GridLayout
         android:layout_width="match_parent"
@@ -57,12 +58,12 @@
             android:layout_height="80dp"
             android:src="@drawable/ic_home"
             android:layout_gravity="center_horizontal"
-            />
+            android:contentDescription="@string/homebutton_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Home"
+                android:text="@string/home"
                 android:layout_gravity="center_horizontal"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -97,12 +98,12 @@
                     android:layout_height="80dp"
                     android:src="@drawable/ic_settings"
                     android:layout_gravity="center_horizontal"
-                    />
+                    android:contentDescription="@string/setting_button_icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Settings"
+                    android:text="@string/settings"
                     android:layout_gravity="center_horizontal"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -136,12 +137,12 @@
                     android:layout_height="80dp"
                     android:src="@drawable/ic_history"
                     android:layout_gravity="center_horizontal"
-                    />
+                    android:contentDescription="@string/history_button_icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="History"
+                    android:text="@string/history"
                     android:layout_gravity="center_horizontal"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -174,13 +175,13 @@
                     android:layout_height="80dp"
                     android:src="@drawable/ic_home"
                     android:layout_gravity="center_horizontal"
-                    />
+                    android:contentDescription="@string/placeholder_icon" />
 
                 <TextView
                     android:id="@+id/placeholder_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Placeholder"
+                    android:text="@string/placeholder"
                     android:layout_gravity="center_horizontal"
                     android:textSize="18sp"
                     android:textStyle="bold"
