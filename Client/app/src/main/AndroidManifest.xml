@@ -29,6 +29,9 @@
         </activity>
 
 
+        <activity android:name=".SettingsActivity" />
+
+
         <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
 
