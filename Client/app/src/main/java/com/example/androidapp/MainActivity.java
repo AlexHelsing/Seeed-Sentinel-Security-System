@@ -2,7 +2,7 @@ package com.example.androidapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,14 +19,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // I changed all "onClick" functions to lambda functions to keep code concise
-
         // HOME BUTTON SETTINGS
         homeButton = findViewById(R.id.home_button);
-        homeButton.setOnClickListener(view -> Toast.makeText(getApplicationContext(), "Home pressed", Toast.LENGTH_SHORT).show());
+        homeButton.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View view) {
+                                              Intent intent = new Intent(MainActivity.this, AlarmStatusActivity.class);
+                                              startActivity(intent);
+                                          }
+                                      });
 
-        // SETTINGS BUTTON SETTINGS
-        settingsButton = findViewById(R.id.settings_button);
+                // SETTINGS BUTTON SETTINGS
+                settingsButton = findViewById(R.id.settings_button);
         settingsButton.setOnClickListener(view -> Toast.makeText(getApplicationContext(), "Settings pressed", Toast.LENGTH_SHORT).show());
 
         // HISTORY BUTTON SETTINGS

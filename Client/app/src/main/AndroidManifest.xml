@@ -28,8 +28,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".AlarmStatusActivity">
+        </activity>
 
-        <service android:name="org.eclipse.paho.android.service.MqttService" />
+
+        <service android:name="org.eclipse.paho.android.service.MqttService"
+            tools:ignore="MissingClass" />
     </application>
 
 </manifest>
