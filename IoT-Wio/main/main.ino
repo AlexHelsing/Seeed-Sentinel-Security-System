@@ -1,19 +1,13 @@
-// Wifi details, import from header file.
-const char* ssid = SSID
-const char* password = PASSWORD
-
-// MQTT Broker URL
-const char* mqtt_server = my_IPv4
+#include "JoyStickRecorder.h"
 
 
+JoyStickRecorder patternRecorder;
 
-
-void setup () {
-  
+void setup() {
+  patternRecorder.setup();
+  // String[]/Int[] KeywordAttempt = patternRecorder.peekAtStorage(); Use this in another class for comparing i guess
 }
 
-
 void loop() {
-  
-  
+  patternRecorder.loop();
 }
