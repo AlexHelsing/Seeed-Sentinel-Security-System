@@ -1,6 +1,5 @@
 package com.example.androidapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -18,7 +17,6 @@ public class SetPatternActivity  extends AppCompatActivity {
 
     // Adapted from this library : https://github.com/aritraroy/PatternLockView
     private PatternLockView mPatternLockView;
-
     private static final String BROKER_URL = "tcp://10.0.2.2:1883";
     private static final String CLIENT_ID = "SentinelApp";
     private MqttHandler mqttHandler;
@@ -69,11 +67,12 @@ public class SetPatternActivity  extends AppCompatActivity {
         backArrow = findViewById(R.id.back_button_setPatternscreen);
         backArrow.setOnClickListener(view -> finish());
 
-
+        // pattern listener
         mPatternLockView = (PatternLockView) findViewById(R.id.pattern_lock_view);
         mPatternLockView.addPatternLockListener(mPatternLockViewListener);
 
 
+        // submit pattern button
         SubmitButton = findViewById(R.id.submitButton);
         SubmitButton.setOnClickListener(view -> {
 
@@ -95,9 +94,15 @@ public class SetPatternActivity  extends AppCompatActivity {
 
 
     }
+
+    // publish pattern to broker
     private void publishPattern(String topic, String message) {
         Toast.makeText(getApplicationContext(), "New pattern is saved :)", Toast.LENGTH_SHORT).show();
         mqttHandler.publish(topic, message);
     }
+
+
+
+
 
 }

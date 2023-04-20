@@ -3,21 +3,23 @@ package com.example.androidapp;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import com.andrognito.patternlockview.PatternLockView;
 
 public class SettingsActivity extends AppCompatActivity {
     ImageView backArrow;
-    LinearLayout choose_patternButton;
+    LinearLayout navigateToPatternBtn;
+    AppCompatButton editProfileBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
+
+        editProfileBtn = findViewById(R.id.edit_profile_button);
+        editProfileBtn.setOnClickListener(view -> Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show());
 
 
         // return to dashboard
@@ -26,8 +28,8 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         // navigate to set pattern activity
-        choose_patternButton = findViewById(R.id.NavigateToSetPattern);
-        choose_patternButton.setOnClickListener(view -> {
+        navigateToPatternBtn = findViewById(R.id.NavigateToSetPattern);
+        navigateToPatternBtn.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), SetPatternActivity.class);
             startActivity(intent);
         });
