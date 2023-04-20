@@ -10,27 +10,66 @@
               android:background="@drawable/bluegradient">
 
 
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="69dp">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="62dp">
         <ImageView android:layout_width="50sp" android:layout_height="50dp"
-                   android:src="@drawable/baseline_arrow_back_ios_new_24"
+                   android:src="@drawable/back_arrow"
                    android:padding="14dp"
                    android:layout_marginStart="2dp"
-                   android:contentDescription="rr"
-                   android:id="@+id/back_button2"/>
+                   android:contentDescription="@string/left_arrow"
+                   android:id="@+id/back_button_setPatternscreen"/>
 
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="SET PATTERN"
-                  android:textSize="18sp"
+                  android:text="@string/choose_pattern"
+
+                  android:textSize="20sp"
                   android:textColor="@color/white"
                   android:layout_alignParentTop="true"
-                  android:layout_centerInParent="true"
 
-                  android:id="@+id/settings_title" android:layout_marginTop="13dp"
-                  android:layout_centerVertical="true"/>
+                  android:id="@+id/editPattern_title" android:layout_marginTop="13dp"
+                  android:layout_centerInParent="true"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/darker_gray"
+                android:layout_alignParentBottom="true"/>
 
 
     </RelativeLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="422dp">
+
+        <com.andrognito.patternlockview.PatternLockView
+                android:id="@+id/pattern_lock_view"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                app:dotNormalSize="12dp"
+
+                app:correctStateColor="@color/green"
+                app:wrongStateColor="@color/pomegranate"
+                app:pathWidth="4dp"
+
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_height="291dp"/>
+
+
+    </LinearLayout>
+
+
+
+
+        <Button
+                android:layout_width="222dp"
+                android:text="@string/save_pattern"
+                android:id="@+id/submitButton"
+                android:layout_gravity="center"
+                android:layout_height="61dp">
+
+        </Button>
 
 
 

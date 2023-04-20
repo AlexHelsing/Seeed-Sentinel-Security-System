@@ -9,4 +9,19 @@
     <string name="setting_button_icon">Setting button icon</string>
     <string name="history_button_icon">History button icon</string>
     <string name="placeholder_icon">Placeholder icon</string>
+
+
+
+
+    <string name="edit_pattern">Change joystick pattern</string>
+    <string name="userImage_desc">Profile picture of user</string>
+    <string name="user_name">John doe</string>
+    <string name="edit_profile">edit profile</string>
+    <string name="pattern_icon">Pattern icon</string>
+    <string name="left_arrow">return to previous page</string>
+
+
+    <string name="choose_pattern">Choose a pattern</string>
+    <string name="save_pattern">Save pattern</string>
+
 </resources>

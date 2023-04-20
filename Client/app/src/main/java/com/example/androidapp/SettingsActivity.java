@@ -9,25 +9,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.andrognito.patternlockview.PatternLockView;
 
 public class SettingsActivity extends AppCompatActivity {
+    ImageView backArrow;
+    LinearLayout choose_patternButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
 
 
-        ImageView backArrow = findViewById(R.id.back_button);
+        // return to dashboard
+        backArrow = findViewById(R.id.back_button);
         backArrow.setOnClickListener(view -> finish());
 
 
-        LinearLayout choose_patternButton = findViewById(R.id.layout1);
-
+        // navigate to set pattern activity
+        choose_patternButton = findViewById(R.id.NavigateToSetPattern);
         choose_patternButton.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), SetPatternActivity.class);
             startActivity(intent);
         });
-
 
     }
 }

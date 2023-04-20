@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
         maven {
             url "https://repo.eclipse.org/content/repositories/paho-snapshots/"
         }
