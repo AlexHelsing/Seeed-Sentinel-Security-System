@@ -29,6 +29,10 @@
         </activity>
 
 
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".SetPatternActivity" />
+
+
         <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
 
