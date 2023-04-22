@@ -35,7 +35,7 @@
         <activity android:name=".SetPatternActivity" />
 
 
-        <service android:name="org.eclipse.paho.android.service.MqttService" />
+
     </application>
 
 </manifest>
