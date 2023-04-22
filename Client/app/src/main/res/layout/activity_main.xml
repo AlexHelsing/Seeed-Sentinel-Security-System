@@ -44,6 +44,7 @@
             android:layout_margin="12dp">
 
         <LinearLayout
+            android:id="@+id/home_button"
             android:background="@color/bluelaw3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -53,7 +54,6 @@
             android:gravity="center">
 
         <ImageView
-            android:id="@+id/home_button"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/ic_home"
@@ -63,7 +63,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home"
+                android:text="@string/alarm_status"
                 android:layout_gravity="center_horizontal"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -84,6 +84,7 @@
             android:layout_column="1"
             android:layout_margin="12dp">
             <LinearLayout
+                android:id="@+id/settings_button"
                 android:background="@color/bluelaw3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -93,7 +94,6 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:id="@+id/settings_button"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:src="@drawable/ic_settings"
@@ -124,6 +124,7 @@
             android:layout_column="0"
             android:layout_margin="12dp">
             <LinearLayout
+                android:id="@+id/history_button"
                 android:background="@color/bluelaw3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -132,7 +133,6 @@
                 android:orientation="vertical"
                 android:gravity="center">
                 <ImageView
-                    android:id="@+id/history_button"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:src="@drawable/ic_history"

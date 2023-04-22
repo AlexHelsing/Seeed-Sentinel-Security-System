@@ -9,10 +9,7 @@
     <string name="setting_button_icon">Setting button icon</string>
     <string name="history_button_icon">History button icon</string>
     <string name="placeholder_icon">Placeholder icon</string>
-
-
-
-
+    <string name="alarm_status">Alarm Status</string>
     <string name="edit_pattern">Change joystick pattern</string>
     <string name="userImage_desc">Profile picture of user</string>
     <string name="user_name">John doe</string>
