@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.os.Bundle;
 import android.widget.TableLayout;
 
+import java.util.LinkedList;
+
 public class HistoryActivity extends AppCompatActivity {
 
     TextView textView1;
@@ -38,6 +40,8 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void addTableRows(TableLayout tableLayout) {
         tableLayout = findViewById(R.id.tableLayout);
+        SensorTimestamps sensorTimestamps = new SensorTimestamps();
+        LinkedList<String> timestamps = sensorTimestamps.getTimestamps();
         for (int i = 0; i < 10; i++) {
             tableRow = new TableRow(this);
             textView1 = new TextView(this);
