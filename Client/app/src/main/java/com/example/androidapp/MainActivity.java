@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,11 +17,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // I changed all "onClick" functions to lambda functions to keep code concise
-
         // HOME BUTTON SETTINGS
         homeButton = findViewById(R.id.home_button);
         homeButton.setOnClickListener(view -> {
+            // start alarm status activity
             Intent intent = new Intent(MainActivity.this, AlarmStatusActivity.class);
             startActivity(intent);
         });
@@ -32,12 +30,16 @@ public class MainActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(view -> {
             // start settings activity
                     Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                    startActivity(intent);  // start settings activity
+                    startActivity(intent);
                 }
         );
 
         // HISTORY BUTTON SETTINGS
         historyButton = findViewById(R.id.history_button);
-        historyButton.setOnClickListener(view -> Toast.makeText(getApplicationContext(), "History pressed", Toast.LENGTH_SHORT).show());
+        historyButton.setOnClickListener(view -> {
+            // start history activity
+            Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+            startActivity(intent);
+        });
     }
 }
