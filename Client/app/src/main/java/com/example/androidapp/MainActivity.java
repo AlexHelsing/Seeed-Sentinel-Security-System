@@ -24,13 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
         // HOME BUTTON SETTINGS
         homeButton = findViewById(R.id.home_button);
-        homeButton.setOnClickListener(new View.OnClickListener() {
-                                          @Override
-                                          public void onClick(View view) {
-                                              Intent intent = new Intent(MainActivity.this, AlarmStatusActivity.class);
-                                              startActivity(intent);
-                                          }
-                                      });
+        homeButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, AlarmStatusActivity.class);
+            startActivity(intent);
+        });
 
         // SETTINGS BUTTON SETTINGS
         settingsButton = findViewById(R.id.settings_button);
