@@ -28,9 +28,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AlarmStatusActivity">
-        </activity>
-
+        <activity android:name=".AlarmStatusActivity" />
+        <activity android:name=".HistoryActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".SetPatternActivity" />
 
