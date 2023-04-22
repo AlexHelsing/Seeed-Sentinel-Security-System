@@ -2,6 +2,7 @@ package com.example.androidapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TableRow;
@@ -47,7 +48,7 @@ public class HistoryActivity extends AppCompatActivity {
             textView1 = new TextView(this);
             textView2 = new TextView(this);
             textView1.setText("Alarm History");
-            textView2.setText("placeholder");
+            textView2.setText(TextUtils.join("\n", timestamps));
             tableRow.addView(textView1);
             tableRow.addView(textView2);
             tableLayout.addView(tableRow);
