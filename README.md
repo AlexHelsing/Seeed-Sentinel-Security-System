@@ -1,6 +1,6 @@
 # SeeedSentinel
 
-![alt text](https://i.imgur.com/nvrCLK7.png)
+![alt text](https://i.imgur.com/mYtfjEU.png)
 
 ## ![alt text](https://i.imgur.com/nnc05xy.png) What is SeeedSentinel?
 
