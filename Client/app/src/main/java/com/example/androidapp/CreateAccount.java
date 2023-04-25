@@ -21,7 +21,7 @@ public class CreateAccount extends AppCompatActivity {
         App app = db.getApp();
 
         if (app.currentUser() != null) {
-            Intent intent = new Intent(getApplicationContext(), CustomizeProfile.class);
+            Intent intent = new Intent(getApplicationContext(), setNamePage.class);
             startActivity(intent);
         }
 
@@ -44,7 +44,7 @@ public class CreateAccount extends AppCompatActivity {
                         if (res.isSuccess()) {
                             Log.v("CreateAccount", "Successfully logged in.");
                             // not sure where we should send users after creating account yet.
-                            Intent intent = new Intent(getApplicationContext(), CustomizeProfile.class);
+                            Intent intent = new Intent(getApplicationContext(), setNamePage.class);
                             startActivity(intent);
                         } else {
                             Log.v("CreateAccount", "Failed to log in: " + res.getError().getErrorMessage());

@@ -28,7 +28,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateAccount" android:exported="true" />
-        <activity android:name=".CustomizeProfile"/>
+        <activity android:name=".setNamePage"/>
+        <activity android:name=".setPatternPage"/>
         <activity android:name=".AlarmStatusActivity" />
         <activity android:name=".HistoryActivity" />
         <activity android:name=".SettingsActivity" />
