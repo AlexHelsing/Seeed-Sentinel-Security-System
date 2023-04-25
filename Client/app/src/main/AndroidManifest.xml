@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".CreateAccount" android:exported="true" />
         <activity android:name=".AlarmStatusActivity" />
         <activity android:name=".HistoryActivity" />
         <activity android:name=".SettingsActivity" />
