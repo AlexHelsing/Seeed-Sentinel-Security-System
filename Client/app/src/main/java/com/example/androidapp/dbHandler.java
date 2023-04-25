@@ -6,6 +6,14 @@ import io.realm.mongodb.App;
 
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.User;
+import io.realm.mongodb.mongo.MongoClient;
+import io.realm.mongodb.mongo.MongoCollection;
+import io.realm.mongodb.mongo.MongoDatabase;
+import org.bson.Document;
+
+import java.util.ArrayList;
+import java.util.Hashtable;
+
 
 public class dbHandler {
 
@@ -14,6 +22,9 @@ public class dbHandler {
     private static dbHandler instance;
     private static App app;
     private static User user;
+    private static MongoClient mongoClient;
+    private static MongoDatabase mongoDatabase;
+    private CurrentUserData currentUserData;
 
 
     public dbHandler(Context context) {
@@ -25,7 +36,21 @@ public class dbHandler {
         return app;
     }
 
-    public User getUser() {
-        return user;
+
+    // maybe this is a bad idea since we can just use currentUser().getCustomData() but idk
+    public CurrentUserData getCurrentUserData() {
+        return currentUserData;
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
