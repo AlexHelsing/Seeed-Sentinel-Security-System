@@ -12,6 +12,12 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout settingsButton;
     LinearLayout historyButton;
 
+    private static final String BROKER_URL = "tcp://10.0.2.2:1883";
+
+    private static final String CLIENT_ID = "SentinelApp";
+
+    private MqttHandler mqttHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
