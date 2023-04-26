@@ -1,10 +1,12 @@
 package com.example.androidapp;
 
 import android.content.Intent;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import io.realm.mongodb.App;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +18,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dbHandler db = new dbHandler(getApplicationContext());
+        App app = db.getApp();
+
+        if (app.currentUser() == null) {
+            Toast.makeText(getApplicationContext(), "Please log in.", Toast.LENGTH_SHORT).show();
+        }
+
+
+        Toast.makeText(getApplicationContext(), "Logged in as: " + app.currentUser().getId(), Toast.LENGTH_SHORT).show();
 
         // HOME BUTTON SETTINGS
         homeButton = findViewById(R.id.home_button);
