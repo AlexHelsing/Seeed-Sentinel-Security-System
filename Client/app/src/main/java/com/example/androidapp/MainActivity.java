@@ -13,6 +13,15 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout homeButton;
     LinearLayout settingsButton;
     LinearLayout historyButton;
+    LinearLayout placeHolderbutton;
+
+    private static final String BROKER_URL = "tcp://10.0.2.2:1883";
+
+    private static final String CLIENT_ID = "SentinelApp";
+
+    private MqttHandler mqttHandler;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
         historyButton.setOnClickListener(view -> {
             // start history activity
             Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+            startActivity(intent);
+        });
+
+        placeHolderbutton = findViewById(R.id.placeholder_button);
+        placeHolderbutton.setOnClickListener(view -> {
+            // start history activity
+            Intent intent = new Intent(getApplicationContext(), UserLoginActivity.class);
             startActivity(intent);
         });
     }
