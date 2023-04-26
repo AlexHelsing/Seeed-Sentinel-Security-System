@@ -11,7 +11,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout homeButton;
     LinearLayout settingsButton;
     LinearLayout historyButton;
-
     LinearLayout placeHolderbutton;
 
     private static final String BROKER_URL = "tcp://10.0.2.2:1883";
