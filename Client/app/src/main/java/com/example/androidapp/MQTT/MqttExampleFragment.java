@@ -1,8 +1,7 @@
-package com.example.androidapp;
+package com.example.androidapp.MQTT;
 
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
+import com.example.androidapp.MQTT.MqttHandler;
+import com.example.androidapp.R;
 
 
 // Example fragment which showcases how to use the MqttHandler class.

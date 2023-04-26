@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.Settings;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +8,11 @@ import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import com.andrognito.patternlockview.PatternLockView;
-import io.realm.Realm;
+import com.example.androidapp.R;
+import com.example.androidapp.StarterPage;
+import com.example.androidapp.dbHandler;
 import io.realm.mongodb.App;
 import org.bson.Document;
-import org.w3c.dom.Text;
 
 public class SettingsActivity extends AppCompatActivity {
     ImageView backArrow;
@@ -32,14 +32,12 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please log in.", Toast.LENGTH_SHORT).show();
         }
 
-        Toast.makeText(getApplicationContext(), "Logged in as: " + app.currentUser().getId(), Toast.LENGTH_SHORT).show();
 
-
-
+        // fetch users name
          TextView unamefield = findViewById(R.id.user_name);
 
 
-        // refresh custom data
+        // refresh custom data and update the UI
         app.currentUser().refreshCustomData(it -> {
             if (it.isSuccess()) {
                 Log.v("SettingsActivity", "Successfully refreshed custom data.");
@@ -56,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
             app.currentUser().logOutAsync(result -> {
                 if (result.isSuccess()) {
                     Log.v("AUTH", "Successfully logged out.");
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), StarterPage.class);
                     startActivity(intent);
                 } else {
                     Log.e("AUTH", "Failed to log out, error: " + result.getError().getErrorMessage());
@@ -77,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity {
         // navigate to set pattern activity
         navigateToPatternBtn = findViewById(R.id.NavigateToSetPattern);
         navigateToPatternBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), SetPatternActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ChangePattern.class);
             startActivity(intent);
         });
 

@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import com.example.androidapp.History.HistoryActivity;
+import com.example.androidapp.MQTT.MqttHandler;
+import com.example.androidapp.Settings.SettingsActivity;
 import io.realm.mongodb.App;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,13 +17,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout settingsButton;
     LinearLayout historyButton;
     LinearLayout placeHolderbutton;
-
-    private static final String BROKER_URL = "tcp://10.0.2.2:1883";
-
-    private static final String CLIENT_ID = "SentinelApp";
-
-    private MqttHandler mqttHandler;
-
 
 
     @Override
@@ -31,12 +27,13 @@ public class MainActivity extends AppCompatActivity {
         dbHandler db = new dbHandler(getApplicationContext());
         App app = db.getApp();
 
+
+        // if user is not authed, then send them to the starter page
         if (app.currentUser() == null) {
-            Toast.makeText(getApplicationContext(), "Please log in.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), StarterPage.class);
+            startActivity(intent);
         }
 
-
-        Toast.makeText(getApplicationContext(), "Logged in as: " + app.currentUser().getId(), Toast.LENGTH_SHORT).show();
 
         // HOME BUTTON SETTINGS
         homeButton = findViewById(R.id.home_button);
@@ -63,11 +60,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // PLACEHOLDER BUTTON SETTINGS
         placeHolderbutton = findViewById(R.id.placeholder_button);
         placeHolderbutton.setOnClickListener(view -> {
-            // start history activity
-            Intent intent = new Intent(getApplicationContext(), UserLoginActivity.class);
-            startActivity(intent);
+            Toast.makeText(getApplicationContext(), "Placeholder button", Toast.LENGTH_SHORT).show();
         });
     }
 }

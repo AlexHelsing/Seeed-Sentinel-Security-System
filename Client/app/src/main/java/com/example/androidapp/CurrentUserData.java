@@ -1,7 +1,7 @@
 package com.example.androidapp;
 
 
-// might change into realm object later, idk fully how that works yet :/
+// implement this later. for now just a placeholder
 public class CurrentUserData {
     String name;
     String pattern;

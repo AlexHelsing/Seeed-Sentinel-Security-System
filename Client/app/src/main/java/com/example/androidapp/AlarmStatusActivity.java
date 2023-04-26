@@ -24,6 +24,4 @@ public class AlarmStatusActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 }}

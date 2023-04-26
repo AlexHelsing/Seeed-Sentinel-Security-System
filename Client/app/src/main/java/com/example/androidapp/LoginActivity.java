@@ -14,6 +14,13 @@ import java.util.concurrent.atomic.AtomicReference;
 public class LoginActivity  extends AppCompatActivity {
 
 
+    Button loginButton;
+    EditText email;
+    EditText password;
+    Button returnButton;
+    String emailText;
+    String passwordText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,24 +29,31 @@ public class LoginActivity  extends AppCompatActivity {
         dbHandler db = new dbHandler(getApplicationContext());
         App app = db.getApp();
 
+        email = findViewById(R.id.Email);
+        password = findViewById(R.id.password);
 
-        EditText email = findViewById(R.id.Email);
-        EditText password = findViewById(R.id.password);
+        loginButton = findViewById(R.id.login);
+        returnButton = findViewById(R.id.goback);
 
-        Button loginButton = findViewById(R.id.login);
+        returnButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, StarterPage.class);
+            startActivity(intent);
+        });
 
         loginButton.setOnClickListener(v -> {
-            String emailText = email.getText().toString();
-            String passwordText = password.getText().toString();
-            Credentials emailpassword = Credentials.emailPassword(emailText, passwordText);
+            emailText = email.getText().toString();
+            passwordText = password.getText().toString();
+            Credentials credentials = Credentials.emailPassword(emailText, passwordText);
+
 
             AtomicReference<User> user = new AtomicReference<User>();
-            app.loginAsync(emailpassword, it -> {
+            app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     user.set(app.currentUser());
                     System.out.println("Successfully authenticated using an email and password.");
                     System.out.println("User: " + user.get().getId());
-                    // start dashboard activity
+
+                    // Start the main activity
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                 } else {

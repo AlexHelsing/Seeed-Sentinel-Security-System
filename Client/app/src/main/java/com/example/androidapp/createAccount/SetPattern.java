@@ -1,14 +1,17 @@
-package com.example.androidapp;
+package com.example.androidapp.createAccount;
+
+import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
+import com.example.androidapp.MainActivity;
+import com.example.androidapp.R;
+import com.example.androidapp.dbHandler;
 import io.realm.mongodb.App;
 import io.realm.mongodb.User;
 import io.realm.mongodb.mongo.MongoClient;
@@ -18,11 +21,11 @@ import org.bson.Document;
 
 import java.util.List;
 
+public class SetPattern extends AppCompatActivity {
 
-public class setPatternPage extends AppCompatActivity {
 
-    private PatternLockView mPatternLockView;
-    private String name;
+    PatternLockView mPatternLockView;
+
 
     private PatternLockViewListener mPatternLockViewListener2 = new PatternLockViewListener() {
         @Override
@@ -57,59 +60,50 @@ public class setPatternPage extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstance) {
-        super.onCreate(savedInstance);
-        setContentView(R.layout.set_pattern_page);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.create_account_setpattern);
 
+
+        // get the name from the previous activity
         Bundle extra = getIntent().getExtras();
-        if (extra != null) {
-            String nameExtra = extra.getString("name");
-            name = nameExtra;
-        }
+        String name = extra.getString("name");
 
 
         dbHandler db = new dbHandler(getApplicationContext());
         App app = db.getApp();
+        User currentUser = app.currentUser();
 
-        mPatternLockView = (PatternLockView) findViewById(R.id.pattern_lock_view_onboarding2);
+        Button submitButton = findViewById(R.id.submitButton);
+
+        mPatternLockView = findViewById(R.id.pattern_lock_view1);
         mPatternLockView.addPatternLockListener(mPatternLockViewListener2);
 
-        ImageView goBack = findViewById(R.id.back_button_onboarding2);
-        goBack.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), setNamePage.class);
-            startActivity(intent);
-        });
 
-
-        Button continueButton = findViewById(R.id.continue_button_onboarding2);
-        continueButton.setOnClickListener(view -> {
+        submitButton.setOnClickListener(view -> {
             String pattern = PatternLockUtils.patternToString(mPatternLockView, mPatternLockView.getPattern());
-            Log.v("setPatternPage", "pattern: " + pattern);
+            Log.v("pattern", pattern);
 
-            User user = app.currentUser();
-            MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
+            // get the mongo client, this will get moved somewhere else later
+            MongoClient mongoClient = currentUser.getMongoClient("mongodb-atlas");
             MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
             MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
 
+            // create a document to store our customData, just name and pattern for now.
             Document doc = new Document("name", name)
                     .append("pattern", pattern)
-                    .append("user-id", user.getId());
+                    .append("user-id", currentUser.getId());
 
+            // insert the document
             mongoCollection.insertOne(doc).getAsync(result -> {
                 if (result.isSuccess()) {
-                    Log.v("setPatternPage", "successfully inserted document");
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Log.v("Data", "Successfully inserted a document with id: " + result.get().getInsertedId());
+                    Intent intent = new Intent(SetPattern.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Log.v("setPatternPage", "failed to insert document with: " + result.getError().toString());
+                    Log.e("Data", "failed to insert document with: ", result.getError());
                 }
             });
         });
-
-
-
-
     }
 }
-
-

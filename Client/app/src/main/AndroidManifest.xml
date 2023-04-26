@@ -28,13 +28,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" android:exported="true" />
-        <activity android:name=".CreateAccount" android:exported="true" />
-        <activity android:name=".setNamePage"/>
-        <activity android:name=".setPatternPage"/>
+        <activity android:name=".createAccount.CreateAccountActivity" android:exported="true" />
+        <activity android:name=".StarterPage" />
+        <activity android:name=".createAccount.SetName"/>
+        <activity android:name=".createAccount.SetProfilePic"/>
+        <activity android:name=".createAccount.SetPattern"/>
+        <activity android:name=".Settings.setPatternPage"/>
         <activity android:name=".AlarmStatusActivity" />
-        <activity android:name=".HistoryActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".SetPatternActivity" />
+        <activity android:name=".History.HistoryActivity" />
+        <activity android:name=".Settings.SettingsActivity" />
+        <activity android:name=".Settings.ChangePattern" />
 
 
 

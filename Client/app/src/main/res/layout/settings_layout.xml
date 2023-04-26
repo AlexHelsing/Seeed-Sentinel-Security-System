@@ -5,7 +5,7 @@
                 android:id="@+id/settings_activity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".SettingsActivity"
+                tools:context=".Settings.SettingsActivity"
                  android:orientation="vertical"
                    android:background="@drawable/bluegradient">
 
@@ -38,7 +38,7 @@
 
     </RelativeLayout>
 
-    <ScrollView android:layout_width="match_parent" android:layout_height="551dp">
+    <ScrollView android:layout_width="match_parent" android:layout_height="477dp">
 
         <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
                       android:layout_height="wrap_content">
