@@ -1,15 +1,16 @@
-package com.example.androidapp;
+package com.example.androidapp.History;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Button;
 import android.os.Bundle;
 import android.widget.TableLayout;
+import com.example.androidapp.MainActivity;
+import com.example.androidapp.R;
 
 import java.util.LinkedList;
 

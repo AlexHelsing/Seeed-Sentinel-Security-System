@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/bluegradient"
-    tools:context=".HistoryActivity">
+    tools:context=".History.HistoryActivity">
 
     <Button
         android:layout_width="wrap_content"
