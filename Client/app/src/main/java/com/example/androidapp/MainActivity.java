@@ -7,11 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import com.example.androidapp.History.HistoryActivity;
-import com.example.androidapp.MQTT.MqttHandler;
 import com.example.androidapp.Settings.SettingsActivity;
 import io.realm.mongodb.App;
 
 public class MainActivity extends AppCompatActivity {
+
+    dbHandler db;
+    App app;
 
     LinearLayout homeButton;
     LinearLayout settingsButton;
@@ -24,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbHandler db = new dbHandler(getApplicationContext());
-        App app = db.getApp();
+        db = new dbHandler(getApplicationContext());
+        app = db.getApp();
 
 
-        // if user is not authed, then send them to the starter page
+        // if user is not authed, send them to the starter page
         if (app.currentUser() == null) {
             Intent intent = new Intent(getApplicationContext(), StarterPage.class);
             startActivity(intent);

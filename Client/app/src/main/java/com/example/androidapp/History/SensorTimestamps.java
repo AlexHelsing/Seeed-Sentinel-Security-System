@@ -1,7 +1,5 @@
 package com.example.androidapp.History;
 
-import android.hardware.SensorEvent;
-
 import java.util.LinkedList;
 
 public class SensorTimestamps {

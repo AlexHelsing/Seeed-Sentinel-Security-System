@@ -13,6 +13,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class LoginActivity  extends AppCompatActivity {
 
+    dbHandler db;
+    App app;
 
     Button loginButton;
     EditText email;
@@ -26,8 +28,8 @@ public class LoginActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loginactivitypage);
 
-        dbHandler db = new dbHandler(getApplicationContext());
-        App app = db.getApp();
+        db = new dbHandler(getApplicationContext());
+        app = db.getApp();
 
         email = findViewById(R.id.Email);
         password = findViewById(R.id.password);

@@ -11,6 +11,9 @@ public class SetProfilePic extends AppCompatActivity {
 
     Button continueButton;
 
+    Bundle extras;
+    String name;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +21,8 @@ public class SetProfilePic extends AppCompatActivity {
         setContentView(R.layout.create_account_setpic);
 
         // get the name from the previous activity
-        Bundle extras = getIntent().getExtras();
-        String name = extras.getString("name");
+        extras = getIntent().getExtras();
+        name = extras.getString("name");
 
         continueButton = findViewById(R.id.btn_continue2);
         continueButton.setOnClickListener(view -> {

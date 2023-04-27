@@ -26,10 +26,5 @@ public class SetName extends AppCompatActivity {
             intent.putExtra("name", nameField.getText().toString());
             startActivity(intent);
         });
-
-
-
-
-
     }
 }

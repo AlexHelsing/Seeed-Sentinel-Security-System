@@ -15,35 +15,40 @@ import io.realm.mongodb.App;
 import org.bson.Document;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    dbHandler db;
+    App app;
     ImageView backArrow;
     LinearLayout navigateToPatternBtn;
     LinearLayout LogOutButton;
     AppCompatButton editProfileBtn;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
 
 
-        dbHandler db = new dbHandler(getApplicationContext());
-        App app = db.getApp();
+        db = new dbHandler(getApplicationContext());
+        app = db.getApp();
 
         if (app.currentUser() == null) {
             Toast.makeText(getApplicationContext(), "Please log in.", Toast.LENGTH_SHORT).show();
         }
 
 
-        // fetch users name
-         TextView unamefield = findViewById(R.id.user_name);
+        // name view
+         TextView namefield = findViewById(R.id.user_name);
 
 
-        // refresh custom data and update the UI
+        // refresh custom data and update the UI // i dont think we have to do this every time but can fix later.
         app.currentUser().refreshCustomData(it -> {
             if (it.isSuccess()) {
                 Log.v("SettingsActivity", "Successfully refreshed custom data.");
                 Document customData = app.currentUser().getCustomData();
                 Log.v("SettingsActivity", "Custom data: " + customData.toString());
-                unamefield.setText(customData.getString("name"));
+                namefield.setText(customData.getString("name"));
             } else {
                 Log.v("SettingsActivity", "Failed to refresh custom data: " + it.getError().getErrorMessage());
             }
@@ -63,6 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
+        // edit profile button
         editProfileBtn = findViewById(R.id.edit_profile_button);
         editProfileBtn.setOnClickListener(view -> Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show());
 

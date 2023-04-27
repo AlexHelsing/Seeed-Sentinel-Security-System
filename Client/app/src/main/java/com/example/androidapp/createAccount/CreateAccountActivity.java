@@ -14,6 +14,9 @@ import io.realm.mongodb.App;
 import io.realm.mongodb.Credentials;
 
 public class CreateAccountActivity extends AppCompatActivity {
+
+    dbHandler db;
+    App app;
     Button createAccountButton;
     Button goBackButton;
     EditText email;
@@ -24,8 +27,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
 
-        dbHandler db = new dbHandler(getApplicationContext());
-        App app = db.getApp();
+        db = new dbHandler(getApplicationContext());
+        app = db.getApp();
 
 
         if (app.currentUser() != null) {

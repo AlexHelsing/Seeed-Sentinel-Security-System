@@ -23,6 +23,14 @@ import java.util.List;
 
 public class SetPattern extends AppCompatActivity {
 
+    dbHandler db;
+    App app;
+    User currentUser;
+
+    Bundle extra;
+
+    String name;
+    Button submitButton;
 
     PatternLockView mPatternLockView;
 
@@ -66,15 +74,15 @@ public class SetPattern extends AppCompatActivity {
 
 
         // get the name from the previous activity
-        Bundle extra = getIntent().getExtras();
-        String name = extra.getString("name");
+        extra = getIntent().getExtras();
+        name = extra.getString("name");
 
 
-        dbHandler db = new dbHandler(getApplicationContext());
-        App app = db.getApp();
-        User currentUser = app.currentUser();
+        db = new dbHandler(getApplicationContext());
+        app = db.getApp();
+        currentUser = app.currentUser();
 
-        Button submitButton = findViewById(R.id.submitButton);
+        submitButton = findViewById(R.id.submitButton);
 
         mPatternLockView = findViewById(R.id.pattern_lock_view1);
         mPatternLockView.addPatternLockListener(mPatternLockViewListener2);
@@ -89,7 +97,8 @@ public class SetPattern extends AppCompatActivity {
             MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
             MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
 
-            // create a document to store our customData, just name and pattern for now.
+            // create a document to store our customData, just name and pattern for now. not sure how we are gonna deal with images yet. maybe just use urls?
+            // cant use pictures from phone cus that requires you to store those images in a cloud storage somewhere :/
             Document doc = new Document("name", name)
                     .append("pattern", pattern)
                     .append("user-id", currentUser.getId());
