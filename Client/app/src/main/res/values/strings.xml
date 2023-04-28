@@ -16,12 +16,11 @@
     <string name="edit_profile">edit profile</string>
     <string name="pattern_icon">Pattern icon</string>
     <string name="left_arrow">return to previous page</string>
+    <string name="AlarmOff">AlarmOff</string>
 
 
     <string name="choose_pattern">Choose a pattern</string>
     <string name="save_pattern">Save pattern</string>
-    <string name="status_active">Status: Active</string>
-    <string name="status_armed">Status: Armed</string>
     <string name="create_account">Create Account</string>
     <string name="sign_in">Sign in</string>
 

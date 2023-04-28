@@ -1,5 +1,9 @@
 package com.example.androidapp;
 
+import android.util.Log;
+
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -11,6 +15,8 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class MqttHandler {
 
     private MqttClient client;
+
+    private static final String TAG = "AlarmStatusActivity";
 
     public void connect(String brokerUrl, String clientId) {
         try {
@@ -51,6 +57,21 @@ public class MqttHandler {
     public void subscribe(String topic) {
         try {
             client.subscribe(topic);
+            client.setCallback(new MqttCallback() {
+                @Override
+                public void connectionLost(Throwable cause) {
+
+                }
+
+                @Override
+                public void messageArrived(String topic, MqttMessage message) throws Exception {
+                    Log.d(TAG, new String(message.getPayload()));
+                }
+
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken token) {
+                }
+            });
         } catch (MqttException e) {
             e.printStackTrace();
         }

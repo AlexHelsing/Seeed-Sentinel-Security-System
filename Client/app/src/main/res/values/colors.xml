@@ -16,5 +16,7 @@
     <color name="beigetest2">#d6ae7b</color>
     <color name="green">#DD59FF00</color>
     <color name="red">#DDFF0000</color>
+    <color name="gray">#808080</color>
+
 
 </resources>
