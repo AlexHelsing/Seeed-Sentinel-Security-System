@@ -10,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttSubscribe;
+import com.example.androidapp.MQTT.MqttHandler;
 
 public class AlarmStatusActivity extends AppCompatActivity {
 
@@ -34,6 +32,7 @@ public class AlarmStatusActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "SentinelApp";
     MqttHandler mqttHandler;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,34 +56,31 @@ public class AlarmStatusActivity extends AppCompatActivity {
         livingRoomStatus = findViewById(R.id.livingRoomStatus);
 
         deactivateActivateButton = findViewById(R.id.btn_deactivateActivateAlarm);
-        deactivateActivateButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View view) {
-                if (deactivateActivateButton.getText().equals("Deactivate Alarm")) {
-                    deactivateActivateButton.setText("Activate Alarm");
-                    alarmStatusText.setText("The alarm is disarmed");
-                    alarmStatusText.setTextColor(Color.parseColor("#DDFF0000"));
-                    hallwayStatus.setText("Alarm: Unarmed");
-                    hallwayStatus.setTextColor(Color.parseColor("#DDFF0000"));
-                    livingRoomStatus.setText("Alarm: Unarmed");
-                    livingRoomStatus.setTextColor(Color.parseColor("#DDFF0000"));
+        deactivateActivateButton.setOnClickListener(view -> {
+            if (deactivateActivateButton.getText().equals("Deactivate Alarm")) {
+                deactivateActivateButton.setText("Activate Alarm");
+                alarmStatusText.setText("The alarm is disarmed");
+                alarmStatusText.setTextColor(Color.parseColor("#DDFF0000"));
+                hallwayStatus.setText("Alarm: Unarmed");
+                hallwayStatus.setTextColor(Color.parseColor("#DDFF0000"));
+                livingRoomStatus.setText("Alarm: Unarmed");
+                livingRoomStatus.setTextColor(Color.parseColor("#DDFF0000"));
 
-                    mqttHandler.publish(ALARM_TOPIC, "DeactivateAlarm");
-                } else if (deactivateActivateButton.getText().equals("Activate Alarm")) {
-                    deactivateActivateButton.setText("Deactivate Alarm");
-                    alarmStatusText.setText("The alarm is armed");
-                    alarmStatusText.setTextColor(Color.parseColor("#DD59FF00"));
-                    hallwayStatus.setText("Alarm: Armed");
-                    hallwayStatus.setTextColor(Color.parseColor("#DD59FF00"));
-                    livingRoomStatus.setText("Alarm: Armed");
-                    livingRoomStatus.setTextColor(Color.parseColor("#DD59FF00"));
-                    mqttHandler.publish(ALARM_TOPIC, "ActivateAlarm");
-                }
+                mqttHandler.publish(ALARM_TOPIC, "DeactivateAlarm");
+            } else if (deactivateActivateButton.getText().equals("Activate Alarm")) {
+                deactivateActivateButton.setText("Deactivate Alarm");
+                alarmStatusText.setText("The alarm is armed");
+                alarmStatusText.setTextColor(Color.parseColor("#DD59FF00"));
+                hallwayStatus.setText("Alarm: Armed");
+                hallwayStatus.setTextColor(Color.parseColor("#DD59FF00"));
+                livingRoomStatus.setText("Alarm: Armed");
+                livingRoomStatus.setTextColor(Color.parseColor("#DD59FF00"));
+                mqttHandler.publish(ALARM_TOPIC, "ActivateAlarm");
             }
         });
 
         alarmStatusButton = findViewById(R.id.btn_changeAlarmStatus);
+        // Dont replace with lambda for now
         Runnable myRunnable = new Runnable() {
             @Override
             public void run() {
@@ -103,14 +99,10 @@ public class AlarmStatusActivity extends AppCompatActivity {
 
         Thread myThread = new Thread(myRunnable);
         myThread.start();
-        alarmStatusButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View view) {
-                alarmStatusButton.setText("Turn Off Alarm");
-                alarmStatusButton.setBackgroundColor(Color.parseColor("#808080"));
-                mqttHandler.publish(ALARM_TOPIC, "TurnOffAlarm");
-                alarmStatus = false;
-            }
+        alarmStatusButton.setOnClickListener(view -> {
+            alarmStatusButton.setText("Turn Off Alarm");
+            alarmStatusButton.setBackgroundColor(Color.parseColor("#808080"));
+            mqttHandler.publish(ALARM_TOPIC, "TurnOffAlarm");
+            alarmStatus = false;
         });
     }}

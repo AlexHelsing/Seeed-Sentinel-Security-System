@@ -1,6 +1,4 @@
-package com.example.androidapp;
-
-import android.hardware.SensorEvent;
+package com.example.androidapp.History;
 
 import java.util.LinkedList;
 

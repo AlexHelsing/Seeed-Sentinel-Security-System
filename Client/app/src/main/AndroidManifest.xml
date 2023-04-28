@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- Permission for mqtt -->
+
+    <!-- Permission for mqtt  -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
 
     <application
         android:allowBackup="true"
@@ -17,18 +19,6 @@
         android:theme="@style/Theme.AndroidApp"
         tools:targetApi="31">
         <activity
-            android:name=".UserLoginPatternActivity"
-            android:exported="false" />
-        <activity
-            android:name=".UserLogin2Activity"
-            android:exported="false" />
-        <activity
-            android:name=".UserLoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginPageActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -37,10 +27,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LoginActivity" android:exported="true" />
+        <activity android:name=".createAccount.CreateAccountActivity" android:exported="true" />
+        <activity android:name=".StarterPage" />
+        <activity android:name=".createAccount.SetName"/>
+        <activity android:name=".createAccount.SetProfilePic"/>
+        <activity android:name=".createAccount.SetPattern"/>
+        <activity android:name=".Settings.setPatternPage"/>
         <activity android:name=".AlarmStatusActivity" />
-        <activity android:name=".HistoryActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".SetPatternActivity" />
+        <activity android:name=".History.HistoryActivity" />
+        <activity android:name=".Settings.SettingsActivity" />
+        <activity android:name=".Settings.ChangePattern" />
+
+
+
     </application>
 
 </manifest>

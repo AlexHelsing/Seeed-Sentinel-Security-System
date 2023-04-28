@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.Settings;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,10 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
+import com.example.androidapp.MQTT.MqttHandler;
+import com.example.androidapp.R;
 
 import java.util.List;
 
-public class SetPatternActivity  extends AppCompatActivity {
+public class ChangePattern extends AppCompatActivity {
 
 
     // Adapted from this library : https://github.com/aritraroy/PatternLockView
