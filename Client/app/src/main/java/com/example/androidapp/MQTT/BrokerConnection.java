@@ -8,11 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidapp.AlarmStatusActivity;
 
+import com.example.androidapp.AlarmViewModel;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 
@@ -24,12 +24,16 @@ public class BrokerConnection extends AppCompatActivity {
     public static final String CLIENT_ID = "SeeedSentinel";
     public static final int QOS = 1;
 
+    // maybe thers a cleaner way to call this ...
     AlarmStatusActivity alarmStatusActivity = new AlarmStatusActivity();
 
     private boolean isConnected = false;
     private MqttClient mqttClient;
     Context context;
     TextView connectionMessage;
+
+    // view model that handles the alarm status state
+    AlarmViewModel alarmViewModel = new AlarmViewModel();
 
     public BrokerConnection(Context context){
         this.context = context;
@@ -88,20 +92,19 @@ public class BrokerConnection extends AppCompatActivity {
                     if(topic.equals(SUB_TOPIC)){
                         String mqttMessage = new String(message.getPayload());
                         if(mqttMessage.equals("AlarmOff")){
-                            alarmStatusActivity.alarmStatus = false;
-                            System.out.println(alarmStatusActivity.alarmStatus);
-                            System.out.println(mqttMessage);
+                            // set alarm status to false
+                            alarmViewModel.setAlarmStatus(false);
+
                         }
                         else if(mqttMessage.equals("AlarmOn")){
-                            alarmStatusActivity.alarmStatus = true;
-                            System.out.println(alarmStatusActivity.alarmStatus);
-                            System.out.println(mqttMessage);
+                            // set alarm status to true
+                            alarmViewModel.setAlarmStatus(true);
                         }
                     }
                     else{
                         Log.i("BROKER: ", "[MQTT] Topic: " + topic + " | Message: " + message.toString());
                     }
-                    }
+                }
 
                 @Override
                 public void deliveryComplete(IMqttDeliveryToken token) {
