@@ -11,6 +11,7 @@ import com.example.androidapp.AlarmStatusActivity;
 import com.example.androidapp.AlarmViewModel;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -23,9 +24,6 @@ public class BrokerConnection extends AppCompatActivity {
     private static final String MQTT_SERVER = "tcp://broker.hivemq.com:1883";
     public static final String CLIENT_ID = "SeeedSentinel";
     public static final int QOS = 1;
-
-    // maybe thers a cleaner way to call this ...
-    AlarmStatusActivity alarmStatusActivity = new AlarmStatusActivity();
 
     private boolean isConnected = false;
     private MqttClient mqttClient;
@@ -133,6 +131,17 @@ public class BrokerConnection extends AppCompatActivity {
             Toast.makeText(context, notConnected, Toast.LENGTH_SHORT).show();
             return;
         }
+        mqttClient.publish(SUB_TOPIC, message, 1, new IMqttActionListener() {
+            @Override
+            public void onSuccess(IMqttToken asyncActionToken) {
+                System.out.println("Successfully sent");
+            }
+
+            @Override
+            public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+
+            }
+        });
         Log.i(CLIENT_ID, actionDescription);
     }
 

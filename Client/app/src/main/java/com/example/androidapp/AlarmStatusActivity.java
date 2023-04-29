@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,6 +62,36 @@ public class AlarmStatusActivity extends AppCompatActivity {
         hallwayStatus = findViewById(R.id.hallwayStatus);
         livingRoomStatus = findViewById(R.id.livingRoomStatus);
         deactivateActivateButton = findViewById(R.id.btn_deactivateActivateAlarm);
+
+        System.out.println(alarmViewModel.getAlarmStatus().getValue());
+
+        deactivateActivateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(alarmViewModel.getAlarmStatus().getValue() == false){
+                    alarmViewModel.setAlarmStatus(true);
+                    deactivateActivateButton.setText("Deactivate Alarm");
+                    alarmStatusText.setText("The alarm is armed");
+                    alarmStatusText.setTextColor(Color.parseColor("#DD59FF00"));
+                    hallwayStatus.setText("Alarm: Armed");
+                    hallwayStatus.setTextColor(Color.parseColor("#DD59FF00"));
+                    livingRoomStatus.setText("Alarm: Armed");
+                    livingRoomStatus.setTextColor(Color.parseColor("#DD59FF00"));
+                    brokerConnection.publishMqttMessage("AlarmOn", "ChangeAlarmStatus");
+                }
+                else if(alarmViewModel.getAlarmStatus().getValue() == true){
+                    alarmViewModel.setAlarmStatus(false);
+                    deactivateActivateButton.setText("Activate Alarm");
+                    alarmStatusText.setText("The alarm is disarmed");
+                    alarmStatusText.setTextColor(Color.parseColor("#DDFF0000"));
+                    hallwayStatus.setText("Alarm: Unarmed");
+                    hallwayStatus.setTextColor(Color.parseColor("#DDFF0000"));
+                    livingRoomStatus.setText("Alarm: Unarmed");
+                    livingRoomStatus.setTextColor(Color.parseColor("#DDFF0000"));
+                    brokerConnection.publishMqttMessage("AlarmOff", "ChangeAlarmStatus");
+                }
+            }
+        });
 
         alarmViewModel.getAlarmStatus().observe(this, alarm -> {
             if (alarm) {
