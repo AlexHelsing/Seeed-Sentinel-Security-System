@@ -1,13 +1,13 @@
-#include "JoyStickRecorder.h"
+#include "MotionDetection.h"
 
 
-JoyStickRecorder patternRecorder;
+MotionDetect motion;
 
 void setup() {
-  patternRecorder.setup();
+  motion.setupMotion();
   // String[]/Int[] KeywordAttempt = patternRecorder.peekAtStorage(); Use this in another class for comparing i guess
 }
 
 void loop() {
-  patternRecorder.loop();
+  motion.loopMotion();
 }
