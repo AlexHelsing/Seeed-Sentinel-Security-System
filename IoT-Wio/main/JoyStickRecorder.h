@@ -20,7 +20,6 @@ class JoyStickRecorder {
 
   public: void setup() {
     clearStorage();
-    Serial.begin(115200);
     pinMode(WIO_5S_UP, INPUT_PULLUP);
     pinMode(WIO_5S_DOWN, INPUT_PULLUP);
     pinMode(WIO_5S_LEFT, INPUT_PULLUP);

@@ -4,16 +4,25 @@
 #include "JoyStickRecorder.h"
 
 
+JoyStickRecorder JoystickAuth;
+
 
 
 const char* server = "192.168.1.178";
 const char* AlarmTopic = "/SeeedSentinel/AlarmOnOff";
 const char* PatternAuthTopic = "/SeeedSentinel/pattern";
-
+bool initAuth = false;
 scanWifi wifiScanner;
 
 WiFiClient wioClient;
 PubSubClient client(wioClient);
+
+
+// MOTION STUFF
+#define PIR_MOTION_SENSOR 2 // Use pin 2 for PIR motion sensor
+bool intruder = false; // Flag to track if an alert is active
+bool alarmOn = false;
+//
 
 
 void AlarmTopicCallback(char* topic, byte* payload, unsigned int length) {
@@ -21,7 +30,9 @@ void AlarmTopicCallback(char* topic, byte* payload, unsigned int length) {
   if (strncmp((char*)payload, "AlarmOn", length) == 0) {
     Serial.println("Activate motion detection");
 
-
+    tft.fillScreen(TFT_GREEN);
+    alarmOn = true;
+   
     //client.setCallback(PatternAuthCallback);
     //client.subscribe(PatternAuthTopic); // subscribe to the control topic
   } else if (strncmp((char*)payload, "AlarmOff", length) == 0) {
@@ -49,12 +60,16 @@ void PatternAuthCallback(char* topic, byte* payload, unsigned int length) {
 }
 
 
-
-
 void setup() {
+  pinMode(PIR_MOTION_SENSOR, INPUT);
+  Serial.begin(9600);
+  JoystickAuth.setup();
+
+
   wifiScanner.setupScan();
   client.setServer(server, 1883);
   client.setCallback(AlarmTopicCallback);
+
   
   if (client.connect("WioID")) {
     Serial.println("Connection has been established");
@@ -66,9 +81,23 @@ void setup() {
     Serial.println("You done fucked up");
   }
 }
-  
-
 
 void loop() {
   client.loop();
+
+  if (alarmOn) {
+    if(digitalRead(PIR_MOTION_SENSOR))   { 
+        Serial.println("Intruder");
+        initAuth = true;
+        alarmOn = false;
+    }    else {
+        Serial.println("Watching");
+
+        delay(200);
+    }
+  }
+
+  if (initAuth) {
+    JoystickAuth.loop();
+  }
 }
