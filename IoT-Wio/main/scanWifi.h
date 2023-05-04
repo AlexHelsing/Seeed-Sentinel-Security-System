@@ -6,7 +6,7 @@ const char* password =  "4Ne93SAtqCKfk"; //and password :)
 
 class scanWifi{
 public: void setupScan() {
-    Serial.begin(115200);
+    
     while(!Serial); // Wait for Serial to be ready
 
     // Set WiFi to station mode and disconnect from an AP if it was previously connected
