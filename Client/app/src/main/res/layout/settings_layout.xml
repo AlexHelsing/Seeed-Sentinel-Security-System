@@ -106,6 +106,48 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/NavigateToSetPattern"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:id="@+id/NavigateToNotifications"
+                android:background="@drawable/settings_menutab"
+                android:layout_marginTop="40dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/baseline_edit_notifications_24"
+                        android:contentDescription="@string/notification_icon"
+
+
+                        >
+
+                    </ImageView>
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/edit_pattern" android:textColor="@color/white"
+                        android:layout_marginStart="40dp"
+                        android:layout_centerVertical="true"
+                        />
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+                
+
         </LinearLayout>
     </ScrollView>
     <LinearLayout
