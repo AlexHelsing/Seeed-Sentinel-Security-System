@@ -1,44 +1,33 @@
 #include <TFT_eSPI.h>
-#include <FlashStorage.h>
+#include "globalVariables.h"
 
 #ifndef JoyStickRecorder_h
 #define JoyStickRecorder_h
 
 
+
 // Library to put stuff on screeen.
 TFT_eSPI tft;
+TFT_eSPI tftNew;
 
 //Temporary storage unitl we got SD CARD.
-FlashStorage(storage, String);
+
 
 class JoyStickRecorder {
-  private: static
+  public: static
   const int MAX_BUTTON_PRESSES = 100;
   String buttonPresses[MAX_BUTTON_PRESSES];
   int buttonPressCount = 0;
   boolean IsInputting = true;
 
-  public: void setup() {
-    clearStorage();
-    Serial.begin(115200);
-    pinMode(WIO_5S_UP, INPUT_PULLUP);
-    pinMode(WIO_5S_DOWN, INPUT_PULLUP);
-    pinMode(WIO_5S_LEFT, INPUT_PULLUP);
-    pinMode(WIO_5S_RIGHT, INPUT_PULLUP);
-    pinMode(WIO_5S_PRESS, INPUT_PULLUP);
 
-    tft.begin();
-    tft.fillScreen(TFT_BLACK);
-    tft.setRotation(3);
-    tft.setTextSize(10);
-
-  }
-
-  void loop() {
+  void beginAuth() {   
     tft.fillScreen(TFT_BLACK);
     tft.setCursor(0, 0);
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
     tft.setTextSize(10);
+
+
 
     // We could also store these pressess as ints i suppose { left=1, up=2, down=3, top=4 }
     if (digitalRead(WIO_5S_UP) == LOW) {
@@ -63,24 +52,12 @@ class JoyStickRecorder {
     } else if (digitalRead(WIO_5S_PRESS) == LOW) {
       Serial.println("Submitting...");
 
-
-      /////////////////////////
-      /// Will replace this later but works for now so one can see when theyve submitted/stopped recording.
       
-      tft.fillScreen(TFT_GREEN);
-
+  
       delay(2000);
 
-      tft.fillScreen(TFT_RED);
 
-
-      //////////////////////
-
-      // Save pressess to they are preserved even after restart
-      writeButtonPressesToStorage();
-
-      // Prints all directions pressed in the serial monitor.
-      printButtonPresses();
+      onSubmit();
 
       IsInputting == false;
 
@@ -102,34 +79,31 @@ class JoyStickRecorder {
     tft.drawString(direction, x, y);
   }
 
-  void writeButtonPressesToStorage() {
-    // Flashstorage cant store arrays so we gotta do it like this for now :(
-    String buttonPressString = "";
-    for (int i = 0; i < buttonPressCount; i++) {
-      buttonPressString += buttonPresses[i];
 
-    }
-    storage.write(buttonPressString);
-  }
-
-  void printButtonPresses() {
-    Serial.print("Pattern: ");
-    for (int i = 0; i < buttonPressCount; i++) {
-      Serial.print(buttonPresses[i] + ", ");
+void onSubmit() {
+  String attempt = "";
+  for (int i = 0; i < buttonPressCount; i++) {
+    attempt += buttonPresses[i];
+    // remove last comma
+    if (i != buttonPressCount - 1) {
+      attempt += ", ";
     }
   }
+  if (attempt == currentPattern) {
+    Serial.println("ACCESS GRANTED");
+    tft.fillScreen(TFT_GREEN);
 
-  
-  void peekAtStorage() {
-    String storedButtonPresses = storage.read();
-    Serial.println(storedButtonPresses);
+    delay(2000);
+    initAuth = false;
+    alarmOn = false;
+  } else {
+    Serial.println("INTRUDER");
+    tft.fillScreen(TFT_RED);
+
+    Serial.println("TRY AGAIN");
+    // idk how to try again
   }
-
-  void clearStorage() {
-    // theres no erase method in this library so we gotta do it like this.
-    storage.write("");
-  }
-
+}
 };
 
 #endif
