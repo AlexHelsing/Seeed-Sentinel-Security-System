@@ -5,19 +5,19 @@ import androidx.lifecycle.ViewModel;
 
 public class AlarmViewModel extends ViewModel {
 
-    private static MutableLiveData<Boolean> alarmStatus;
+    private static MutableLiveData<String> alarmStatus;
 
     public AlarmViewModel() {
         alarmStatus = new MutableLiveData<>();
-        alarmStatus.setValue(false);
+        alarmStatus.setValue("AlarmOff");
     }
 
-    public void setAlarmStatus(boolean status) {
+    public void setAlarmStatus(String status) {
         alarmStatus.setValue(status);
     }
 
 
-    public MutableLiveData<Boolean> getAlarmStatus() {
+    public MutableLiveData<String> getAlarmStatus() {
         return alarmStatus;
     }
 }

@@ -91,12 +91,15 @@ public class BrokerConnection extends AppCompatActivity {
                         String mqttMessage = new String(message.getPayload());
                         if(mqttMessage.equals("AlarmOff")){
                             // set alarm status to false
-                            alarmViewModel.setAlarmStatus(false);
+                            alarmViewModel.setAlarmStatus("AlarmOff");
 
                         }
                         else if(mqttMessage.equals("AlarmOn")){
                             // set alarm status to true
-                            alarmViewModel.setAlarmStatus(true);
+                            alarmViewModel.setAlarmStatus("AlarmOn");
+                        }
+                        else if(mqttMessage.equals("AlarmIntruder")){
+                            alarmViewModel.setAlarmStatus("AlarmIntruder");
                         }
                     }
                     else{

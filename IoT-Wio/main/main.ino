@@ -64,12 +64,14 @@ void Callback(char * topic, byte * payload, unsigned int length) {
 
       ShowAlarmLoadingScreen();
 
-      delay(2000);
+      delay(1000);
       // turn on alarm
       alarmOn = true;
     } else if (strncmp((char * ) payload, "AlarmOff", length) == 0) {
       Serial.println("Turn off motion detection");
       // handle the AlarmOff message here .
+      alarmOn = false;
+      initAuth = false;
     }
 
     // subscribe to the pattern being sent and store it as global variable, flashstorage lags right now so this will have to do.
@@ -197,6 +199,7 @@ void keypadauthloop() { // Read joystick values
   currentRow = newRow;
   currentCol = newCol;
 
+
   // handle the UI For rectangles depending on what state they are in. 
   if (isInputting) {
     for (int row = 0; row < NUM_ROWS; row++) {
@@ -246,6 +249,7 @@ void keypadauthloop() { // Read joystick values
     if (isCorrect) {
     
       AcessGrantedScreen();
+      client.publish(AlarmTopic, "AlarmOff");
 
       delay(2000);  
       initAuth = false;
@@ -310,6 +314,7 @@ void ShowIntruderScreen() {
       tft.setTextSize(2); // set the text size to 2
       tft.setCursor((tft.width() - tft.textWidth("Authorize yourself")) / 2, tft.height() / 2 + 20);
       tft.println("Authorize yourself"); // print the subtitle
+      client.publish(AlarmTopic, "AlarmIntruder");
 }
 
 void AcessGrantedScreen() {
@@ -344,7 +349,7 @@ void loop() {
     if (digitalRead(PIR_MOTION_SENSOR)) {
       ShowIntruderScreen();
       Serial.println("intruder found");
-      delay(3000);
+      delay(2000);
       // turn on auth since intruder is found
       initAuth = true;
       // set up the grid for keypad
