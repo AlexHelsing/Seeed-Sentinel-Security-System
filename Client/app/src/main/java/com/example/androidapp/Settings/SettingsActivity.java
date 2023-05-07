@@ -13,6 +13,11 @@ import com.example.androidapp.StarterPage;
 import com.example.androidapp.dbHandler;
 import io.realm.mongodb.App;
 import org.bson.Document;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -22,6 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
     LinearLayout navigateToPatternBtn;
     LinearLayout LogOutButton;
     AppCompatButton editProfileBtn;
+    LinearLayout editSettingsBtn;
 
 
     @Override
@@ -84,6 +90,11 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), ChangePattern.class);
             startActivity(intent);
         });
+
+        Spinner spinnerNotifications=findViewById(R.id.spinner_notifications);
+        ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(this, R.array.notifications, R.layout.settings_layout);
+        adapter.setDropDownViewResource(R.layout.settings_layout);
+        spinnerNotifications.setAdapter(adapter);
 
     }
 }
