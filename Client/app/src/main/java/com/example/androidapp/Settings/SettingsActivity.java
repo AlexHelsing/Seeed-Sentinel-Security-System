@@ -32,8 +32,8 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     LinearLayout LogOutButton;
     AppCompatButton editProfileBtn;
     LinearLayout editSettingsBtn;
-    private static final String BROKER_URL = "tcp://10.0.2.2:1883";
-    private static final String CLIENT_ID = "SentinelApp";
+    private static final String BROKER_URL = "tcp://broker.hivemq.com:1883";
+    private static final String CLIENT_ID = "SeeedSentinel";
     private MqttHandler mqttHandler;
 
 
