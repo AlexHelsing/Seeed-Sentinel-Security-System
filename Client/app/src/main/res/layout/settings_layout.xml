@@ -56,7 +56,7 @@
                       android:id="@+id/user_name"/>
             <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="48dp"
                     android:layout_marginTop="5dp"
                     android:id="@+id/edit_profile_button"
                     android:layout_gravity="center"
@@ -135,7 +135,7 @@
 
                     </ImageView>
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView android:layout_width="wrap_content" android:layout_height="48dp"
                         android:text="Edit notifications" android:textColor="@color/white"
                         android:layout_marginStart="40dp"
                         android:layout_centerVertical="true"
@@ -144,8 +144,10 @@
                     <Spinner
                         android:id="@+id/spinner_notifications"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:spinnerMode ="dropdown"/>
+                        android:layout_height="48dp"
+                        android:spinnerMode ="dropdown"
+                        />
+
 
 
                 </RelativeLayout>
