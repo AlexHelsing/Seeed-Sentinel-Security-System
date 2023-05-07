@@ -20,6 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
     App app;
     ImageView backArrow;
     LinearLayout navigateToPatternBtn;
+    LinearLayout navigateToPasscodeBtn;
     LinearLayout LogOutButton;
     AppCompatButton editProfileBtn;
 
@@ -73,6 +74,8 @@ public class SettingsActivity extends AppCompatActivity {
         editProfileBtn.setOnClickListener(view -> Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show());
 
 
+
+
         // return to dashboard
         backArrow = findViewById(R.id.back_button);
         backArrow.setOnClickListener(view -> finish());
@@ -82,6 +85,13 @@ public class SettingsActivity extends AppCompatActivity {
         navigateToPatternBtn = findViewById(R.id.NavigateToSetPattern);
         navigateToPatternBtn.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), ChangePattern.class);
+            startActivity(intent);
+        });
+
+        // navigate to change passcode activity
+        navigateToPasscodeBtn = findViewById(R.id.navigateToSetKeyword);
+        navigateToPasscodeBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), ChangePasscode.class);
             startActivity(intent);
         });
 
