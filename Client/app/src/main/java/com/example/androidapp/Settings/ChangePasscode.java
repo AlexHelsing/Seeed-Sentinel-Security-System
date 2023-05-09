@@ -179,8 +179,6 @@ public class ChangePasscode extends AppCompatActivity {
             passcodeString += InputPasscode.get(i);
         }
 
-        // if a button has been pressed, set the color of that button to green
-
         inputState.setText(passcodeString);
     }
 }

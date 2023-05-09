@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapp.dbHandler;
 
+
+// Factory for instantiating a UserViewModels
 public class UserViewModelFactory  implements ViewModelProvider.Factory{
 
     private final dbHandler db;

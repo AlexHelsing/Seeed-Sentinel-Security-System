@@ -35,7 +35,7 @@ public class UserViewModel extends ViewModel{
     }
 
 
-    //set name
+    //edit name of user
     public void editName(String name) {
         db.updateUsername(name, new UpdateUserDataCallback() {
             @Override
@@ -55,6 +55,7 @@ public class UserViewModel extends ViewModel{
 
     }
 
+    // edit passcode of user (hash this later if we have time
     public void editPasscode (String passcode) {
         db.updatePasscode(passcode, new UpdateUserDataCallback() {
             @Override
@@ -72,7 +73,7 @@ public class UserViewModel extends ViewModel{
         });
     }
 
-    //create breakin
+    //add breakin to the array of breakins
     public void createBreakin(String location, Date date) {
         db.createBreakInAlert(location, date, new UpdateUserDataCallback() {
             @Override
@@ -90,6 +91,7 @@ public class UserViewModel extends ViewModel{
         });
     }
 
+    // modify the profile picture of the user
     public void editProfilePicture(String profilePicture) {
         db.updateProfilePicture(profilePicture, new UpdateUserDataCallback() {
             @Override
@@ -107,6 +109,7 @@ public class UserViewModel extends ViewModel{
         });
     }
 
+    // clear user data from viewmodel, might not need this
     public void clear() {
         _user.setValue(null);
     }
