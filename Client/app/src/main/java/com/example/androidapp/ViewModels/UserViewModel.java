@@ -74,7 +74,7 @@ public class UserViewModel extends ViewModel{
 
     //create breakin
     public void createBreakin(String location, Date date) {
-        db.createBreakInAlert(date, new UpdateUserDataCallback() {
+        db.createBreakInAlert(location, date, new UpdateUserDataCallback() {
             @Override
             public void onSuccess() {
                 Log.v("AUTH", "Successfully created breakin.");

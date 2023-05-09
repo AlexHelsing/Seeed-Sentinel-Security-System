@@ -37,6 +37,7 @@ public class HistoryActivity extends AppCompatActivity {
         dbHandler db = new dbHandler(getApplicationContext());
         userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
 
+        // gets all the breakins, might be suboptimal to put them in userModel but it works  :)
         userViewModel.getUser().observe(this, user -> {
             if (user != null) {
                 List<Document> timestamps = user.getBreakins();

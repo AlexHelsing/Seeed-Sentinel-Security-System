@@ -136,7 +136,7 @@ public class dbHandler {
 
     }
 
-    public void createBreakInAlert(Date date, UpdateUserDataCallback callback) {
+    public void createBreakInAlert(String location, Date date, UpdateUserDataCallback callback) {
         User user = app.currentUser();
         if (user != null) {
             MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
@@ -144,7 +144,7 @@ public class dbHandler {
             MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
 
             // add breakin to the users breakin array
-            mongoCollection.updateOne(new Document("user-id", user.getId()), new Document("$push", new Document("breakins", new Document("location", "null").append("date", date)))).getAsync(
+            mongoCollection.updateOne(new Document("user-id", user.getId()), new Document("$push", new Document("breakins", new Document("location", location).append("date", date)))).getAsync(
                     result -> {
                         if (result.isSuccess()) {
                             System.out.println("successfully added breakin");
