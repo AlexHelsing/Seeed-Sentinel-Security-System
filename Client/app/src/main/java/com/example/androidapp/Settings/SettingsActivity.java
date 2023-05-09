@@ -2,14 +2,12 @@ package com.example.androidapp.Settings;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.os.Parcelable;
 import android.util.Log;
 import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.lifecycle.Observer;
+
 import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapp.*;
 import io.realm.mongodb.App;
@@ -37,12 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         TextView username = findViewById(R.id.user_name);
 
-        userViewModel.getUser().observe(this, new Observer<UserModel>() {
-            @Override
-            public void onChanged(UserModel userModel) {
-                username.setText(userModel.getName());
-            }
-        });
+        userViewModel.getUser().observe(this, userModel -> username.setText(userModel.getName()));
 
 
 

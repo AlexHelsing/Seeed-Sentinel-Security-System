@@ -26,7 +26,10 @@ public class EditProfileActivity  extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
 
-
+        Button close = findViewById(R.id.buttonClose);
+        close.setOnClickListener(view -> {
+            finish();
+        });
 
         EditText newName = findViewById(R.id.editTextName);
 
