@@ -29,12 +29,13 @@ public class MainActivity extends AppCompatActivity {
         db = new dbHandler(getApplicationContext());
         app = db.getApp();
 
-
-        // if user is not authed, send them to the starter page
         if (app.currentUser() == null) {
             Intent intent = new Intent(getApplicationContext(), StarterPage.class);
             startActivity(intent);
+            finish();
         }
+
+        UserViewModel userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
 
 
         // HOME BUTTON SETTINGS

@@ -21,12 +21,17 @@ public class UserViewModel extends ViewModel{
     public UserViewModel(dbHandler db) {
         this.db = db;
         User currentUser = db.getCurrentUser();
-        if (currentUser.isLoggedIn()) {
+        if (currentUser != null) {
             _user.setValue(db.getUserData());
         }
     }
 
     public LiveData<UserModel> getUser() {
+        // if null, throw error
+        if (_user.getValue() == null) {
+            Log.e("AUTH", "User is null.");
+        }
+
         return _user;
     }
 
@@ -51,5 +56,9 @@ public class UserViewModel extends ViewModel{
             }
         });
 
+    }
+
+    public void clear() {
+        _user.setValue(null);
     }
 }

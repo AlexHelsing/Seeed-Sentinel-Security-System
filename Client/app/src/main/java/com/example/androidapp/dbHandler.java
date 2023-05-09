@@ -12,6 +12,7 @@ import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 import org.bson.Document;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -31,12 +32,10 @@ public class dbHandler {
         Realm.init(context);
         app = new App(new AppConfiguration.Builder(APP_ID).build());
 
-        if (app.currentUser() != null) {
-            CurrentUser = app.currentUser();
+        if (app.currentUser() == null) {
+            CurrentUser = null;
         }
-
-
-
+        CurrentUser = app.currentUser();
 
     }
 
@@ -80,11 +79,11 @@ public class dbHandler {
         return null;
     }
 
-
     // edit users name
     public void updateUsername(String newname, UpdateUserNameCallback callback) {
         User user = app.currentUser();
         if (user != null) {
+            // not sure if this line even does anything but i'll leave it here
             user.getCustomData().put("name", newname);
 
             MongoClient mongoClient = user.getMongoClient("mongodb-atlas");

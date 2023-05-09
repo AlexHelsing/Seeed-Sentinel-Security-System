@@ -31,6 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         db = new dbHandler(getApplicationContext());
+        app = db.getApp();
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
         TextView username = findViewById(R.id.user_name);
@@ -45,10 +46,13 @@ public class SettingsActivity extends AppCompatActivity {
         LogOutButton = findViewById(R.id.LogOutButton);
         LogOutButton.setOnClickListener(view -> {
             app.currentUser().logOutAsync(result -> {
+
                 if (result.isSuccess()) {
                     Log.v("AUTH", "Successfully logged out.");
+                    // clear the viewmodel data
                     Intent intent = new Intent(getApplicationContext(), StarterPage.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     Log.e("AUTH", "Failed to log out, error: " + result.getError().getErrorMessage());
                 }
