@@ -14,6 +14,10 @@ import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 import org.bson.Document;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 
 public class dbHandler {
 
@@ -65,8 +69,10 @@ public class dbHandler {
             if (customData != null) {
                 String name = customData.getString("name");
                 String passcode = customData.getString("passcode");
+                // list of objects
+                List<Document> breakins = customData.getList("breakins", Document.class );
 
-                UserModel userModel = new UserModel(name, passcode, null);
+                UserModel userModel = new UserModel(name, passcode, null, breakins);
 
                 return userModel;
 
@@ -128,6 +134,30 @@ public class dbHandler {
             );
         }
 
+    }
+
+    public void createBreakInAlert(Date date, UpdateUserDataCallback callback) {
+        User user = app.currentUser();
+        if (user != null) {
+            MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
+            MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
+
+            // add breakin to the users breakin array
+            mongoCollection.updateOne(new Document("user-id", user.getId()), new Document("$push", new Document("breakins", new Document("location", "null").append("date", date)))).getAsync(
+                    result -> {
+                        if (result.isSuccess()) {
+                            System.out.println("successfully added breakin");
+                            callback.onSuccess();
+                        } else {
+                            System.out.println("failed to add breakin");
+                            callback.onError();
+                        }
+                    }
+            );
+
+
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.androidapp;
 
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,8 @@ import com.example.androidapp.Settings.SettingsActivity;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import io.realm.mongodb.App;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         UserViewModel userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
+
 
 
         // HOME BUTTON SETTINGS
@@ -68,9 +72,10 @@ public class MainActivity extends AppCompatActivity {
         // PLACEHOLDER BUTTON SETTINGS
         placeHolderbutton = findViewById(R.id.placeholder_button);
         placeHolderbutton.setOnClickListener(view -> {
-       userViewModel.editPasscode("1234");
-       Toast.makeText(getApplicationContext(), "Successfully updated passcode", Toast.LENGTH_SHORT).show(
-         );});
+            //userViewModel.getUser().getValue().getBreakins().forEach(breakin -> {
+            //Log.v(breakin.get("location").toString(), breakin.get("date").toString());
+        //});
+         });
 
     }
 }
