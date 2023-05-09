@@ -90,6 +90,23 @@ public class UserViewModel extends ViewModel{
         });
     }
 
+    public void editProfilePicture(String profilePicture) {
+        db.updateProfilePicture(profilePicture, new UpdateUserDataCallback() {
+            @Override
+            public void onSuccess() {
+                Log.v("AUTH", "Successfully updated profile picture.");
+                UserModel userModel = db.getUserData();
+                userModel.setProfileImg(profilePicture);
+                _user.setValue(userModel);
+            }
+
+            @Override
+            public void onError() {
+                Log.e("AUTH", "Failed to update profile picture.");
+            }
+        });
+    }
+
     public void clear() {
         _user.setValue(null);
     }

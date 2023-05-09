@@ -32,8 +32,9 @@ public class EditProfileActivity  extends AppCompatActivity {
         });
 
         EditText newName = findViewById(R.id.editTextName);
-
         Button saveButton = findViewById(R.id.buttonSave);
+        EditText newPicture = findViewById(R.id.editpfp);
+        Button savePicture = findViewById(R.id.pfpSave);
 
         saveButton.setOnClickListener(view -> {
             newName.getText().toString();
@@ -43,6 +44,18 @@ public class EditProfileActivity  extends AppCompatActivity {
                 newName.requestFocus();
             } else {
                 userViewModel.editName(newName.getText().toString());
+                finish();
+            }
+        });
+
+        savePicture.setOnClickListener(view -> {
+            newPicture.getText().toString();
+
+            if (newPicture.getText().toString().isEmpty()) {
+                newPicture.setError("Please enter a picture");
+                newPicture.requestFocus();
+            } else {
+                userViewModel.editProfilePicture(newPicture.getText().toString());
                 finish();
             }
         });

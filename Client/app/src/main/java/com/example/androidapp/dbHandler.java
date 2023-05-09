@@ -97,7 +97,6 @@ public class dbHandler {
             MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
             MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
 
-            // update the document with the new name return the success status using callback so i can update ui
             mongoCollection.updateOne(new Document("user-id", user.getId()), new Document("$set", new Document("name", newname))).getAsync(
                     result -> {
                         if (result.isSuccess()) {
@@ -122,7 +121,6 @@ public class dbHandler {
             MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
             MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
 
-            // update the document with the new name return the success status using callback so i can update ui
             mongoCollection.updateOne(new Document("user-id", user.getId()), new Document("$set", new Document("passcode", newpasscode))).getAsync(
                     result -> {
                         if (result.isSuccess()) {
@@ -146,7 +144,6 @@ public class dbHandler {
             MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
             MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
 
-            // add breakin to the users breakin array
             mongoCollection.updateOne(new Document("user-id", user.getId()), new Document("$push", new Document("breakins", new Document("location", location).append("date", date)))).getAsync(
                     result -> {
                         if (result.isSuccess()) {
@@ -160,6 +157,29 @@ public class dbHandler {
             );
 
 
+        }
+    }
+
+    public void updateProfilePicture(String profilePicture, UpdateUserDataCallback updateUserDataCallback) {
+        User user = app.currentUser();
+        if (user != null) {
+            user.getCustomData().put("profilePic", profilePicture);
+            MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
+            MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
+
+
+            mongoCollection.updateOne(new Document("user-id", user.getId()), new Document("$set", new Document("profilePic", profilePicture))).getAsync(
+                    result -> {
+                        if (result.isSuccess()) {
+                            System.out.println("successfully updated profile picture");
+                            updateUserDataCallback.onSuccess();
+                        } else {
+                            System.out.println("failed to update profile picture");
+                            updateUserDataCallback.onError();
+                        }
+                    }
+            );
         }
     }
 }
