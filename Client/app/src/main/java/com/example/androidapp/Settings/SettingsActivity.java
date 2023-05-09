@@ -1,18 +1,25 @@
 package com.example.androidapp.Settings;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import com.example.androidapp.R;
-import com.example.androidapp.StarterPage;
-import com.example.androidapp.dbHandler;
+
+import androidx.lifecycle.ViewModelProvider;
+import com.example.androidapp.*;
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
+import com.squareup.picasso.Picasso;
 import io.realm.mongodb.App;
-import org.bson.Document;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -33,35 +40,30 @@ public class SettingsActivity extends AppCompatActivity {
 
         db = new dbHandler(getApplicationContext());
         app = db.getApp();
+        UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
-        if (app.currentUser() == null) {
-            Toast.makeText(getApplicationContext(), "Please log in.", Toast.LENGTH_SHORT).show();
-        }
+        TextView username = findViewById(R.id.user_name);
+        ImageView profilePic = findViewById(R.id.profilePicture);
+
+        userViewModel.getUser().observe(this, userModel -> {
+                    username.setText(userModel.getName());
+                    Picasso.get().load(userModel.getProfileImg()).into(profilePic);
+                }
+
+        );
 
 
-        // name view
-         TextView namefield = findViewById(R.id.user_name);
-
-
-        // refresh custom data and update the UI // i dont think we have to do this every time but can fix later.
-        app.currentUser().refreshCustomData(it -> {
-            if (it.isSuccess()) {
-                Log.v("SettingsActivity", "Successfully refreshed custom data.");
-                Document customData = app.currentUser().getCustomData();
-                Log.v("SettingsActivity", "Custom data: " + customData.toString());
-                namefield.setText(customData.getString("name"));
-            } else {
-                Log.v("SettingsActivity", "Failed to refresh custom data: " + it.getError().getErrorMessage());
-            }
-        });
 
         LogOutButton = findViewById(R.id.LogOutButton);
         LogOutButton.setOnClickListener(view -> {
             app.currentUser().logOutAsync(result -> {
+
                 if (result.isSuccess()) {
                     Log.v("AUTH", "Successfully logged out.");
+                    // clear the viewmodel data
                     Intent intent = new Intent(getApplicationContext(), StarterPage.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     Log.e("AUTH", "Failed to log out, error: " + result.getError().getErrorMessage());
                 }
@@ -71,7 +73,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         // edit profile button
         editProfileBtn = findViewById(R.id.edit_profile_button);
-        editProfileBtn.setOnClickListener(view -> Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show());
+        editProfileBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
+            startActivity(intent);
+        });
+
+        // open a dialog when user clicks on edit profile button
 
 
 

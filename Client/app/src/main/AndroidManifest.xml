@@ -36,6 +36,7 @@
         <activity android:name=".AlarmStatusActivity" />
         <activity android:name=".History.HistoryActivity" />
         <activity android:name=".Settings.SettingsActivity" />
+        <activity android:name=".Settings.EditProfileActivity" />
         <activity android:name=".Settings.ChangePattern" />
         <activity android:name=".Settings.ChangePasscode" />
         <service android:name="org.eclipse.paho.android.service.MqttService" />
