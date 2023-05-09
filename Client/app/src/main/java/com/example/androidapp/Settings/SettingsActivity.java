@@ -3,11 +3,14 @@ package com.example.androidapp.Settings;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapp.*;
 import io.realm.mongodb.App;
 
@@ -30,17 +33,19 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         db = new dbHandler(getApplicationContext());
-        UserViewModel userViewModel = new UserViewModel(db);
+        UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
         TextView username = findViewById(R.id.user_name);
 
-        userViewModel.getUser().observe(this, userModel -> {
-            Log.v("AUTH", "User name: " + userModel.getName());
-            username.setText(userModel.getName());
+        userViewModel.getUser().observe(this, new Observer<UserModel>() {
+            @Override
+            public void onChanged(UserModel userModel) {
+                username.setText(userModel.getName());
+            }
         });
 
 
-        userViewModel.editName("pls work now");
+
 
 
 
@@ -60,7 +65,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         // edit profile button
         editProfileBtn = findViewById(R.id.edit_profile_button);
-        editProfileBtn.setOnClickListener(view -> Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show());
+        editProfileBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
+            startActivity(intent);
+        });
+
+        // open a dialog when user clicks on edit profile button
 
 
 

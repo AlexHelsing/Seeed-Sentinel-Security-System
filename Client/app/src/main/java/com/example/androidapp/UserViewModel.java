@@ -14,7 +14,7 @@ interface UpdateUserNameCallback {
 
 public class UserViewModel extends ViewModel{
 
-    private MutableLiveData<UserModel> _user = new MutableLiveData<>();
+    private static MutableLiveData<UserModel> _user = new MutableLiveData<>();
     private dbHandler db;
 
 
@@ -30,6 +30,9 @@ public class UserViewModel extends ViewModel{
         return _user;
     }
 
+    // set username
+
+
     //set name
     public void editName(String name) {
         db.updateUsername(name, new UpdateUserNameCallback() {
@@ -39,6 +42,7 @@ public class UserViewModel extends ViewModel{
                 UserModel userModel = db.getUserData();
                 userModel.setName(name);
                 _user.setValue(userModel);
+
             }
 
             @Override
