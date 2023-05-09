@@ -160,6 +160,7 @@ public class dbHandler {
         }
     }
 
+    // update profile picture
     public void updateProfilePicture(String profilePicture, UpdateUserDataCallback updateUserDataCallback) {
         User user = app.currentUser();
         if (user != null) {

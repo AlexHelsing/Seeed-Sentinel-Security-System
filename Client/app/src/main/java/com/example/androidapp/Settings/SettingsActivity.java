@@ -53,7 +53,6 @@ public class SettingsActivity extends AppCompatActivity {
         );
 
 
-      //  Picasso.get().load("https://pbs.twimg.com/media/Cu-gvzDW8AEdu0o.jpg").into((ImageView) findViewById(R.id.profilePicture));
 
         LogOutButton = findViewById(R.id.LogOutButton);
         LogOutButton.setOnClickListener(view -> {
