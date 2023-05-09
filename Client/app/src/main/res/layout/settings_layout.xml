@@ -145,8 +145,8 @@
                         android:id="@+id/spinner_notifications"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:spinnerMode ="dropdown"
-                        />
+                        android:spinnerMode="dropdown"
+                        android:alpha="0"/>
 
 
 
