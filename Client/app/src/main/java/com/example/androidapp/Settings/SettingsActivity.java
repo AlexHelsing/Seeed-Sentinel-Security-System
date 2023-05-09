@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import com.example.androidapp.R;
 import com.example.androidapp.StarterPage;
+import com.example.androidapp.UserViewModel;
 import com.example.androidapp.dbHandler;
 import io.realm.mongodb.App;
 import org.bson.Document;
@@ -32,28 +33,19 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         db = new dbHandler(getApplicationContext());
-        app = db.getApp();
+        UserViewModel userViewModel = new UserViewModel(db);
 
-        if (app.currentUser() == null) {
-            Toast.makeText(getApplicationContext(), "Please log in.", Toast.LENGTH_SHORT).show();
-        }
+        TextView username = findViewById(R.id.user_name);
 
-
-        // name view
-         TextView namefield = findViewById(R.id.user_name);
-
-
-        // refresh custom data and update the UI // i dont think we have to do this every time but can fix later.
-        app.currentUser().refreshCustomData(it -> {
-            if (it.isSuccess()) {
-                Log.v("SettingsActivity", "Successfully refreshed custom data.");
-                Document customData = app.currentUser().getCustomData();
-                Log.v("SettingsActivity", "Custom data: " + customData.toString());
-                namefield.setText(customData.getString("name"));
+        userViewModel.getUser().observe(this, user -> {
+            if (user != null) {
+                username.setText(user.getName());
             } else {
-                Log.v("SettingsActivity", "Failed to refresh custom data: " + it.getError().getErrorMessage());
+                Log.v("SettingsActivity", "User is null.");
             }
         });
+
+
 
         LogOutButton = findViewById(R.id.LogOutButton);
         LogOutButton.setOnClickListener(view -> {
