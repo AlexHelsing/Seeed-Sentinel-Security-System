@@ -8,11 +8,19 @@ import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.androidapp.AlarmStatusActivity;
+import com.example.androidapp.AlarmViewModel;
+import com.example.androidapp.MQTT.BrokerConnection;
+import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
 import com.example.androidapp.StarterPage;
 import com.example.androidapp.dbHandler;
 import io.realm.mongodb.App;
 import org.bson.Document;
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -24,15 +32,22 @@ public class SettingsActivity extends AppCompatActivity {
     LinearLayout LogOutButton;
     AppCompatButton editProfileBtn;
 
+    BrokerConnection brokerConnection;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
 
+        brokerConnection = new BrokerConnection(getApplicationContext());
+        brokerConnection.connectToMqttBroker();
+
+        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
 
         db = new dbHandler(getApplicationContext());
         app = db.getApp();
+
 
         if (app.currentUser() == null) {
             Toast.makeText(getApplicationContext(), "Please log in.", Toast.LENGTH_SHORT).show();
@@ -78,7 +93,23 @@ public class SettingsActivity extends AppCompatActivity {
 
         // return to dashboard
         backArrow = findViewById(R.id.back_button);
-        backArrow.setOnClickListener(view -> finish());
+        backArrow.setOnClickListener(view -> {
+            // start alarm status activity
+            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+            brokerConnection.getMqttClient().disconnect(new IMqttActionListener() {
+                @Override
+                public void onSuccess(IMqttToken asyncActionToken) {
+                    System.out.println("Disconnected successfully");
+                }
+
+                @Override
+                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                    System.out.println("Disconnect failed, still connected");
+
+                }
+            });
+            startActivity(intent);
+        });
 
 
         // navigate to set pattern activity

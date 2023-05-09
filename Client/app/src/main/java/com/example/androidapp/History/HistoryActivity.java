@@ -1,5 +1,6 @@
 package com.example.androidapp.History;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.text.TextUtils;
@@ -9,8 +10,14 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.os.Bundle;
 import android.widget.TableLayout;
+
+import com.example.androidapp.AlarmViewModel;
+import com.example.androidapp.MQTT.BrokerConnection;
 import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
+
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
 
 import java.util.LinkedList;
 
@@ -21,16 +28,35 @@ public class HistoryActivity extends AppCompatActivity {
     TableRow tableRow;
     Button backButton;
 
+    BrokerConnection brokerConnection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        brokerConnection = new BrokerConnection(getApplicationContext());
+        brokerConnection.connectToMqttBroker();
+
+        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
 
         backButton = (Button) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openMainActivity();
+                brokerConnection.getMqttClient().disconnect(new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        System.out.println("Disconnected successfully");
+                    }
+
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        System.out.println("Disconnect failed, still connected");
+
+                    }
+                });
             }
         });
     }
