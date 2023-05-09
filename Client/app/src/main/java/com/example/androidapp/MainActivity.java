@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import com.example.androidapp.History.HistoryActivity;
 import com.example.androidapp.Settings.SettingsActivity;
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
 import io.realm.mongodb.App;
 
 public class MainActivity extends AppCompatActivity {
@@ -66,7 +68,9 @@ public class MainActivity extends AppCompatActivity {
         // PLACEHOLDER BUTTON SETTINGS
         placeHolderbutton = findViewById(R.id.placeholder_button);
         placeHolderbutton.setOnClickListener(view -> {
-            Toast.makeText(getApplicationContext(), "Placeholder button", Toast.LENGTH_SHORT).show();
-        });
+       userViewModel.editPasscode("1234");
+       Toast.makeText(getApplicationContext(), "Successfully updated passcode", Toast.LENGTH_SHORT).show(
+         );});
+
     }
 }

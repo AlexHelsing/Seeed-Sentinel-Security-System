@@ -6,8 +6,8 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapp.R;
-import com.example.androidapp.UserViewModel;
-import com.example.androidapp.UserViewModelFactory;
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
 import com.example.androidapp.dbHandler;
 
 public class EditProfileActivity  extends AppCompatActivity {

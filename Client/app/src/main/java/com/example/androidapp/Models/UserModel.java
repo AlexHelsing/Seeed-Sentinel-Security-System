@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.Models;
 
 public class UserModel {
     private String name;
@@ -21,6 +21,11 @@ public class UserModel {
 
     public String getPasscode() {
         return passcode;
+    }
+
+    //set passcode
+    public void setPasscode(String passcode) {
+        this.passcode = passcode;
     }
 
 

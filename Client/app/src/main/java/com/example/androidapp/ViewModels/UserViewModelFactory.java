@@ -1,7 +1,8 @@
-package com.example.androidapp;
+package com.example.androidapp.ViewModels;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import com.example.androidapp.dbHandler;
 
 public class UserViewModelFactory  implements ViewModelProvider.Factory{
 

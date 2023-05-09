@@ -2,6 +2,8 @@ package com.example.androidapp;
 
 import android.content.Context;
 import android.util.Log;
+import com.example.androidapp.Models.UserModel;
+import com.example.androidapp.ViewModels.UpdateUserDataCallback;
 import io.realm.Realm;
 import io.realm.mongodb.App;
 
@@ -11,9 +13,6 @@ import io.realm.mongodb.mongo.MongoClient;
 import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 import org.bson.Document;
-
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class dbHandler {
@@ -65,9 +64,9 @@ public class dbHandler {
             Document customData =  user.getCustomData();
             if (customData != null) {
                 String name = customData.getString("name");
-                String pattern = customData.getString("pattern");
+                String passcode = customData.getString("passcode");
 
-                UserModel userModel = new UserModel(name, pattern, null);
+                UserModel userModel = new UserModel(name, passcode, null);
 
                 return userModel;
 
@@ -79,8 +78,8 @@ public class dbHandler {
         return null;
     }
 
-    // edit users name
-    public void updateUsername(String newname, UpdateUserNameCallback callback) {
+    // CRUD operations for user data
+    public void updateUsername(String newname, UpdateUserDataCallback callback) {
         User user = app.currentUser();
         if (user != null) {
             // not sure if this line even does anything but i'll leave it here
@@ -98,6 +97,31 @@ public class dbHandler {
                             callback.onSuccess();
                         } else {
                             System.out.println("failed to update name");
+                            callback.onError();
+                        }
+                    }
+            );
+        }
+
+    }
+
+    // update passcode
+    public void updatePasscode(String newpasscode, UpdateUserDataCallback callback) {
+        User user = app.currentUser();
+        if (user != null) {
+            user.getCustomData().put("passcode", newpasscode);
+            MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
+            MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
+
+            // update the document with the new name return the success status using callback so i can update ui
+            mongoCollection.updateOne(new Document("user-id", user.getId()), new Document("$set", new Document("passcode", newpasscode))).getAsync(
+                    result -> {
+                        if (result.isSuccess()) {
+                            System.out.println("successfully updated passcode");
+                            callback.onSuccess();
+                        } else {
+                            System.out.println("failed to update passcode");
                             callback.onError();
                         }
                     }

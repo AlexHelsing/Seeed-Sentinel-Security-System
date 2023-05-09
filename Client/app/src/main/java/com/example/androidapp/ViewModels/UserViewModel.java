@@ -1,16 +1,12 @@
-package com.example.androidapp;
+package com.example.androidapp.ViewModels;
 import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import io.realm.Realm;
+import com.example.androidapp.Models.UserModel;
+import com.example.androidapp.dbHandler;
 import io.realm.mongodb.User;
 
-
-interface UpdateUserNameCallback {
-    void onSuccess();
-    void onError();
-}
 
 public class UserViewModel extends ViewModel{
 
@@ -35,12 +31,10 @@ public class UserViewModel extends ViewModel{
         return _user;
     }
 
-    // set username
-
 
     //set name
     public void editName(String name) {
-        db.updateUsername(name, new UpdateUserNameCallback() {
+        db.updateUsername(name, new UpdateUserDataCallback() {
             @Override
             public void onSuccess() {
                 Log.v("AUTH", "Successfully updated name.");
@@ -56,6 +50,23 @@ public class UserViewModel extends ViewModel{
             }
         });
 
+    }
+
+    public void editPasscode (String passcode) {
+        db.updatePasscode(passcode, new UpdateUserDataCallback() {
+            @Override
+            public void onSuccess() {
+                Log.v("AUTH", "Successfully updated passcode.");
+                UserModel userModel = db.getUserData();
+                userModel.setPasscode(passcode);
+                _user.setValue(userModel);
+            }
+
+            @Override
+            public void onError() {
+                Log.e("AUTH", "Failed to update passcode.");
+            }
+        });
     }
 
     public void clear() {
