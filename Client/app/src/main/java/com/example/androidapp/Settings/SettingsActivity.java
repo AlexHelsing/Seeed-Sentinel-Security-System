@@ -1,6 +1,7 @@
 package com.example.androidapp.Settings;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.*;
@@ -12,7 +13,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapp.*;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
+import com.squareup.picasso.Picasso;
 import io.realm.mongodb.App;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -37,13 +43,17 @@ public class SettingsActivity extends AppCompatActivity {
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
         TextView username = findViewById(R.id.user_name);
+        ImageView profilePic = findViewById(R.id.profilePicture);
 
-        userViewModel.getUser().observe(this, userModel -> username.setText(userModel.getName()));
+        userViewModel.getUser().observe(this, userModel -> {
+                    username.setText(userModel.getName());
+                    Picasso.get().load(userModel.getProfileImg()).into(profilePic);
+                }
+
+        );
 
 
-
-
-
+      //  Picasso.get().load("https://pbs.twimg.com/media/Cu-gvzDW8AEdu0o.jpg").into((ImageView) findViewById(R.id.profilePicture));
 
         LogOutButton = findViewById(R.id.LogOutButton);
         LogOutButton.setOnClickListener(view -> {

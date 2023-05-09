@@ -55,4 +55,9 @@ public class UserModel {
     public String getProfileImg() {
         return profileImg;
     }
+
+    // set profile image
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
+    }
 }

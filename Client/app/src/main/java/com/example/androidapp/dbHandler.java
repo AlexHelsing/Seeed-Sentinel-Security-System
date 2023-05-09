@@ -69,10 +69,10 @@ public class dbHandler {
             if (customData != null) {
                 String name = customData.getString("name");
                 String passcode = customData.getString("passcode");
-                // list of objects
+                String profilePic = customData.getString("profilePic");
                 List<Document> breakins = customData.getList("breakins", Document.class );
 
-                UserModel userModel = new UserModel(name, passcode, null, breakins);
+                UserModel userModel = new UserModel(name, passcode, profilePic, breakins);
 
                 return userModel;
 
@@ -85,6 +85,8 @@ public class dbHandler {
     }
 
     // CRUD operations for user data
+
+    // update username
     public void updateUsername(String newname, UpdateUserDataCallback callback) {
         User user = app.currentUser();
         if (user != null) {
@@ -136,6 +138,7 @@ public class dbHandler {
 
     }
 
+    // add breakin to db
     public void createBreakInAlert(String location, Date date, UpdateUserDataCallback callback) {
         User user = app.currentUser();
         if (user != null) {
