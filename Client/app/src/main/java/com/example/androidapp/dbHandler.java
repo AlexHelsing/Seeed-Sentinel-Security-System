@@ -1,6 +1,7 @@
 package com.example.androidapp;
 
 import android.content.Context;
+import android.util.Log;
 import io.realm.Realm;
 import io.realm.mongodb.App;
 
@@ -11,7 +12,7 @@ import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 import org.bson.Document;
 
-
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class dbHandler {
@@ -50,7 +51,18 @@ public class dbHandler {
 
     public UserModel getUserData() {
         User user = app.currentUser();
+
+
+
         if (user != null) {
+            // refresh first
+            user.refreshCustomData(result -> {
+                if (result.isSuccess()) {
+                    Log.v("AUTH", "Successfully refreshed custom data.");
+                } else {
+                    Log.e("AUTH", "Failed to refresh custom data.");
+                }
+            });
             Document customData =  user.getCustomData();
             if (customData != null) {
                 String name = customData.getString("name");
@@ -69,7 +81,31 @@ public class dbHandler {
     }
 
 
+    // edit users name
+    public void updateUsername(String newname, UpdateUserNameCallback callback) {
+        User user = app.currentUser();
+        if (user != null) {
+            user.getCustomData().put("name", newname);
 
+            MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
+            MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
+
+            // update the document with the new name return the success status using callback so i can update ui
+            mongoCollection.updateOne(new Document("user-id", user.getId()), new Document("$set", new Document("name", newname))).getAsync(
+                    result -> {
+                        if (result.isSuccess()) {
+                            System.out.println("successfully updated name");
+                            callback.onSuccess();
+                        } else {
+                            System.out.println("failed to update name");
+                            callback.onError();
+                        }
+                    }
+            );
+        }
+
+    }
 }
 
 

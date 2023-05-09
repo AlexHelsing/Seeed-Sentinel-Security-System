@@ -8,12 +8,9 @@ import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import com.example.androidapp.R;
-import com.example.androidapp.StarterPage;
-import com.example.androidapp.UserViewModel;
-import com.example.androidapp.dbHandler;
+import com.example.androidapp.*;
 import io.realm.mongodb.App;
-import org.bson.Document;
+
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -37,13 +34,13 @@ public class SettingsActivity extends AppCompatActivity {
 
         TextView username = findViewById(R.id.user_name);
 
-        userViewModel.getUser().observe(this, user -> {
-            if (user != null) {
-                username.setText(user.getName());
-            } else {
-                Log.v("SettingsActivity", "User is null.");
-            }
+        userViewModel.getUser().observe(this, userModel -> {
+            Log.v("AUTH", "User name: " + userModel.getName());
+            username.setText(userModel.getName());
         });
+
+
+        userViewModel.editName("pls work now");
 
 
 
