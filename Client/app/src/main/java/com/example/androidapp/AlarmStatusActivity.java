@@ -40,8 +40,8 @@ public class AlarmStatusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarmstatus);
 
-        brokerConnection = new BrokerConnection(getApplicationContext());
-        brokerConnection.connectToMqttBroker();
+        MyApp myApp = (MyApp) getApplication();
+        brokerConnection = myApp.getBrokerConnection();
 
         // VIEW MODEL to get the alarm status
         AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
@@ -50,18 +50,6 @@ public class AlarmStatusActivity extends AppCompatActivity {
         backButton.setOnClickListener(view -> {
             Intent intent = new Intent(AlarmStatusActivity.this, MainActivity.class);
             startActivity(intent);
-            brokerConnection.getMqttClient().disconnect(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("Disconnected successfully");
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    System.out.println("Disconnect failed, still connected");
-
-                }
-            });
         });
 
         alarmStatusText = findViewById(R.id.alarmStatusText);

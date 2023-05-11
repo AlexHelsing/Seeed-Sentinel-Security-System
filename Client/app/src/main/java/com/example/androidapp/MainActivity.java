@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,7 +18,11 @@ import com.example.androidapp.Settings.SettingsActivity;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
 import io.realm.mongodb.App;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        brokerConnection = new BrokerConnection(getApplicationContext());
-        brokerConnection.connectToMqttBroker();
-
         db = new dbHandler(getApplicationContext());
         app = db.getApp();
 
@@ -52,7 +54,13 @@ public class MainActivity extends AppCompatActivity {
         if (app.currentUser() == null) {
             Intent intent = new Intent(getApplicationContext(), StarterPage.class);
             startActivity(intent);
+            finish();
         }
+
+        UserViewModel userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
+
+
+        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
 
 
         // HOME BUTTON SETTINGS
@@ -60,19 +68,6 @@ public class MainActivity extends AppCompatActivity {
         homeButton.setOnClickListener(view -> {
             // start alarm status activity
             Intent intent = new Intent(MainActivity.this, AlarmStatusActivity.class);
-            startActivity(intent);
-            brokerConnection.getMqttClient().disconnect(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("Disconnected successfully");
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    System.out.println("Disconnect failed, still connected");
-
-                }
-            });
             startActivity(intent);
         });
 
@@ -82,18 +77,6 @@ public class MainActivity extends AppCompatActivity {
             // start settings activity
                     Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                     startActivity(intent);
-            brokerConnection.getMqttClient().disconnect(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("Disconnected successfully");
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    System.out.println("Disconnect failed, still connected");
-
-                }
-            });
                 }
         );
 
@@ -102,26 +85,17 @@ public class MainActivity extends AppCompatActivity {
         historyButton.setOnClickListener(view -> {
             // start history activity
             Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
-            brokerConnection.getMqttClient().disconnect(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("Disconnected successfully");
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    System.out.println("Disconnect failed, still connected");
-
-                }
-            });
             startActivity(intent);
         });
 
         // PLACEHOLDER BUTTON SETTINGS
         placeHolderbutton = findViewById(R.id.placeholder_button);
         placeHolderbutton.setOnClickListener(view -> {
-            Toast.makeText(getApplicationContext(), "Placeholder button", Toast.LENGTH_SHORT).show();
-        });
+            //userViewModel.getUser().getValue().getBreakins().forEach(breakin -> {
+            //Log.v(breakin.get("location").toString(), breakin.get("date").toString());
+        //});
+         });
+
     }
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because

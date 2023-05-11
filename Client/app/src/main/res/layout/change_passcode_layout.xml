@@ -172,7 +172,7 @@
     <Button
             android:layout_width="222dp"
             android:text="Save"
-            android:id="@+id/submitButton"
+            android:id="@+id/savePasscode"
             android:layout_gravity="center"
             android:layout_height="61dp">
 

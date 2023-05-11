@@ -24,6 +24,7 @@ WiFiClient wioClient;
 PubSubClient client(wioClient);
 
 // MOTION STUFF
+
 #define PIR_MOTION_SENSOR 2 // Use pin 2 for PIR motion sensor
 bool alarmOn = false;
 //
@@ -151,6 +152,8 @@ void setup() {
   pinMode(WIO_5S_LEFT, INPUT_PULLUP);
   pinMode(WIO_5S_RIGHT, INPUT_PULLUP);
   pinMode(WIO_5S_PRESS, INPUT_PULLUP);
+
+  
   //    
   tft.init(); // initialize the TFT screen
   tft.setRotation(3);

@@ -41,8 +41,11 @@ public class BrokerConnection extends AppCompatActivity {
     AlarmViewModel alarmViewModel = new AlarmViewModel();
 
     public BrokerConnection(Context context) {
+        // use singleton pattern to ensure only one instance of mqtt client
+        if (mqttClient == null) {
+            mqttClient = new MqttClient(context, MQTT_SERVER, CLIENT_ID);
+        }
         this.context = context;
-        mqttClient = new MqttClient(context, MQTT_SERVER, CLIENT_ID);
     }
 
     public void connectToMqttBroker() {
@@ -84,7 +87,6 @@ public class BrokerConnection extends AppCompatActivity {
                     final String connectionLost = "Connection to MQTT broker lost";
                     Log.w(CLIENT_ID, connectionLost);
                 }
-
                 /**
                  *  Method that retrieve the message inside a topic
                  *
@@ -170,7 +172,6 @@ public class BrokerConnection extends AppCompatActivity {
     public TextView getMessage() {
         return this.connectionMessage;
     }
-
     public MqttClient getMqttClient() {
         return mqttClient;
     }
