@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.androidapp.AlarmStatusActivity;
 
 import com.example.androidapp.AlarmViewModel;
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
+import com.example.androidapp.dbHandler;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -16,12 +19,13 @@ import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.util.Date;
 
 
 public class BrokerConnection extends AppCompatActivity {
 
     public static final String SUB_TOPIC = "/SeeedSentinel/AlarmOnOff";
-    private static final String MQTT_SERVER = "tcp://broker.hivemq.com:1883";
+    private static final String MQTT_SERVER = "tcp://10.0.2.2:1883";
     public static final String CLIENT_ID = "SeeedSentinel";
     public static final int QOS = 1;
 
@@ -29,6 +33,7 @@ public class BrokerConnection extends AppCompatActivity {
     private MqttClient mqttClient;
     Context context;
     TextView connectionMessage;
+
 
     // view model that handles the alarm status state
     AlarmViewModel alarmViewModel = new AlarmViewModel();
@@ -101,6 +106,7 @@ public class BrokerConnection extends AppCompatActivity {
                         else if(mqttMessage.equals("AlarmIntruder")){
                             alarmViewModel.setAlarmStatus("AlarmIntruder");
                         }
+
                     }
                     else{
                         Log.i("BROKER: ", "[MQTT] Topic: " + topic + " | Message: " + message.toString());

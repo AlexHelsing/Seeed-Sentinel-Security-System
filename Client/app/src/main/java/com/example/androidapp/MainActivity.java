@@ -1,6 +1,7 @@
 package com.example.androidapp;
 
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,7 +15,11 @@ import com.example.androidapp.Settings.SettingsActivity;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
 import io.realm.mongodb.App;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,12 +41,14 @@ public class MainActivity extends AppCompatActivity {
         db = new dbHandler(getApplicationContext());
         app = db.getApp();
 
-
-        // if user is not authed, send them to the starter page
         if (app.currentUser() == null) {
             Intent intent = new Intent(getApplicationContext(), StarterPage.class);
             startActivity(intent);
+            finish();
         }
+
+        UserViewModel userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
+
 
         AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
 
@@ -74,7 +81,10 @@ public class MainActivity extends AppCompatActivity {
         // PLACEHOLDER BUTTON SETTINGS
         placeHolderbutton = findViewById(R.id.placeholder_button);
         placeHolderbutton.setOnClickListener(view -> {
-            Toast.makeText(getApplicationContext(), "Placeholder button", Toast.LENGTH_SHORT).show();
-        });
+            //userViewModel.getUser().getValue().getBreakins().forEach(breakin -> {
+            //Log.v(breakin.get("location").toString(), breakin.get("date").toString());
+        //});
+         });
+
     }
 }
