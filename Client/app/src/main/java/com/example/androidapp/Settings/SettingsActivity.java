@@ -8,6 +8,16 @@ import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.androidapp.AlarmStatusActivity;
+import com.example.androidapp.AlarmViewModel;
+import com.example.androidapp.MQTT.BrokerConnection;
+import com.example.androidapp.MainActivity;
+import com.example.androidapp.MyApp;
+import com.example.androidapp.R;
+import com.example.androidapp.StarterPage;
+import com.example.androidapp.dbHandler;
 
 import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapp.*;
@@ -15,6 +25,9 @@ import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import com.squareup.picasso.Picasso;
 import io.realm.mongodb.App;
+import org.bson.Document;
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +44,8 @@ public class SettingsActivity extends AppCompatActivity {
     LinearLayout LogOutButton;
     AppCompatButton editProfileBtn;
 
+    BrokerConnection brokerConnection;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +55,20 @@ public class SettingsActivity extends AppCompatActivity {
 
         db = new dbHandler(getApplicationContext());
         app = db.getApp();
+
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
+        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
+
+        if (app.currentUser() == null) {
+            Toast.makeText(getApplicationContext(), "Please log in.", Toast.LENGTH_SHORT).show();
+        }
+
+        MyApp myApp = (MyApp) getApplication();
+        brokerConnection = myApp.getBrokerConnection();
 
         TextView username = findViewById(R.id.user_name);
         ImageView profilePic = findViewById(R.id.profilePicture);
+
 
         userViewModel.getUser().observe(this, userModel -> {
                     username.setText(userModel.getName());
@@ -85,7 +110,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         // return to dashboard
         backArrow = findViewById(R.id.back_button);
-        backArrow.setOnClickListener(view -> finish());
+        backArrow.setOnClickListener(view -> {
+            // start alarm status activity
+            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
 
 
         // navigate to set pattern activity

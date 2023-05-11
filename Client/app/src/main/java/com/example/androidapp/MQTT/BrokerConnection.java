@@ -28,7 +28,6 @@ public class BrokerConnection extends AppCompatActivity {
     private static final String MQTT_SERVER = "tcp://10.0.2.2:1883";
     public static final String CLIENT_ID = "SeeedSentinel";
     public static final int QOS = 1;
-    dbHandler db = new dbHandler(this);
 
     private boolean isConnected = false;
     private MqttClient mqttClient;
@@ -38,11 +37,13 @@ public class BrokerConnection extends AppCompatActivity {
 
     // view model that handles the alarm status state
     AlarmViewModel alarmViewModel = new AlarmViewModel();
-    UserViewModel userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
 
-    public BrokerConnection(Context context){
+    public BrokerConnection(Context context) {
+        // use singleton pattern to ensure only one instance of mqtt client
+        if (mqttClient == null) {
+            mqttClient = new MqttClient(context, MQTT_SERVER, CLIENT_ID);
+        }
         this.context = context;
-        mqttClient = new MqttClient(context, MQTT_SERVER, CLIENT_ID);
     }
 
     public void connectToMqttBroker() {
@@ -58,7 +59,6 @@ public class BrokerConnection extends AppCompatActivity {
                     final String successfulConnection = "Connected to MQTT broker";
                     Log.i(CLIENT_ID, successfulConnection);
 
-                    Toast.makeText(context, successfulConnection, Toast.LENGTH_LONG).show();
                     mqttClient.subscribe(SUB_TOPIC, QOS, new IMqttActionListener() {
                         @Override
                         public void onSuccess(IMqttToken asyncActionToken) {
@@ -76,7 +76,6 @@ public class BrokerConnection extends AppCompatActivity {
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
                     final String failedConnection = "Failed to connect to MQTT broker";
                     Log.e(CLIENT_ID, failedConnection);
-                    Toast.makeText(context, failedConnection, Toast.LENGTH_SHORT).show();
                 }
             }, new MqttCallback() {
                 @Override
@@ -85,7 +84,6 @@ public class BrokerConnection extends AppCompatActivity {
 
                     final String connectionLost = "Connection to MQTT broker lost";
                     Log.w(CLIENT_ID, connectionLost);
-                    Toast.makeText(context, connectionLost, Toast.LENGTH_SHORT).show();
                 }
                 /**
                  *  Method that retrieve the message inside a topic
@@ -107,7 +105,6 @@ public class BrokerConnection extends AppCompatActivity {
                         }
                         else if(mqttMessage.equals("AlarmIntruder")){
                             alarmViewModel.setAlarmStatus("AlarmIntruder");
-                            userViewModel.createBreakin("Hallway", new Date());
                         }
 
                     }
@@ -140,7 +137,6 @@ public class BrokerConnection extends AppCompatActivity {
         if (!isConnected) {
             final String notConnected = "Not connected (yet)";
             Log.e(CLIENT_ID, notConnected);
-            Toast.makeText(context, notConnected, Toast.LENGTH_SHORT).show();
             return;
         }
         mqttClient.publish(SUB_TOPIC, message, 1, new IMqttActionListener() {

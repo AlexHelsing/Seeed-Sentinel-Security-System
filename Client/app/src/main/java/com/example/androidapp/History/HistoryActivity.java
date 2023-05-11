@@ -1,5 +1,6 @@
 package com.example.androidapp.History;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.text.TextUtils;
@@ -9,12 +10,19 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.os.Bundle;
 import android.widget.TableLayout;
+
+import com.example.androidapp.AlarmViewModel;
+import com.example.androidapp.MQTT.BrokerConnection;
 import com.example.androidapp.MainActivity;
+import com.example.androidapp.MyApp;
 import com.example.androidapp.R;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import com.example.androidapp.dbHandler;
 import org.bson.Document;
+
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,10 +35,15 @@ public class HistoryActivity extends AppCompatActivity {
     Button backButton;
     UserViewModel userViewModel;
 
+    BrokerConnection brokerConnection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
+
 
         TableLayout tableLayout = findViewById(R.id.tableLayout);
 

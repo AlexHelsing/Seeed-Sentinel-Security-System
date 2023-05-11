@@ -4,11 +4,17 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import com.example.androidapp.History.HistoryActivity;
+import com.example.androidapp.MQTT.BrokerConnection;
 import com.example.androidapp.Settings.SettingsActivity;
+
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
+
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import io.realm.mongodb.App;
@@ -25,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout historyButton;
     LinearLayout placeHolderbutton;
 
+    BrokerConnection brokerConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         UserViewModel userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
 
+
+        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
 
 
         // HOME BUTTON SETTINGS
