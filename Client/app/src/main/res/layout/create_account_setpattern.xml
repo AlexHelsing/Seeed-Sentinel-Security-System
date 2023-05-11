@@ -57,6 +57,7 @@
             android:layout_height="61dp"
             android:layout_gravity="center"
             android:text="Confirm"
+        android:backgroundTint="@color/fbblue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"

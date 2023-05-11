@@ -54,7 +54,6 @@ public class AlarmStatusActivity extends AppCompatActivity {
 
         alarmStatusText = findViewById(R.id.alarmStatusText);
         hallwayStatus = findViewById(R.id.hallwayStatus);
-        livingRoomStatus = findViewById(R.id.livingRoomStatus);
         deactivateActivateButton = findViewById(R.id.btn_deactivateActivateAlarm);
         scrollviewEdit = findViewById(R.id.bc_scrollview);
         headerView = findViewById(R.id.header_view);
@@ -88,8 +87,7 @@ public class AlarmStatusActivity extends AppCompatActivity {
                     scrollviewEdit.setBackgroundResource(R.drawable.bluegradient);
                     hallwayStatus.setText("Alarm: Unarmed");
                     hallwayStatus.setTextColor(Color.parseColor("#DDFF0000"));
-                    livingRoomStatus.setText("Alarm: Unarmed");
-                    livingRoomStatus.setTextColor(Color.parseColor("#DDFF0000"));
+
                     break;
                 case "AlarmIntruder":
                     deactivateActivateButton.setText("Turn off alarm");
@@ -99,8 +97,6 @@ public class AlarmStatusActivity extends AppCompatActivity {
                     headerView.setBackgroundColor(Color.parseColor("#CF0107"));
                     hallwayStatus.setText("Alarm: INTRUDER ALERT");
                     hallwayStatus.setTextColor(Color.parseColor("#DDFF0000"));
-                    livingRoomStatus.setText("Alarm: Armed");
-                    livingRoomStatus.setTextColor(Color.parseColor("#DD59FF00"));
                     break;
                 case "AlarmOn":
                     deactivateActivateButton.setText("Deactivate Alarm");
@@ -110,8 +106,6 @@ public class AlarmStatusActivity extends AppCompatActivity {
                     headerView.setBackgroundResource(R.drawable.bluegradient);
                     hallwayStatus.setText("Alarm: Armed");
                     hallwayStatus.setTextColor(Color.parseColor("#DD59FF00"));
-                    livingRoomStatus.setText("Alarm: Armed");
-                    livingRoomStatus.setTextColor(Color.parseColor("#DD59FF00"));
                     break;
             }
         });

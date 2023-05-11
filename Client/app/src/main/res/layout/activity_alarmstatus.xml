@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="16dp"
-                    android:backgroundTint="@color/purple_700"
+                    android:backgroundTint="@color/fbblue"
                     android:text="Deactivate Alarm"></Button>
 
 
@@ -151,54 +151,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/bluelaw3">
-
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:src="@drawable/pic_livingroom"
-                    android:scaleType="centerCrop"></ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginStart="16dp"
-                    android:text="Living Room"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:textColor="@color/white">
-                </TextView>
-
-                <TextView
-                    android:id="@+id/livingRoomStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="Status: Armed"
-                    android:textSize="17sp"
-                    android:textColor="@color/green"></TextView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="4dp"></LinearLayout>
-
-
-            </LinearLayout>
-
-
-        </androidx.cardview.widget.CardView>
+            app:cardElevation="4dp"/>
 
 
 

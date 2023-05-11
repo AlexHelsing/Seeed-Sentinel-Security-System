@@ -90,6 +90,7 @@
         android:text="Create Account"
         android:textColor="@color/white"
         android:textSize="16sp"
+        android:backgroundTint="@color/fbblue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
