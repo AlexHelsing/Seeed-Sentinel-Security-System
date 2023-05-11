@@ -33,13 +33,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        brokerConnection = new BrokerConnection(getApplicationContext());
-        brokerConnection.connectToMqttBroker();
-
         db = new dbHandler(getApplicationContext());
         app = db.getApp();
-
-        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
 
 
         // if user is not authed, send them to the starter page
@@ -48,25 +43,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
+
 
         // HOME BUTTON SETTINGS
         homeButton = findViewById(R.id.home_button);
         homeButton.setOnClickListener(view -> {
             // start alarm status activity
             Intent intent = new Intent(MainActivity.this, AlarmStatusActivity.class);
-            startActivity(intent);
-            brokerConnection.getMqttClient().disconnect(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("Disconnected successfully");
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    System.out.println("Disconnect failed, still connected");
-
-                }
-            });
             startActivity(intent);
         });
 
@@ -76,18 +60,6 @@ public class MainActivity extends AppCompatActivity {
             // start settings activity
                     Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                     startActivity(intent);
-            brokerConnection.getMqttClient().disconnect(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("Disconnected successfully");
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    System.out.println("Disconnect failed, still connected");
-
-                }
-            });
                 }
         );
 
@@ -96,18 +68,6 @@ public class MainActivity extends AppCompatActivity {
         historyButton.setOnClickListener(view -> {
             // start history activity
             Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
-            brokerConnection.getMqttClient().disconnect(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("Disconnected successfully");
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    System.out.println("Disconnect failed, still connected");
-
-                }
-            });
             startActivity(intent);
         });
 

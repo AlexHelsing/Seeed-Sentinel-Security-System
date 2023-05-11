@@ -14,6 +14,7 @@ import com.example.androidapp.AlarmStatusActivity;
 import com.example.androidapp.AlarmViewModel;
 import com.example.androidapp.MQTT.BrokerConnection;
 import com.example.androidapp.MainActivity;
+import com.example.androidapp.MyApp;
 import com.example.androidapp.R;
 import com.example.androidapp.StarterPage;
 import com.example.androidapp.dbHandler;
@@ -40,13 +41,14 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
 
-        brokerConnection = new BrokerConnection(getApplicationContext());
-        brokerConnection.connectToMqttBroker();
-
-        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
 
         db = new dbHandler(getApplicationContext());
         app = db.getApp();
+
+        MyApp myApp = (MyApp) getApplication();
+        brokerConnection = myApp.getBrokerConnection();
+
+        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
 
 
         if (app.currentUser() == null) {
@@ -96,18 +98,6 @@ public class SettingsActivity extends AppCompatActivity {
         backArrow.setOnClickListener(view -> {
             // start alarm status activity
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-            brokerConnection.getMqttClient().disconnect(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("Disconnected successfully");
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    System.out.println("Disconnect failed, still connected");
-
-                }
-            });
             startActivity(intent);
         });
 

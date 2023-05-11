@@ -14,6 +14,7 @@ import android.widget.TableLayout;
 import com.example.androidapp.AlarmViewModel;
 import com.example.androidapp.MQTT.BrokerConnection;
 import com.example.androidapp.MainActivity;
+import com.example.androidapp.MyApp;
 import com.example.androidapp.R;
 
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -35,28 +36,16 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        brokerConnection = new BrokerConnection(getApplicationContext());
-        brokerConnection.connectToMqttBroker();
-
         AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
+
+        MyApp myApp = (MyApp) getApplication();
+        brokerConnection = myApp.getBrokerConnection();
 
         backButton = (Button) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openMainActivity();
-                brokerConnection.getMqttClient().disconnect(new IMqttActionListener() {
-                    @Override
-                    public void onSuccess(IMqttToken asyncActionToken) {
-                        System.out.println("Disconnected successfully");
-                    }
-
-                    @Override
-                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                        System.out.println("Disconnect failed, still connected");
-
-                    }
-                });
             }
         });
     }

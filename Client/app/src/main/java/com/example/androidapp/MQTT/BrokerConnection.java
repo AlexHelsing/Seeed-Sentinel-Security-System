@@ -33,9 +33,12 @@ public class BrokerConnection extends AppCompatActivity {
     // view model that handles the alarm status state
     AlarmViewModel alarmViewModel = new AlarmViewModel();
 
-    public BrokerConnection(Context context){
+    public BrokerConnection(Context context) {
+        // use singleton pattern to ensure only one instance of mqtt client
+        if (mqttClient == null) {
+            mqttClient = new MqttClient(context, MQTT_SERVER, CLIENT_ID);
+        }
         this.context = context;
-        mqttClient = new MqttClient(context, MQTT_SERVER, CLIENT_ID);
     }
 
     public void connectToMqttBroker() {
