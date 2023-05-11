@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import com.example.androidapp.History.HistoryActivity;
 import com.example.androidapp.MQTT.BrokerConnection;
 import com.example.androidapp.Settings.SettingsActivity;
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
 import io.realm.mongodb.App;
 
 
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         app = db.getApp();
 
         AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
+        UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
         createNotificationChannel();
 

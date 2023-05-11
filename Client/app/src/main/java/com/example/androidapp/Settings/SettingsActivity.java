@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapp.MQTT.BrokerConnection;
-import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
 import com.example.androidapp.StarterPage;
 import com.example.androidapp.dbHandler;
@@ -44,9 +43,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
-        if (app.currentUser() == null) {
-            Toast.makeText(getApplicationContext(), "Please log in.", Toast.LENGTH_SHORT).show();
-        }
 
         TextView username = findViewById(R.id.user_name);
         ImageView profilePic = findViewById(R.id.profilePicture);
@@ -94,8 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
         backArrow = findViewById(R.id.back_button);
         backArrow.setOnClickListener(view -> {
             // start alarm status activity
-            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-            startActivity(intent);
+            finish();
         });
 
 
