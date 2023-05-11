@@ -1,7 +1,6 @@
 package com.example.androidapp.Settings;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.*;
@@ -9,29 +8,16 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.example.androidapp.AlarmStatusActivity;
-import com.example.androidapp.AlarmViewModel;
 import com.example.androidapp.MQTT.BrokerConnection;
 import com.example.androidapp.MainActivity;
-import com.example.androidapp.MyApp;
 import com.example.androidapp.R;
 import com.example.androidapp.StarterPage;
 import com.example.androidapp.dbHandler;
 
-import androidx.lifecycle.ViewModelProvider;
-import com.example.androidapp.*;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import com.squareup.picasso.Picasso;
 import io.realm.mongodb.App;
-import org.bson.Document;
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -57,14 +43,10 @@ public class SettingsActivity extends AppCompatActivity {
         app = db.getApp();
 
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
-        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
 
         if (app.currentUser() == null) {
             Toast.makeText(getApplicationContext(), "Please log in.", Toast.LENGTH_SHORT).show();
         }
-
-        MyApp myApp = (MyApp) getApplication();
-        brokerConnection = myApp.getBrokerConnection();
 
         TextView username = findViewById(R.id.user_name);
         ImageView profilePic = findViewById(R.id.profilePicture);

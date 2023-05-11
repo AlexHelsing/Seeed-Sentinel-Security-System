@@ -4,25 +4,15 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import com.example.androidapp.History.HistoryActivity;
 import com.example.androidapp.MQTT.BrokerConnection;
 import com.example.androidapp.Settings.SettingsActivity;
-
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-
-import com.example.androidapp.ViewModels.UserViewModel;
-import com.example.androidapp.ViewModels.UserViewModelFactory;
 import io.realm.mongodb.App;
 
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,18 +39,12 @@ public class MainActivity extends AppCompatActivity {
 
         createNotificationChannel();
 
-
         // if user is not authed, send them to the starter page
         if (app.currentUser() == null) {
             Intent intent = new Intent(getApplicationContext(), StarterPage.class);
             startActivity(intent);
             finish();
         }
-
-        UserViewModel userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
-
-
-        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
 
 
         // HOME BUTTON SETTINGS
