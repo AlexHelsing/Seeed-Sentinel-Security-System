@@ -14,11 +14,11 @@ import java.util.Date;
 public class UserViewModel extends ViewModel{
 
     private static MutableLiveData<UserModel> _user = new MutableLiveData<>();
-    private dbHandler db;
+    private static dbHandler db;
 
 
     public UserViewModel(dbHandler db) {
-        this.db = db;
+        UserViewModel.db = db;
         User currentUser = db.getCurrentUser();
         if (currentUser != null) {
             _user.setValue(db.getUserData());
@@ -74,7 +74,7 @@ public class UserViewModel extends ViewModel{
     }
 
     //add breakin to the array of breakins
-    public void createBreakin(String location, Date date) {
+    public static void createBreakin(String location, Date date) {
         db.createBreakInAlert(location, date, new UpdateUserDataCallback() {
             @Override
             public void onSuccess() {
