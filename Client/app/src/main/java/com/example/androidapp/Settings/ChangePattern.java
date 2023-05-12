@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
-import com.example.androidapp.MQTT.MqttHandler;
 import com.example.androidapp.R;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class ChangePattern extends AppCompatActivity {
     private PatternLockView mPatternLockView;
     private static final String BROKER_URL = "tcp://10.0.2.2:1883";
     private static final String CLIENT_ID = "SentinelApp";
-    private MqttHandler mqttHandler;
+    //private MqttHandler mqttHandler;
     ImageView backArrow;
     Button SubmitButton;
 
@@ -62,8 +61,8 @@ public class ChangePattern extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setpattern_layout);
-        mqttHandler = new MqttHandler();
-        mqttHandler.connect(BROKER_URL, CLIENT_ID);
+        //mqttHandler = new MqttHandler();
+        //mqttHandler.connect(BROKER_URL, CLIENT_ID);
 
         // return to settings page
         backArrow = findViewById(R.id.back_button_setPatternscreen);
@@ -100,7 +99,7 @@ public class ChangePattern extends AppCompatActivity {
     // publish pattern to broker
     private void publishPattern(String topic, String message) {
         Toast.makeText(getApplicationContext(), "New pattern is saved :)", Toast.LENGTH_SHORT).show();
-        mqttHandler.publish(topic, message);
+        //mqttHandler.publish(topic, message);
     }
 
 

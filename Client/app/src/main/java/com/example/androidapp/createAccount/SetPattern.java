@@ -19,6 +19,7 @@ import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 import org.bson.Document;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class SetPattern extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class SetPattern extends AppCompatActivity {
     Bundle extra;
 
     String name;
+    String profilePic;
     Button submitButton;
 
     PatternLockView mPatternLockView;
@@ -76,6 +78,7 @@ public class SetPattern extends AppCompatActivity {
         // get the name from the previous activity
         extra = getIntent().getExtras();
         name = extra.getString("name");
+        profilePic = extra.getString("profilePic");
 
 
         db = new dbHandler(getApplicationContext());
@@ -99,9 +102,20 @@ public class SetPattern extends AppCompatActivity {
 
             // create a document to store our customData, just name and pattern for now. not sure how we are gonna deal with images yet. maybe just use urls?
             // cant use pictures from phone cus that requires you to store those images in a cloud storage somewhere :/
-            Document doc = new Document("name", name)
-                    .append("pattern", pattern)
-                    .append("user-id", currentUser.getId());
+       //     Document doc = new Document("name", name)
+          //          .append("pattern", pattern)
+            //        .append("user-id", currentUser.getId());
+
+            Document doc = new Document("user-id", currentUser.getId())
+                     .append("name", name)
+                      .append("passcode", pattern)
+                       .append("pattern", pattern)
+                      .append("profilePic", profilePic)
+                        // create empty array of objects for the friends list
+                        .append("breakins", Arrays.asList())
+                    ;
+
+
 
             // insert the document
             mongoCollection.insertOne(doc).getAsync(result -> {

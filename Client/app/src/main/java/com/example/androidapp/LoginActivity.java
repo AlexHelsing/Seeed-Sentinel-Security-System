@@ -3,6 +3,7 @@ package com.example.androidapp;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import io.realm.mongodb.App;
@@ -19,7 +20,7 @@ public class LoginActivity  extends AppCompatActivity {
     Button loginButton;
     EditText email;
     EditText password;
-    Button returnButton;
+    ImageView returnButton;
     String emailText;
     String passwordText;
 

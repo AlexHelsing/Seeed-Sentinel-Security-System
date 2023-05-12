@@ -1,27 +1,34 @@
 package com.example.androidapp.MQTT;
+
+import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.androidapp.AlarmStatusActivity;
 
 import com.example.androidapp.AlarmViewModel;
+import com.example.androidapp.R;
+
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 
-
 public class BrokerConnection extends AppCompatActivity {
 
     public static final String SUB_TOPIC = "/SeeedSentinel/AlarmOnOff";
-    private static final String MQTT_SERVER = "tcp://broker.hivemq.com:1883";
+    private static final String MQTT_SERVER = "tcp://10.0.2.2:1883";
     public static final String CLIENT_ID = "SeeedSentinel";
     public static final int QOS = 1;
 
@@ -33,9 +40,12 @@ public class BrokerConnection extends AppCompatActivity {
     // view model that handles the alarm status state
     AlarmViewModel alarmViewModel = new AlarmViewModel();
 
-    public BrokerConnection(Context context){
+    public BrokerConnection(Context context) {
+        // use singleton pattern to ensure only one instance of mqtt client
+        if (mqttClient == null) {
+            mqttClient = new MqttClient(context, MQTT_SERVER, CLIENT_ID);
+        }
         this.context = context;
-        mqttClient = new MqttClient(context, MQTT_SERVER, CLIENT_ID);
     }
 
     public void connectToMqttBroker() {
@@ -51,7 +61,6 @@ public class BrokerConnection extends AppCompatActivity {
                     final String successfulConnection = "Connected to MQTT broker";
                     Log.i(CLIENT_ID, successfulConnection);
 
-                    Toast.makeText(context, successfulConnection, Toast.LENGTH_LONG).show();
                     mqttClient.subscribe(SUB_TOPIC, QOS, new IMqttActionListener() {
                         @Override
                         public void onSuccess(IMqttToken asyncActionToken) {
@@ -69,7 +78,6 @@ public class BrokerConnection extends AppCompatActivity {
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
                     final String failedConnection = "Failed to connect to MQTT broker";
                     Log.e(CLIENT_ID, failedConnection);
-                    Toast.makeText(context, failedConnection, Toast.LENGTH_SHORT).show();
                 }
             }, new MqttCallback() {
                 @Override
@@ -78,7 +86,6 @@ public class BrokerConnection extends AppCompatActivity {
 
                     final String connectionLost = "Connection to MQTT broker lost";
                     Log.w(CLIENT_ID, connectionLost);
-                    Toast.makeText(context, connectionLost, Toast.LENGTH_SHORT).show();
                 }
                 /**
                  *  Method that retrieve the message inside a topic
@@ -87,19 +94,36 @@ public class BrokerConnection extends AppCompatActivity {
                  */
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    if(topic.equals(SUB_TOPIC)){
+                    if (topic.equals(SUB_TOPIC)) {
                         String mqttMessage = new String(message.getPayload());
-                        if(mqttMessage.equals("AlarmOff")){
+                        if (mqttMessage.equals("AlarmOff")) {
                             // set alarm status to false
-                            alarmViewModel.setAlarmStatus(false);
+                            alarmViewModel.setAlarmStatus("AlarmOff");
 
-                        }
-                        else if(mqttMessage.equals("AlarmOn")){
+                        } else if (mqttMessage.equals("AlarmOn")) {
                             // set alarm status to true
-                            alarmViewModel.setAlarmStatus(true);
+                            alarmViewModel.setAlarmStatus("AlarmOn");
+                        } else if (mqttMessage.equals("AlarmIntruder")) {
+                            alarmViewModel.setAlarmStatus("AlarmIntruder");
+                            Intent intent = new Intent(context, AlarmStatusActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "AlarmStatus");
+                            builder.setSmallIcon(R.drawable.ic_notification);
+                            builder.setContentTitle("INTRUDER ALERT");
+                            builder.setContentText("Call popo");
+                            builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+                            builder.setContentIntent(pendingIntent);
+                            builder.setAutoCancel(true);
+
+                            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                                return;
+                            }
+                            notificationManager.notify(10, builder.build());
                         }
-                    }
-                    else{
+                    } else {
                         Log.i("BROKER: ", "[MQTT] Topic: " + topic + " | Message: " + message.toString());
                     }
                 }
@@ -128,7 +152,6 @@ public class BrokerConnection extends AppCompatActivity {
         if (!isConnected) {
             final String notConnected = "Not connected (yet)";
             Log.e(CLIENT_ID, notConnected);
-            Toast.makeText(context, notConnected, Toast.LENGTH_SHORT).show();
             return;
         }
         mqttClient.publish(SUB_TOPIC, message, 1, new IMqttActionListener() {
@@ -151,5 +174,25 @@ public class BrokerConnection extends AppCompatActivity {
     }
     public MqttClient getMqttClient() {
         return mqttClient;
+    }
+
+    public void sendIntruderNotification() {
+        Intent intent = new Intent(context, AlarmStatusActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "AlarmStatus");
+        builder.setSmallIcon(R.drawable.ic_notification);
+        builder.setContentTitle("INTRUDER ALERT");
+        builder.setContentText("Call popo");
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        builder.setContentIntent(pendingIntent);
+        builder.setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        notificationManager.notify(10, builder.build());
     }
 }

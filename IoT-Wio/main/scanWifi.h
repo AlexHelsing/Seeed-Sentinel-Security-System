@@ -1,7 +1,7 @@
 #include "rpcWiFi.h"
 
-const char* ssid = "bahnhof2_4Ghz-204858"; //replace with your own wifi network to test
-const char* password =  "4Ne93SAtqCKfk"; //and password :)
+const char* ssid = SSID; //replace with your own wifi network to test
+const char* password =  WIFI_PASSWORD; //and password :)
 
 
 class scanWifi{
