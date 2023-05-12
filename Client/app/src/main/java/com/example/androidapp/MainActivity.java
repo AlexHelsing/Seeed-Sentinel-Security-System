@@ -1,22 +1,35 @@
 package com.example.androidapp;
 
+import static com.example.androidapp.Settings.SettingsActivity.CHANNEL_ID2;
+
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+
 import com.example.androidapp.History.HistoryActivity;
 import com.example.androidapp.MQTT.BrokerConnection;
 import com.example.androidapp.MQTT.MqttClient;
 import com.example.androidapp.Settings.SettingsActivity;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
+
 import io.realm.mongodb.App;
 
 
@@ -31,8 +44,9 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout historyButton;
     LinearLayout placeHolderbutton;
 
-    private MqttClient mqttClient;
-    private BrokerConnection brokerConnection;
+    private NotificationManagerCompat notificationManager;
+    private EditText editTextTitle;
+    private EditText editTextMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
-        createNotificationChannel();
+        //createNotificationChannel();
 
         // if user is not authed, send them to the starter page
         if (app.currentUser() == null) {
@@ -85,14 +99,61 @@ public class MainActivity extends AppCompatActivity {
         placeHolderbutton.setOnClickListener(view -> {
             //userViewModel.getUser().getValue().getBreakins().forEach(breakin -> {
             //Log.v(breakin.get("location").toString(), breakin.get("date").toString());
-        //});
-         });
+            //});
+        });
 
+        notificationManager = NotificationManagerCompat.from(this);
+        editTextTitle = findViewById(R.id.edit_text_title);
+        editTextTitle = findViewById(R.id.edit_text_message);
     }
 
-    private SettingsActivity settings = new SettingsActivity();
+    public void SendOnChannel1(View v) {
+        String title = editTextTitle.getText().toString();
+        String message = editTextMessage.getText().toString();
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build();
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManager.notify(1, notification);
+    }
+    public void SendOnChannel2(View v){
+        String title = editTextTitle.getText().toString();
+        String message = editTextMessage.getText().toString();
+        Notification notification2 = new NotificationCompat.Builder(this, CHANNEL_ID2)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .build();
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManager.notify(2, notification2);
+    }
 
-    private void createNotificationChannel() {
+
+
+
+    /*public void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -103,50 +164,13 @@ public class MainActivity extends AppCompatActivity {
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
-
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            int selectedPosition = sharedPreferences.getInt("notification_position", 0);
-            switch (selectedPosition) {
-                case 0:
-                    // No notifications
-                    channel.setImportance(NotificationManager.IMPORTANCE_NONE);
-                    break;
-                case 1:
-                    // Notify every entry
-                    channel.setImportance(NotificationManager.IMPORTANCE_HIGH);
-                    break;
-                case 2:
-                    // Notify if alarm is not off
-                    channel.setImportance(NotificationManager.IMPORTANCE_DEFAULT);
-                    break;
-                default:
-                    break;
-            }
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
-        }
-        //notifications
-        /*String topic = "notification_change";
-        String message;
-        int position = settings;
-        switch (position){
-            case 0:
-                message = "no_notifications";
-                break;
-            case 1:
-                message = "notifications_every_entry";
-                break;
-            case 2:
-                message = "notifiy_if_alarm_not_off";
-                break;
-            default:
-                message = "";
-        }
-        if (!message.isEmpty()){
-            brokerConnection.publishMqttMessage(topic, message);
-        }
 
-         */
+
+        }
     }
+
+     */
 }
 

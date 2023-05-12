@@ -22,7 +22,6 @@
     <string-array name="notifications">
         <item>No notifications</item>
         <item>Notify me for every entry</item>
-        <item>Notify me if alarm is not turned off</item>
     </string-array>
 
 

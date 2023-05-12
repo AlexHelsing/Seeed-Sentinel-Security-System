@@ -1,6 +1,11 @@
 package com.example.androidapp.Settings;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.*;
@@ -10,6 +15,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapp.MQTT.BrokerConnection;
 import com.example.androidapp.MQTT.MqttClient;
+import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
 import com.example.androidapp.StarterPage;
 import com.example.androidapp.dbHandler;
@@ -23,8 +29,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -35,12 +41,8 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     LinearLayout navigateToPasscodeBtn;
     LinearLayout LogOutButton;
     AppCompatButton editProfileBtn;
-    LinearLayout editSettingsBtn;
-    private static final String BROKER_URL = "tcp://10.0.2.2:1883";
-    private static final String CLIENT_ID = "SentinelApp";
-    private BrokerConnection brokerConnection;
-
-    private MqttClient mqttClient;
+    private static final String CHANNEL_ID = "AlarmStatus";
+    public static final String CHANNEL_ID2 = "AlarmStatusSilent";
 
 
 
@@ -54,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         app = db.getApp();
 
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
-
+        createNotificationChannels();
 
         TextView username = findViewById(R.id.user_name);
         ImageView profilePic = findViewById(R.id.profilePicture);
@@ -95,7 +97,12 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
         // open a dialog when user clicks on edit profile button
 
-
+        // navigate to change passcode activity
+        navigateToPasscodeBtn = findViewById(R.id.navigateToSetKeyword);
+        navigateToPasscodeBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), ChangePasscode.class);
+            startActivity(intent);
+        });
 
 
         // return to dashboard
@@ -121,43 +128,38 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-        String topic = "notification_change"; // Replace with your desired topic
+    private void createNotificationChannels() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is not in the Support Library.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel AlarmStatus = new NotificationChannel(CHANNEL_ID, "Channel 1", NotificationManager.IMPORTANCE_HIGH);
+            AlarmStatus.setDescription("Alarm activated");
 
-        String message;
-        switch (position) {
-            case 0:
-                message = "no_notifications";
-                break;
-            case 1:
-                message = "notify_every_entry";
-                break;
-            case 2:
-                message = "notify_if_alarm_not_off";
-                break;
-            default:
-                message = "";
-        }
+            NotificationChannel AlarmStatusSilent = new NotificationChannel(CHANNEL_ID2, "Channel 2", NotificationManager.IMPORTANCE_NONE);
+            AlarmStatusSilent.setDescription("You should not get this notification");
 
-        if (!message.isEmpty()) {
-            brokerConnection.publishMqttMessage(topic, message);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(AlarmStatus);
+            manager.createNotificationChannel(AlarmStatusSilent);
         }
     }
 
-    public void publishMessage(String topic, String message){
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+        //String item = adapterView.getItemAtPosition(position).toString();
+        //Toast.makeText(SettingsActivity.this, "Selected Item: " + item, Toast.LENGTH_SHORT).show();
 
+        AdapterView<?> Spinner = null;
+        View TextView = null;
+        if (onItemSelected(Spinner, TextView, 1, "item")){
+            
+        }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        // navigate to change passcode activity
-        navigateToPasscodeBtn = findViewById(R.id.navigateToSetKeyword);
-        navigateToPasscodeBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), ChangePasscode.class);
-            startActivity(intent);
-        });
+
 
     }
+    ArrayList<String> arrayList = new ArrayList<>();
 }
