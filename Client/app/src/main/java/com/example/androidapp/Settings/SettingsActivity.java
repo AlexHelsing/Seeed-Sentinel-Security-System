@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapp.MQTT.BrokerConnection;
+import com.example.androidapp.MQTT.MqttClient;
 import com.example.androidapp.R;
 import com.example.androidapp.StarterPage;
 import com.example.androidapp.dbHandler;
@@ -17,13 +18,13 @@ import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import com.squareup.picasso.Picasso;
 import io.realm.mongodb.App;
-import org.bson.Document;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
-import com.example.androidapp.MQTT.MqttHandler;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -35,12 +36,12 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     LinearLayout LogOutButton;
     AppCompatButton editProfileBtn;
     LinearLayout editSettingsBtn;
-    private static final String BROKER_URL = "tcp://broker.hivemq.com:1883";
-    private static final String CLIENT_ID = "SeeedSentinel";
-    private MqttHandler mqttHandler;
+    private static final String BROKER_URL = "tcp://10.0.2.2:1883";
+    private static final String CLIENT_ID = "SentinelApp";
+    private BrokerConnection brokerConnection;
 
+    private MqttClient mqttClient;
 
-    BrokerConnection brokerConnection;
 
 
     @Override
@@ -125,9 +126,6 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         String text = parent.getItemAtPosition(position).toString();
         String topic = "notification_change"; // Replace with your desired topic
 
-        mqttHandler = new MqttHandler();
-        mqttHandler.connect(BROKER_URL, CLIENT_ID);
-
         String message;
         switch (position) {
             case 0:
@@ -144,7 +142,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         }
 
         if (!message.isEmpty()) {
-            mqttHandler.publish(topic, message);
+            brokerConnection.publishMqttMessage(topic, message);
         }
     }
 

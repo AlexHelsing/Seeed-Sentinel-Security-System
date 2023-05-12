@@ -94,7 +94,7 @@ public class HistoryActivity extends AppCompatActivity {
 
 
 
-    private void addTableRows(TableLayout tableLayout) {
+    /*private void addTableRows(TableLayout tableLayout) {
         tableLayout = findViewById(R.id.tableLayout);
         SensorTimestamps sensorTimestamps = new SensorTimestamps();
         LinkedList<String> timestamps = sensorTimestamps.getTimestamps();
@@ -108,5 +108,5 @@ public class HistoryActivity extends AppCompatActivity {
             tableRow.addView(textView2);
             tableLayout.addView(tableRow);
         }
-    }
+    }*/
 }
