@@ -45,8 +45,14 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout placeHolderbutton;
 
     private NotificationManagerCompat notificationManager;
-    private EditText editTextTitle;
-    private EditText editTextMessage;
+
+    public static String getChannelId() {
+        return CHANNEL_ID;
+    }
+
+    public static String getChannelId2() {
+        return CHANNEL_ID2;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,76 +107,26 @@ public class MainActivity extends AppCompatActivity {
             //Log.v(breakin.get("location").toString(), breakin.get("date").toString());
             //});
         });
-
-        notificationManager = NotificationManagerCompat.from(this);
-        editTextTitle = findViewById(R.id.edit_text_title);
-        editTextTitle = findViewById(R.id.edit_text_message);
-    }
-
-    public void SendOnChannel1(View v) {
-        String title = editTextTitle.getText().toString();
-        String message = editTextMessage.getText().toString();
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .build();
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        notificationManager.notify(1, notification);
-    }
-    public void SendOnChannel2(View v){
-        String title = editTextTitle.getText().toString();
-        String message = editTextMessage.getText().toString();
-        Notification notification2 = new NotificationCompat.Builder(this, CHANNEL_ID2)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_MIN)
-                .build();
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        notificationManager.notify(2, notification2);
     }
 
 
 
 
-    /*public void createNotificationChannel() {
+    private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "AlarmStatus";
             String description = "AlarmStatus";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("AlarmStatus", name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
-
-
         }
     }
 
-     */
 }
 

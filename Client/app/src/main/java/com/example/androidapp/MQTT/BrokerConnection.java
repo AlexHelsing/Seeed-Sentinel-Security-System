@@ -1,12 +1,16 @@
 package com.example.androidapp.MQTT;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,7 +20,9 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.androidapp.AlarmStatusActivity;
 
 import com.example.androidapp.AlarmViewModel;
+import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
+import com.example.androidapp.Settings.SettingsActivity;
 
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -31,6 +37,8 @@ public class BrokerConnection extends AppCompatActivity {
     private static final String MQTT_SERVER = "tcp://10.0.2.2:1883";
     public static final String CLIENT_ID = "SeeedSentinel";
     public static final int QOS = 1;
+    private static final String CHANNEL_ID = "AlarmStatus";
+    private static final String CHANNEL_ID2 = "SilentAlarmStatus";
 
     private boolean isConnected = false;
     private MqttClient mqttClient;
@@ -123,7 +131,9 @@ public class BrokerConnection extends AppCompatActivity {
                             }
                             notificationManager.notify(10, builder.build());
                         }
-                    } else {
+                    }
+
+                    else {
                         Log.i("BROKER: ", "[MQTT] Topic: " + topic + " | Message: " + message.toString());
                     }
                 }
@@ -176,23 +186,27 @@ public class BrokerConnection extends AppCompatActivity {
         return mqttClient;
     }
 
-    public void sendIntruderNotification() {
+    public void sendIntruderNotification(String selectedItem) {
+        Log.d("BrokerConnection", "sendIntruderNotification called with selectedItem = " + selectedItem);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        if (selectedItem.equals("No notifications")) {
+            // If "No notifications" is selected, return without sending a notification.
+            //return;
+        }else{
         Intent intent = new Intent(context, AlarmStatusActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "AlarmStatus");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
         builder.setSmallIcon(R.drawable.ic_notification);
         builder.setContentTitle("INTRUDER ALERT");
         builder.setContentText("Call popo");
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);
         builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(true);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         notificationManager.notify(10, builder.build());
+    }
     }
 }

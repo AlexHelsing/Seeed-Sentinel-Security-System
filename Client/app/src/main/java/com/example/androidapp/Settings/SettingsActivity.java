@@ -1,36 +1,32 @@
 package com.example.androidapp.Settings;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.*;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.lifecycle.ViewModelProvider;
-import com.example.androidapp.MQTT.BrokerConnection;
-import com.example.androidapp.MQTT.MqttClient;
-import com.example.androidapp.MainActivity;
-import com.example.androidapp.R;
-import com.example.androidapp.StarterPage;
-import com.example.androidapp.dbHandler;
-
-import com.example.androidapp.ViewModels.UserViewModel;
-import com.example.androidapp.ViewModels.UserViewModelFactory;
-import com.squareup.picasso.Picasso;
-import io.realm.mongodb.App;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import java.util.ArrayList;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.androidapp.MQTT.BrokerConnection;
+import com.example.androidapp.MainActivity;
+import com.example.androidapp.R;
+import com.example.androidapp.StarterPage;
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
+import com.example.androidapp.dbHandler;
+import com.squareup.picasso.Picasso;
+
+import io.realm.mongodb.App;
 
 public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -43,6 +39,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     AppCompatButton editProfileBtn;
     private static final String CHANNEL_ID = "AlarmStatus";
     public static final String CHANNEL_ID2 = "AlarmStatusSilent";
+    private Context context;
 
 
 
@@ -56,7 +53,6 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         app = db.getApp();
 
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
-        createNotificationChannels();
 
         TextView username = findViewById(R.id.user_name);
         ImageView profilePic = findViewById(R.id.profilePicture);
@@ -126,40 +122,36 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         spinnerNotifications.setAdapter(adapter);
         spinnerNotifications.setOnItemSelectedListener(this);
 
+        context = getApplicationContext();
+
     }
-
-    private void createNotificationChannels() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is not in the Support Library.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel AlarmStatus = new NotificationChannel(CHANNEL_ID, "Channel 1", NotificationManager.IMPORTANCE_HIGH);
-            AlarmStatus.setDescription("Alarm activated");
-
-            NotificationChannel AlarmStatusSilent = new NotificationChannel(CHANNEL_ID2, "Channel 2", NotificationManager.IMPORTANCE_NONE);
-            AlarmStatusSilent.setDescription("You should not get this notification");
-
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(AlarmStatus);
-            manager.createNotificationChannel(AlarmStatusSilent);
-        }
-    }
-
+    String channelId = MainActivity.getChannelId();
+    String channelId2 = MainActivity.getChannelId2();
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-        //String item = adapterView.getItemAtPosition(position).toString();
-        //Toast.makeText(SettingsActivity.this, "Selected Item: " + item, Toast.LENGTH_SHORT).show();
+        Log.d("Spinner", "Item selected: " + adapterView.getItemAtPosition(position).toString());
+        String selectedItem = adapterView.getItemAtPosition(position).toString();
 
-        AdapterView<?> Spinner = null;
-        View TextView = null;
-        if (onItemSelected(Spinner, TextView, 1, "item")){
-            
+        switch (position) {
+            case 0:
+                //BrokerConnection brokerConnection = new BrokerConnection(context);
+                //brokerConnection.sendIntruderNotification(selectedItem);
+                break;
+            case 1:
+                // User selected "Send notification"
+                BrokerConnection brokerConnection = new BrokerConnection(context);
+                brokerConnection.sendIntruderNotification(selectedItem);
+                break;
+            default:
+                break;
         }
     }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
 
     }
-    ArrayList<String> arrayList = new ArrayList<>();
+
 }

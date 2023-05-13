@@ -7,14 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
 import com.example.androidapp.MQTT.BrokerConnection;
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
+import com.example.androidapp.Settings.SettingsActivity;
 
 import java.util.Objects;
 
@@ -59,24 +59,21 @@ public class AlarmStatusActivity extends AppCompatActivity {
         scrollviewEdit = findViewById(R.id.bc_scrollview);
         headerView = findViewById(R.id.header_view);
 
-
-
         deactivateActivateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmOff")){
+                if (Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmOff")) {
                     alarmViewModel.setAlarmStatus("AlarmOn");
                     brokerConnection.publishMqttMessage("AlarmOn", "ChangeAlarmStatus");
-                }
-                else if(Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmOn")){
+                } else if (Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmOn")) {
+                    alarmViewModel.setAlarmStatus("AlarmOff");
+                    brokerConnection.publishMqttMessage("AlarmOff", "ChangeAlarmStatus");
+                } else if (Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmIntruder")) {
                     alarmViewModel.setAlarmStatus("AlarmOff");
                     brokerConnection.publishMqttMessage("AlarmOff", "ChangeAlarmStatus");
                 }
-                else if(Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmIntruder")){
-                    alarmViewModel.setAlarmStatus("AlarmOff");
-                    brokerConnection.publishMqttMessage("AlarmOff", "ChangeAlarmStatus");
             }
-        }});
+        });
 
         AlarmViewModel.getAlarmStatus().observe(this, alarm -> {
             switch (alarm) {

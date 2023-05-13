@@ -7,17 +7,6 @@
     tools:context=".MainActivity"
     android:background="@drawable/bluegradient">
 
-    <EditText
-        android:id="@+id/edit_text_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Alarm activated"/>
-    <EditText
-        android:id="@+id/edit_text_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Alarm activated shhh"/>
-
     <View
         android:id="@+id/top_view"
         android:layout_width="match_parent"
