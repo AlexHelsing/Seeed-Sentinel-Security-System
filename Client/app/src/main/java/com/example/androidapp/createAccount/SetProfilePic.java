@@ -23,6 +23,7 @@ public class SetProfilePic extends AppCompatActivity {
 
 
 
+
         // get the name from the previous activity
         extras = getIntent().getExtras();
         name = extras.getString("name");
@@ -36,7 +37,7 @@ public class SetProfilePic extends AppCompatActivity {
             if (url.isEmpty()) {
                 url = "https://pbs.twimg.com/media/Cu-gvzDW8AEdu0o.jpg";
             }
-            Intent intent = new Intent(SetProfilePic.this, SetPattern.class);
+            Intent intent = new Intent(SetProfilePic.this, SetPasscode.class);
             intent.putExtra("name", name);
             intent.putExtra("profilePic", url);
             startActivity(intent);
