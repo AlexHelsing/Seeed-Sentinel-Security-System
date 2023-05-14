@@ -1,6 +1,5 @@
 package com.example.androidapp.createAccount;
 
-
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -8,20 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import com.andrognito.patternlockview.utils.PatternLockUtils;
 import com.example.androidapp.KeypadUtils;
 import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
+import com.example.androidapp.ViewModels.UpdateUserDataCallback;
 import com.example.androidapp.dbHandler;
 import io.realm.mongodb.App;
 import io.realm.mongodb.User;
-import io.realm.mongodb.mongo.MongoClient;
-import io.realm.mongodb.mongo.MongoCollection;
-import io.realm.mongodb.mongo.MongoDatabase;
-import org.bson.Document;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -92,38 +85,19 @@ public class SetPasscode extends AppCompatActivity {
                 for (int i = 0; i < InputPasscode.size(); i++) {
                     TempPasscodeString += InputPasscode.get(i);
                 }
-                // get the mongo client, this will get moved somewhere else later
-                MongoClient mongoClient = currentUser.getMongoClient("mongodb-atlas");
-                MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
-                MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
-
-                // create a document to store our customData, just name and pattern for now. not sure how we are gonna deal with images yet. maybe just use urls?
-                // cant use pictures from phone cus that requires you to store those images in a cloud storage somewhere :/
-                //     Document doc = new Document("name", name)
-                //          .append("pattern", pattern)
-                //        .append("user-id", currentUser.getId());
-
-                Document doc = new Document("user-id", currentUser.getId())
-                        .append("name", name)
-                        // hash the passcode
-
-                        .append("passcode", TempPasscodeString)
-                        .append("profilePic", profilePic)
-                        .append("breakins", Arrays.asList());
-
-                // insert the document
-                mongoCollection.insertOne(doc).getAsync(result -> {
-                    if (result.isSuccess()) {
-                        Log.v("Data", "Successfully inserted a document with id: " + result.get().getInsertedId());
-                        Intent intent = new Intent(this, MainActivity.class);
+                dbHandler.setCustomData(currentUser, name, TempPasscodeString, profilePic, new UpdateUserDataCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Intent intent = new Intent(SetPasscode.this, MainActivity.class);
                         startActivity(intent);
-                    } else {
-                        Log.e("Data", "failed to insert document with: ", result.getError());
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(SetPasscode.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
-
-
 
 
         });
@@ -139,6 +113,4 @@ public class SetPasscode extends AppCompatActivity {
             }
         });
     }
-
-   
 }
