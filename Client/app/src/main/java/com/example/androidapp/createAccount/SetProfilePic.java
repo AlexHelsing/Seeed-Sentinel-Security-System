@@ -1,5 +1,7 @@
 package com.example.androidapp.createAccount;
 
+import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -23,6 +25,7 @@ public class SetProfilePic extends AppCompatActivity {
 
 
 
+
         // get the name from the previous activity
         extras = getIntent().getExtras();
         name = extras.getString("name");
@@ -34,11 +37,20 @@ public class SetProfilePic extends AppCompatActivity {
             String url = profilePic.getText().toString();
 
             if (url.isEmpty()) {
-                url = "https://pbs.twimg.com/media/Cu-gvzDW8AEdu0o.jpg";
+                Toast.makeText(SetProfilePic.this, "Please enter a profile picture URL", Toast.LENGTH_SHORT).show();
+                return;
             }
-            Intent intent = new Intent(SetProfilePic.this, SetPattern.class);
+            Intent intent = new Intent(SetProfilePic.this, SetPasscode.class);
             intent.putExtra("name", name);
             intent.putExtra("profilePic", url);
+            startActivity(intent);
+        });
+
+        TextView skipButton = findViewById(R.id.skipButton);
+        skipButton.setOnClickListener(view -> {
+            Intent intent = new Intent(SetProfilePic.this, SetPasscode.class);
+            intent.putExtra("name", name);
+            intent.putExtra("profilePic", "https://pbs.twimg.com/media/Cu-gvzDW8AEdu0o.jpg");
             startActivity(intent);
         });
     }
