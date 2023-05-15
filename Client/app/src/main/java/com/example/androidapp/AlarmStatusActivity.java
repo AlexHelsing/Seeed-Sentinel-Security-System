@@ -66,15 +66,15 @@ public class AlarmStatusActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmOff")){
                     alarmViewModel.setAlarmStatus("AlarmOn");
-                    brokerConnection.publishMqttMessage("AlarmOn", "ChangeAlarmStatus");
+                    brokerConnection.publishMqttMessage("/SeeedSentinel/AlarmOnOff", "AlarmOn", "ChangeAlarmStatus");
                 }
                 else if(Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmOn")){
                     alarmViewModel.setAlarmStatus("AlarmOff");
-                    brokerConnection.publishMqttMessage("AlarmOff", "ChangeAlarmStatus");
+                    brokerConnection.publishMqttMessage("/SeeedSentinel/AlarmOnOff","AlarmOff", "ChangeAlarmStatus");
                 }
                 else if(Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmIntruder")){
                     alarmViewModel.setAlarmStatus("AlarmOff");
-                    brokerConnection.publishMqttMessage("AlarmOff", "ChangeAlarmStatus");
+                    brokerConnection.publishMqttMessage("/SeeedSentinel/AlarmOnOff", "AlarmIntruder", "ChangeAlarmStatus");
             }
         }});
 

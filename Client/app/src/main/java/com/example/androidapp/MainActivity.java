@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
@@ -37,17 +38,25 @@ public class MainActivity extends AppCompatActivity {
         db = new dbHandler(getApplicationContext());
         app = db.getApp();
 
-        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
-        UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
-        createNotificationChannel();
-
-        // if user is not authed, send them to the starter page
         if (app.currentUser() == null) {
             Intent intent = new Intent(getApplicationContext(), StarterPage.class);
             startActivity(intent);
             finish();
         }
+
+        MyApp myApp = (MyApp) getApplication();
+        brokerConnection = myApp.getBrokerConnection();
+
+        AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
+        UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
+        String s = userViewModel.getUser().getValue().getPasscode();
+        brokerConnection.publishMqttMessage("/SeeedSentinel/GetPatternFromClient", s, "password");
+        Log.v("AUTH", s);
+        createNotificationChannel();
+
+        // if user is not authed, send them to the starter page
+
 
 
         // HOME BUTTON SETTINGS

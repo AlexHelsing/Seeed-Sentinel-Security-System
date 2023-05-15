@@ -13,7 +13,7 @@ const char * server = Broker_IP;
 
 // topics
 const char * AlarmTopic = "/SeeedSentinel/AlarmOnOff";
-const char * GetPatternFromClient = "/SeeedSentinel/GetPatternFromClient";
+const char * GetPasscodeFromClient = "/SeeedSentinel/GetPatternFromClient";
 //
 
 // wifiScan class
@@ -30,6 +30,9 @@ bool alarmOn = false;
 //
 
 // KeyPad Auth stuff ///////////////////////////////////////////////////////
+
+
+
 bool initAuth = false;
 // Constants for keypad layout / sizes.
 const int RECTANGLE_WIDTH = 50;
@@ -49,14 +52,16 @@ int currentRow = 0; int currentCol = 0;
 bool pressedRectangles[NUM_ROWS][NUM_COLS] = {0};
 // user input store
 int userInputCount = 0;
-char userInputString[5] = "";
+
+const int MAX_INPUT_LENGTH = 9;
+char userInputString[MAX_INPUT_LENGTH + 1] = "";
 
 bool isInputting = true;
 //keyword answer store, we will replace this with the sent passcode.
 const int answerSize = 4;
 
 
-String answerString = "1234";
+String answerString = "";
 //////////////////////////////////////////////////////////////////////7/////
 
 // Callback function where all the incoming topic subscriptions are handled.
@@ -79,12 +84,18 @@ void Callback(char * topic, byte * payload, unsigned int length) {
     }
 
     // subscribe to the pattern being sent and store it as global variable, flashstorage lags right now so this will have to do.
-  } else if (strcmp(topic, GetPatternFromClient) == 0) {
-    String temp = "";
+  } else if (strcmp(topic, GetPasscodeFromClient) == 0) {
+    String answerString = "";
     for (int i = 0; i < length; i++) {
-      temp += ((char) payload[i]);
+      answerString += (char)payload[i];
     }
+    // update our answerString
+    setAnswerString(answerString);
   }
+}
+// set the answerString 
+void setAnswerString(const String& newAnswerString) {
+  answerString = newAnswerString;
 }
 
 void setupScan() {
@@ -174,7 +185,7 @@ void setup() {
     Serial.println("Connection has been established");
 
     // topics we can subscribe to and do actions via callback function
-    client.subscribe(GetPatternFromClient);
+    client.subscribe(GetPasscodeFromClient);
     client.subscribe(AlarmTopic);
   } else {
     Serial.println("You did not set up the Mqtt connection correctly");
@@ -243,6 +254,10 @@ void keypadauthloop() { // Read joystick values
   if (!pressedRectangles[currentRow][currentCol]) { // Check if the rectangle hasn't already been marked
     pressedRectangles[currentRow][currentCol] = true;
     userInputString[userInputCount++] = '0' + rectangleNumber[currentRow][currentCol];
+
+     if (userInputCount >= MAX_INPUT_LENGTH) {
+        isInputting = false;  // Stop inputting when maximum length is reached
+      }
     
   }
  }
@@ -349,6 +364,11 @@ void AcessDeniedScreen() {
 void loop() {
   client.loop();
 
+  if (!answerString.length() == 0) {
+    setAnswerString(answerString);
+  }
+
+
   if (alarmOn) {
     ShowAlarmHuntScreen();
 
@@ -372,6 +392,8 @@ void loop() {
 
   if (initAuth) {
     // loop keypad auth 
+    
+    Serial.println(answerString);
     keypadauthloop();
   }
 
