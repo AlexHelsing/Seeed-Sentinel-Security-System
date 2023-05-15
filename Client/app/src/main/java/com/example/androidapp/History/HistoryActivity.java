@@ -58,15 +58,8 @@ public class HistoryActivity extends AppCompatActivity {
                     String location = timestamp.get("location").toString();
                     String date = timestamp.get("date").toString();
 
-                    // TODO FOR MR STEFAAN - FIX THIS SO IT LOOKS LIKE THE REST :)
-                    tableRow = new TableRow(this);
-                    textView1 = new TextView(this);
-                    textView2 = new TextView(this);
-                    textView1.setText(location);
-                    textView2.setText(date);
-                    tableRow.addView(textView1);
-                    tableRow.addView(textView2);
-                    tableLayout.addView(tableRow);
+                    //print
+                    System.out.println(location + " " + date);
 
 
 

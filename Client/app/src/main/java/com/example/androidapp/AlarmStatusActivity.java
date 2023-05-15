@@ -74,7 +74,7 @@ public class AlarmStatusActivity extends AppCompatActivity {
                 }
                 else if(Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmIntruder")){
                     alarmViewModel.setAlarmStatus("AlarmOff");
-                    brokerConnection.publishMqttMessage("/SeeedSentinel/AlarmOnOff", "AlarmIntruder", "ChangeAlarmStatus");
+                    brokerConnection.publishMqttMessage("/SeeedSentinel/AlarmOnOff", "AlarmOff", "ChangeAlarmStatus");
             }
         }});
 
