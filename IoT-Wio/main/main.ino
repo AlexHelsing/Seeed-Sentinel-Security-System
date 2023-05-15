@@ -25,7 +25,7 @@ PubSubClient client(wioClient);
 
 // MOTION STUFF
 
-#define PIR_MOTION_SENSOR 2 // Use pin 2 for PIR motion sensor
+#define PIR_MOTION_SENSOR D0 // Use pin 2 for PIR motion sensor
 bool alarmOn = false;
 //
 
@@ -48,12 +48,15 @@ int currentRow = 0; int currentCol = 0;
 // track every pressed button
 bool pressedRectangles[NUM_ROWS][NUM_COLS] = {0};
 // user input store
-int userInput[4] = {};
 int userInputCount = 0;
+char userInputString[5] = "";
+
 bool isInputting = true;
 //keyword answer store, we will replace this with the sent passcode.
 const int answerSize = 4;
-int answer[answerSize] = {1,7,8,9};
+
+
+String answerString = "1234";
 //////////////////////////////////////////////////////////////////////7/////
 
 // Callback function where all the incoming topic subscriptions are handled.
@@ -114,7 +117,7 @@ void initializeGrid() {
       pressedRectangles[row][col] = false;
     }
   }
-  memset(userInput, 0, sizeof(userInput)); // reset user input
+  memset(userInputString, 0, sizeof(userInputString)); // reset user input
   userInputCount = 0; 
   currentRow = 0;
   currentCol = 0;
@@ -239,14 +242,15 @@ void keypadauthloop() { // Read joystick values
  if (joystickPress == LOW) {
   if (!pressedRectangles[currentRow][currentCol]) { // Check if the rectangle hasn't already been marked
     pressedRectangles[currentRow][currentCol] = true;
-    userInput[userInputCount++] += rectangleNumber[currentRow][currentCol];
+    userInputString[userInputCount++] = '0' + rectangleNumber[currentRow][currentCol];
+    
   }
  }
 
 
   // check if keyword is correct TODO
   
-  if (userInputCount == answerSize) {
+  if (userInputCount == answerString.length()) {
 
     bool isCorrect = checkAnswer();
     if (isCorrect) {
@@ -269,12 +273,12 @@ void keypadauthloop() { // Read joystick values
 }
 
 bool checkAnswer() {
-  for (int i = 0; i < answerSize; i++) {
-    if (userInput[i] != answer[i]) {
-      return false; // userInput is not the same as answer
-    }
-  }
-  return true; // userInput is the same as answer
+  //for (int i = 0; i < answerSize; i++) {
+    //if (userInput[i] != answer[i]) {
+      //return false; // userInput is not the same as answer
+    //}
+  //}
+  return (strcmp(userInputString, answerString.c_str()) == 0);
 }
 
 
