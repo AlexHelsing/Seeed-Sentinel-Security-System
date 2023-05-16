@@ -1,17 +1,12 @@
 package com.example.androidapp.MQTT;
 
 import android.Manifest;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -20,14 +15,8 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.androidapp.AlarmStatusActivity;
 
 import com.example.androidapp.AlarmViewModel;
-import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
-import com.example.androidapp.Settings.SettingsActivity;
 import com.example.androidapp.ViewModels.UserViewModel;
-import com.example.androidapp.ViewModels.UserViewModelFactory;
-
-import com.example.androidapp.ViewModels.UserViewModel;
-import com.example.androidapp.ViewModels.UserViewModelFactory;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;

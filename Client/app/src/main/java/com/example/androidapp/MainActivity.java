@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapp.History.HistoryActivity;
