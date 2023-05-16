@@ -3,6 +3,8 @@ package com.example.androidapp.Settings;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapp.R;
@@ -13,6 +15,8 @@ import com.example.androidapp.dbHandler;
 public class EditProfileActivity  extends AppCompatActivity {
 
     UserViewModel userViewModel;
+
+    ImageView backButton;
 
 
     @Override
@@ -26,8 +30,8 @@ public class EditProfileActivity  extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
 
-        Button close = findViewById(R.id.buttonClose);
-        close.setOnClickListener(view -> {
+        backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(view -> {
             finish();
         });
 

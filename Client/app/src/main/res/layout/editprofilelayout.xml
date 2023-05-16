@@ -16,16 +16,31 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/buttonClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:src="@drawable/ic_whitebackarrow"
-            tools:ignore="ContentDescription,RtlHardcoded"
-            />
+            android:id="@+id/back_button"
+            android:layout_width="50sp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="680dp"
+            android:contentDescription="@string/left_arrow"
+            android:padding="14dp"
+            android:src="@drawable/back_arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout4" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -35,7 +50,7 @@
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.356"
+        app:layout_constraintVertical_bias="0.286"
         tools:layout_editor_absoluteX="0dp">
 
         <TextView
@@ -103,19 +118,5 @@
             android:text="save profile picture" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit Profile"
-        android:textColor="@color/white"
-        android:textSize="35sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.096" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,15 +19,16 @@
                    android:id="@+id/back_button"/>
 
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="@string/settings"
-                  android:textSize="20sp"
-                  android:textColor="@color/white"
-                  android:layout_alignParentTop="true"
-                  android:layout_centerInParent="true"
-
-                  android:id="@+id/settings_title" android:layout_marginTop="13dp"
-                  android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/settings_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="13dp"
+            android:text="@string/settings"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <View
                 android:layout_width="match_parent"
