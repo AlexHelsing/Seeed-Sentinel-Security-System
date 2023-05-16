@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         db = new dbHandler(getApplicationContext());
         app = db.getApp();
 
-
+        // if user is not authed, send them to the starter page
         if (app.currentUser() == null) {
             Intent intent = new Intent(getApplicationContext(), StarterPage.class);
             startActivity(intent);
@@ -50,12 +50,13 @@ public class MainActivity extends AppCompatActivity {
 
         AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
-        String s = userViewModel.getUser().getValue().getPasscode();
-        brokerConnection.publishMqttMessage("/SeeedSentinel/GetPatternFromClient", s, "password");
-        Log.v("AUTH", s);
+        String passcode = userViewModel.getUser().getValue().getPasscode();
+        String name = userViewModel.getUser().getValue().getName();
+        brokerConnection.publishMqttMessage("/SeeedSentinel/GetPatternFromClient", passcode, "password");
+        brokerConnection.publishMqttMessage("/SeeedSentinel/GetUserProfile", name, "name");
+
         createNotificationChannel();
 
-        // if user is not authed, send them to the starter page
 
 
 

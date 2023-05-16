@@ -17,6 +17,7 @@ const char *server = Broker_IP;
 // MQTT TOPICS
 const char *AlarmTopic = "/SeeedSentinel/AlarmOnOff";
 const char *GetPasscodeFromClient = "/SeeedSentinel/GetPatternFromClient";
+const char *GetUserProfile = "/SeeedSentinel/GetUserProfile";
 
 // UI instance so we can use the tft library
 TFT_eSPI tftinstance;
@@ -28,6 +29,8 @@ PubSubClient client(wioClient);
 // alarm state
 bool alarmOn = false;
 bool initAuth = false;
+
+String username = "..."; // doesnt matter what we put here since it will be changed when app connects. In a better world where we had an sd card we could have persistent storage for this :(
 
 
 
@@ -66,12 +69,29 @@ void Callback(char *topic, byte *payload, unsigned int length)
     }
     // update our answerString
     setAnswerString(answerString);
+  } else if (strcmp(topic, GetUserProfile) == 0) {
+    Serial.println("getprofile");
+    String usernameTemp = "";
+    for (int i = 0; i < length; i++)
+    {
+      usernameTemp += (char)payload[i];
+    }
+     setUserName(usernameTemp);
+     
+    
+    
   }
 }
 // set the answerString
 void setAnswerString(const String &newAnswerString)
 {
   answerString = newAnswerString;
+}
+
+// set the username
+void setUserName(const String &newUserName)
+{
+  username = newUserName;
 }
 
 void setupScan()
@@ -166,6 +186,7 @@ void setup()
 
     // topics we can subscribe to and do actions via callback function
     client.subscribe(GetPasscodeFromClient);
+    client.subscribe(GetUserProfile);
     client.subscribe(AlarmTopic);
   }
   else
@@ -267,7 +288,7 @@ void keypadauthloop()
     if (isCorrect)
     {
 
-      uiScreens.AcessGrantedScreen();
+      uiScreens.AcessGrantedScreen(username);
       client.publish(AlarmTopic, "AlarmOff");
 
       delay(2000);
@@ -298,6 +319,11 @@ void loop()
   {
     setAnswerString(answerString);
   }
+  if (!username.length() == 0)
+  {
+    setUserName(username);
+  }
+  Serial.println(username);
 
   if (alarmOn)
   {
@@ -320,8 +346,6 @@ void loop()
 
   if (initAuth)
   {
- 
-    
     // loop keypad auth
     keypadauthloop();
   }

@@ -41,13 +41,17 @@ public:
     tft.println("Try again!"); // print the subtitle
   }
 
-  void AcessGrantedScreen()
+  void AcessGrantedScreen(String uname)
   {
     tft.fillScreen(TFT_BLACK);   // set the background color to black
     tft.setTextColor(TFT_GREEN); // set the text color to green
     tft.setTextSize(3);          // set the text size to 3
     tft.setCursor((tft.width() - tft.textWidth("Access Granted")) / 2, tft.height() / 2 - 30);
-    tft.println("Access Granted"); // print the text
+    tft.println("Welcome home!"); // print the text
+    tft.setTextSize(4); // set the text size to 2
+    tft.setCursor((tft.width() - tft.textWidth(uname)) / 2, tft.height() / 2 + 20);
+    tft.println(uname); // print the subtitle
+    
   }
   void ShowAlarmHuntScreen()
   {
