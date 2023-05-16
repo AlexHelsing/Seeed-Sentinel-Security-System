@@ -25,6 +25,7 @@ public class UserViewModel extends ViewModel{
         }
     }
 
+
     public LiveData<UserModel> getUser() {
         // if null, throw error
         if (_user.getValue() == null) {
@@ -60,6 +61,7 @@ public class UserViewModel extends ViewModel{
         db.updatePasscode(passcode, new UpdateUserDataCallback() {
             @Override
             public void onSuccess() {
+
                 Log.v("AUTH", "Successfully updated passcode.");
                 UserModel userModel = db.getUserData();
                 userModel.setPasscode(passcode);

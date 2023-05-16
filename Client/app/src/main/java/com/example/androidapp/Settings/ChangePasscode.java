@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.androidapp.KeypadUtils;
-
-import com.example.androidapp.KeypadUtils;
+import com.example.androidapp.MQTT.BrokerConnection;
+import com.example.androidapp.MyApp;
 import com.example.androidapp.R;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
@@ -38,6 +38,10 @@ public class ChangePasscode extends AppCompatActivity {
 
         inputState = findViewById(R.id.current_passcode);
 
+        MyApp myApp = (MyApp) getApplication();
+        BrokerConnection brokerConnection = myApp.getBrokerConnection();
+
+
         userViewModel.getUser().observe(this, user -> {
 
             inputState.setText("Current Passcode: " + user.getPasscode());
@@ -59,6 +63,8 @@ public class ChangePasscode extends AppCompatActivity {
                     TempPasscodeString += InputPasscode.get(i);
                 }
                 userViewModel.editPasscode(TempPasscodeString);
+                brokerConnection.publishMqttMessage("/SeeedSentinel/GetPasscodeFromClient", TempPasscodeString, "changePasscode");
+
                 Toast.makeText(getApplicationContext(), "Passcode Updated", Toast.LENGTH_SHORT).show();
                 finish();
             }

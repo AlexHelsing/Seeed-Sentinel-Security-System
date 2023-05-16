@@ -7,6 +7,8 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import com.example.androidapp.MQTT.BrokerConnection;
+import com.example.androidapp.MyApp;
 import com.example.androidapp.R;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
@@ -28,6 +30,8 @@ public class EditProfileActivity  extends AppCompatActivity {
 
 
         userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
+        MyApp myApp = (MyApp) getApplication();
+        BrokerConnection brokerConnection = myApp.getBrokerConnection();
 
 
         backButton = findViewById(R.id.back_button);
@@ -48,6 +52,7 @@ public class EditProfileActivity  extends AppCompatActivity {
                 newName.requestFocus();
             } else {
                 userViewModel.editName(newName.getText().toString());
+                brokerConnection.publishMqttMessage("/SeeedSentinel/GetUserProfile", newName.getText().toString(), "NameChange");
                 finish();
             }
         });
