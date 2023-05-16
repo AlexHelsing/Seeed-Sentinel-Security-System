@@ -4,11 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +16,7 @@ import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
+import com.example.androidapp.Settings.SettingsActivity;
 
 import java.util.Objects;
 
@@ -35,7 +34,6 @@ public class AlarmStatusActivity extends AppCompatActivity {
     ScrollView scrollviewEdit;
 
     private BrokerConnection brokerConnection;
-
 
 
     @SuppressLint("SetTextI18n")

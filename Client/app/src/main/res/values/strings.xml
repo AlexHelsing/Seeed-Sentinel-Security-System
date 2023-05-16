@@ -17,6 +17,9 @@
     <string name="pattern_icon">Pattern icon</string>
     <string name="left_arrow">return to previous page</string>
     <string name="AlarmOff">AlarmOff</string>
+    <string name="notification_icon">Edit notifications</string>
+    <string name="dropdown_alt">dropDownMenuAlternatives</string>
+
 
 
     <string name="choose_pattern">Choose a pattern</string>
