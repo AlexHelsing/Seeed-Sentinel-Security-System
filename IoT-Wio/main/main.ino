@@ -2,34 +2,34 @@
 #include <rpcWiFi.h>
 #include <TFT_eSPI.h>
 #include "rpcWiFi.h"
-#include "globalVariables.h"
-#include "config.h"
+#include "config.h" // config file containing credentials, replace with your own
 #include "keyPadConfig.h"
 #include "UIScreens.h"
 
-//
-const char *ssid = SSID;              // replace with your own wifi network to test
-const char *password = WIFI_PASSWORD; // and password :)
+// Pins for sensors
+#define PIR_MOTION_SENSOR D0 // Motion sensor pin
+
+// WIFI Credentials
+const char *ssid = SSID;
+const char *password = WIFI_PASSWORD;
 const char *server = Broker_IP;
 
-// topics
+// MQTT TOPICS
 const char *AlarmTopic = "/SeeedSentinel/AlarmOnOff";
 const char *GetPasscodeFromClient = "/SeeedSentinel/GetPatternFromClient";
-//
 
-// ui lib
+// UI instance so we can use the tft library
 TFT_eSPI tftinstance;
 UIScreens uiScreens(tftinstance);
-// WIfi/mqtt
+// WIfi client and PubSubClient instance
 WiFiClient wioClient;
 PubSubClient client(wioClient);
 
-// MOTION STUFF
-#define PIR_MOTION_SENSOR D0 // Use pin 2 for PIR motion sensor
+// alarm state
 bool alarmOn = false;
-//
-
 bool initAuth = false;
+
+
 
 // Callback function where all the incoming topic subscriptions are handled.
 void Callback(char *topic, byte *payload, unsigned int length)
@@ -284,6 +284,8 @@ void keypadauthloop()
   delay(250);
 }
 
+
+
 bool checkAnswer()
 {
   return (strcmp(userInputString, answerString.c_str()) == 0);
@@ -314,19 +316,13 @@ void loop()
       initializeGrid();
       alarmOn = false;
     }
-    else
-    {
-      Serial.println("Watching");
-
-      delay(200);
-    }
   }
 
   if (initAuth)
   {
+ 
+    
     // loop keypad auth
-
-    Serial.println(answerString);
     keypadauthloop();
   }
 

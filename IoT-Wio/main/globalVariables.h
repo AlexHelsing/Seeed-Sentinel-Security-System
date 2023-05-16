@@ -1,2 +1,0 @@
-extern bool initAuth;
-extern bool alarmOn;
