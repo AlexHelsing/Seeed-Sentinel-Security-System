@@ -305,6 +305,7 @@ void keypadauthloop()
       client.publish(AlarmTopic, "AlarmOff");
 
       delay(2000);
+      timerRunning = false;
       initAuth = false;
       isInputting = false;
     }
@@ -339,6 +340,7 @@ bool checkAnswer()
 {
   return (strcmp(userInputString, answerString.c_str()) == 0);
 }
+
 void loop()
 {
   client.loop();
@@ -381,7 +383,6 @@ void loop()
     if (isTimerElapsed()) {
       Serial.print("timer elapsed");
       client.publish(AlarmTopic, "AlarmIntruder");
-      timerRunning = false;
       timerStart = 0;
     }
   }
