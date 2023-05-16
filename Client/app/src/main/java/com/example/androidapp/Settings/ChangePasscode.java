@@ -1,5 +1,6 @@
 package com.example.androidapp.Settings;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,8 @@ public class ChangePasscode extends AppCompatActivity {
 
     String passcode1;
     UserViewModel userViewModel;
+
+    ArrayList<Button> buttonList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,8 @@ public class ChangePasscode extends AppCompatActivity {
         ImageButton delete = findViewById(R.id.delete_button);
         delete.setOnClickListener(view -> {
             if (InputPasscode.size() > 0) {
+                buttonList.get(buttonList.size()-1).setBackgroundColor(Color.parseColor("#3b5998"));
+                buttonList.remove(buttonList.size()-1);
                 InputPasscode.remove(InputPasscode.size() - 1);
                 KeypadUtils.updateUI(InputPasscode, inputState);
             }
@@ -113,6 +118,10 @@ public class ChangePasscode extends AppCompatActivity {
         button.setOnClickListener(view -> {
             boolean valid = KeypadUtils.validateButton(number, InputPasscode);
             if (valid) {
+                buttonList.add(button);
+                for(int i = 0; i < buttonList.size(); i++) {
+                    buttonList.get(i).setBackgroundColor(Color.parseColor("#696969"));
+                }
                 inputState.setText(String.valueOf(number));
                 InputPasscode.add(number);
                 KeypadUtils.updateUI(InputPasscode, inputState);

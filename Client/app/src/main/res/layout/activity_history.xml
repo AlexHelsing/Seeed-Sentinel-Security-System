@@ -8,13 +8,14 @@
     android:background="@drawable/bluegradient"
     tools:context=".History.HistoryActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
+    <ImageView
         android:id="@+id/back_button"
-        android:textStyle="bold"
-        app:drawableLeftCompat="@drawable/baseline_arrow_back_24" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="left"
+        android:padding="14dp"
+        android:src="@drawable/back_arrow"
+        tools:ignore="ContentDescription,RtlHardcoded" />
 
     <GridLayout
         android:id="@+id/first_gridlayout"

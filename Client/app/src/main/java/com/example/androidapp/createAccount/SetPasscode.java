@@ -1,5 +1,6 @@
 package com.example.androidapp.createAccount;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -30,6 +31,8 @@ public class SetPasscode extends AppCompatActivity {
     String name;
     String profilePic;
     Button submitButton;
+
+    ArrayList<Button> buttonList = new ArrayList<>();
 
     List<Integer> InputPasscode = new ArrayList<>();
 
@@ -71,6 +74,8 @@ public class SetPasscode extends AppCompatActivity {
         ImageButton delete = findViewById(R.id.delete_button);
         delete.setOnClickListener(view -> {
             if (InputPasscode.size() > 0) {
+                buttonList.get(buttonList.size()-1).setBackgroundColor(Color.parseColor("#3b5998"));
+                buttonList.remove(buttonList.size()-1);
                 InputPasscode.remove(InputPasscode.size() - 1);
                 KeypadUtils.updateUI(InputPasscode, inputState);
             }
@@ -80,7 +85,7 @@ public class SetPasscode extends AppCompatActivity {
         submitButton.setOnClickListener(view -> {
             String TempPasscodeString = "";
             if (InputPasscode.size() < 3) {
-                Toast.makeText(this, "Gotta be atleast 3 numbers", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Got to be at least 3 numbers", Toast.LENGTH_SHORT).show();
             } else {
                 for (int i = 0; i < InputPasscode.size(); i++) {
                     TempPasscodeString += InputPasscode.get(i);
@@ -104,9 +109,12 @@ public class SetPasscode extends AppCompatActivity {
     }
     private void setButtonOnClickListener(Button button, final int number) {
         button.setOnClickListener(view -> {
-            Log.d("Keypad", "Button " + number + " pressed");
             boolean valid = KeypadUtils.validateButton(number, InputPasscode);
             if (valid) {
+                buttonList.add(button);
+                for(int i = 0; i < buttonList.size(); i++) {
+                    buttonList.get(i).setBackgroundColor(Color.parseColor("#696969"));
+                }
                 inputState.setText(String.valueOf(number));
                 InputPasscode.add(number);
                 KeypadUtils.updateUI(InputPasscode, inputState);

@@ -37,6 +37,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textSize="20sp"
+                    android:backgroundTint="@color/fbblue"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
@@ -59,106 +60,116 @@
         </RelativeLayout>
 
         <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="344dp"
-                android:rowCount="3"
-                android:padding="20dp"
-                android:columnCount="3"
-                android:useDefaultMargins="true"
-                android:alignmentMode="alignMargins"
-                android:columnOrderPreserved="false">
+            android:layout_width="match_parent"
+            android:layout_height="344dp"
+            android:rowCount="3"
+            android:padding="20dp"
+            android:columnCount="3"
+            android:useDefaultMargins="true"
+            android:alignmentMode="alignMargins"
+            android:columnOrderPreserved="false">
 
             <Button
-                    android:id="@+id/button1"
-                    android:text="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_gravity="fill"/>
+                android:id="@+id/button1"
+                android:text="1"
+                android:backgroundTint="@color/fbblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"/>
 
             <Button
-                    android:id="@+id/button2"
-                    android:text="2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_gravity="fill"/>
+                android:id="@+id/button2"
+                android:text="2"
+                android:backgroundTint="@color/fbblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"/>
 
             <Button
-                    android:id="@+id/button3"
-                    android:text="3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_gravity="fill"/>
+                android:id="@+id/button3"
+                android:text="3"
+                android:backgroundTint="@color/fbblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"/>
 
             <Button
-                    android:id="@+id/button4"
-                    android:text="4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_gravity="fill"/>
+                android:id="@+id/button4"
+                android:text="4"
+                android:backgroundTint="@color/fbblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"/>
 
             <Button
-                    android:id="@+id/button5"
-                    android:text="5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_gravity="fill"/>
+                android:id="@+id/button5"
+                android:text="5"
+                android:backgroundTint="@color/fbblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"/>
 
             <Button
-                    android:id="@+id/button6"
-                    android:text="6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_gravity="fill"/>
+                android:id="@+id/button6"
+                android:text="6"
+                android:backgroundTint="@color/fbblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"/>
 
             <Button
-                    android:id="@+id/button7"
-                    android:text="7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_gravity="fill"/>
+                android:id="@+id/button7"
+                android:text="7"
+                android:backgroundTint="@color/fbblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"/>
 
             <Button
-                    android:id="@+id/button8"
-                    android:text="8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_gravity="fill"/>
+                android:id="@+id/button8"
+                android:text="8"
+                android:backgroundTint="@color/fbblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"/>
 
             <Button
-                    android:id="@+id/button9"
-                    android:text="9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_gravity="fill"/>
+                android:id="@+id/button9"
+                android:text="9"
+                android:backgroundTint="@color/fbblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_gravity="fill"/>
 
         </GridLayout>
 
 
     </LinearLayout>
     <Button
-            android:layout_width="222dp"
-            android:text="Save"
-            android:id="@+id/savePasscode"
-            android:layout_gravity="center"
-            android:layout_height="61dp">
+        android:layout_width="222dp"
+        android:text="Save"
+        android:backgroundTint="@color/fbblue"
+        android:id="@+id/savePasscode"
+        android:layout_gravity="center"
+        android:layout_height="61dp">
 
     </Button>
 

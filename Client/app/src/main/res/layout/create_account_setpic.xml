@@ -64,6 +64,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Continue"
+        android:backgroundTint="@color/fbblue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
