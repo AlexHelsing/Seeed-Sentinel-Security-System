@@ -92,16 +92,12 @@ public class MainActivity extends AppCompatActivity {
             CharSequence name = "AlarmStatus";
             String description = "AlarmStatus";
             int importance = NotificationManager.IMPORTANCE_HIGH;
-            int importanceSilent = NotificationManager.IMPORTANCE_NONE;
             NotificationChannel channel = new NotificationChannel("AlarmStatus", name, importance);
-           // NotificationChannel channel2 = new NotificationChannel("SilentAlarm", name, importanceSilent);
             channel.setDescription(description);
-           // channel2.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
-           // notificationManager.createNotificationChannel(channel2);
         }
     }
 

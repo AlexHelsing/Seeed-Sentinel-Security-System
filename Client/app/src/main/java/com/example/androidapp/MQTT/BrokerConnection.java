@@ -42,7 +42,6 @@ public class BrokerConnection extends AppCompatActivity {
     public static final String CLIENT_ID = "SeeedSentinel";
     public static final int QOS = 1;
     private static final String CHANNEL_ID = "AlarmStatus";
-    String CHANNEL_ID2 = "CHANNEL_ID2";
 
     private boolean isConnected = false;
     private MqttClient mqttClient;
