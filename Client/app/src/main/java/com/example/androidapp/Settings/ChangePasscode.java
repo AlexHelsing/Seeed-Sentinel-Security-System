@@ -1,5 +1,6 @@
 package com.example.androidapp.Settings;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,8 @@ public class ChangePasscode extends AppCompatActivity {
     String passcode1;
     UserViewModel userViewModel;
 
+    ArrayList<Button> buttonList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +34,6 @@ public class ChangePasscode extends AppCompatActivity {
         userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
 
         inputState = findViewById(R.id.current_passcode);
-
 
         userViewModel.getUser().observe(this, user -> {
 
@@ -66,6 +68,7 @@ public class ChangePasscode extends AppCompatActivity {
             if (valid) {
                 inputState.setText("1");
                 InputPasscode.add(1);
+                buttonList.add(one);
                 updateUI();
             }
         });
@@ -76,6 +79,7 @@ public class ChangePasscode extends AppCompatActivity {
             if (valid) {
                 inputState.setText("2");
                 InputPasscode.add(2);
+                buttonList.add(two);
                 updateUI();
             }
         });
@@ -86,6 +90,7 @@ public class ChangePasscode extends AppCompatActivity {
             if (valid) {
                 inputState.setText("3");
                 InputPasscode.add(3);
+                buttonList.add(three);
                 updateUI();
             }
         });
@@ -96,6 +101,7 @@ public class ChangePasscode extends AppCompatActivity {
             if (valid) {
                 inputState.setText("4");
                 InputPasscode.add(4);
+                buttonList.add(four);
                 updateUI();
             }
 
@@ -107,6 +113,7 @@ public class ChangePasscode extends AppCompatActivity {
             if (valid) {
                 inputState.setText("5");
                 InputPasscode.add(5);
+                buttonList.add(five);
                 updateUI();
             }
         });
@@ -117,6 +124,7 @@ public class ChangePasscode extends AppCompatActivity {
             if (valid) {
                 inputState.setText("6");
                 InputPasscode.add(6);
+                buttonList.add(six);
                 updateUI();
             }
         });
@@ -127,6 +135,7 @@ public class ChangePasscode extends AppCompatActivity {
             if (valid) {
                 inputState.setText("7");
                 InputPasscode.add(7);
+                buttonList.add(seven);
                 updateUI();
             }
         });
@@ -137,6 +146,7 @@ public class ChangePasscode extends AppCompatActivity {
             if (valid) {
                 inputState.setText("8");
                 InputPasscode.add(8);
+                buttonList.add(eight);
                 updateUI();
             }
         });
@@ -147,6 +157,7 @@ public class ChangePasscode extends AppCompatActivity {
             if (valid) {
                 inputState.setText("9");
                 InputPasscode.add(9);
+                buttonList.add(nine);
                 updateUI();
             }
         });
@@ -154,6 +165,8 @@ public class ChangePasscode extends AppCompatActivity {
         ImageButton delete = findViewById(R.id.delete_button);
         delete.setOnClickListener(view -> {
             if (InputPasscode.size() > 0) {
+                buttonList.get(buttonList.size()-1).setBackgroundColor(Color.parseColor("#3b5998"));
+                buttonList.remove(buttonList.size()-1);
                 InputPasscode.remove(InputPasscode.size() - 1);
                 updateUI();
             }
@@ -178,7 +191,11 @@ public class ChangePasscode extends AppCompatActivity {
         for (int i = 0; i < InputPasscode.size(); i++) {
             passcodeString += InputPasscode.get(i);
         }
+        for(int i = 0; i < buttonList.size(); i++){
+            buttonList.get(i).setBackgroundColor(Color.parseColor("#696969"));
+        }
 
         inputState.setText(passcodeString);
     }
+
 }

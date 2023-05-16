@@ -81,7 +81,6 @@ public class AlarmStatusActivity extends AppCompatActivity {
             switch (alarm) {
                 case "AlarmOff":
                     activateAlarmUI();
-
                     break;
                 case "AlarmIntruder":
                     intruderAlarmUI();
