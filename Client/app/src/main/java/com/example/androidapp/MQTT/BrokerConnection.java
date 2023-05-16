@@ -1,12 +1,16 @@
 package com.example.androidapp.MQTT;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,7 +20,11 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.androidapp.AlarmStatusActivity;
 
 import com.example.androidapp.AlarmViewModel;
+import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
+import com.example.androidapp.Settings.SettingsActivity;
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
 
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
@@ -32,9 +40,10 @@ import java.util.Date;
 public class BrokerConnection extends AppCompatActivity {
 
     public static final String SUB_TOPIC = "/SeeedSentinel/AlarmOnOff";
-    private static final String MQTT_SERVER = "tcp://10.0.2.2:1883";
+    private static final String MQTT_SERVER = "tcp://broker.hivemq.com:1883";
     public static final String CLIENT_ID = "SeeedSentinel";
     public static final int QOS = 1;
+    private static final String CHANNEL_ID = "AlarmStatus";
 
     private boolean isConnected = false;
     private MqttClient mqttClient;
@@ -129,7 +138,8 @@ public class BrokerConnection extends AppCompatActivity {
                             }
                             notificationManager.notify(10, builder.build());
                         }
-                    } else {
+                    }
+                    else {
                         Log.i("BROKER: ", "[MQTT] Topic: " + topic + " | Message: " + message.toString());
                     }
                 }
@@ -201,4 +211,6 @@ public class BrokerConnection extends AppCompatActivity {
         }
         notificationManager.notify(10, builder.build());
     }
+
+
 }

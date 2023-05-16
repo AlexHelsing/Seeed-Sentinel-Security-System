@@ -48,10 +48,30 @@
 
     </GridLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/first_linearlayout"
+        android:layout_below="@+id/first_gridlayout"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Last 10 alarm activations:"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textSize="20dp">
+
+        </TextView>
+
+    </LinearLayout>
+
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/first_gridlayout"
+    android:layout_below="@+id/first_linearlayout"
     >
 
     <TableLayout
@@ -64,132 +84,16 @@
         <TableRow>
             <TextView
                 android:layout_column="1"
-                android:text="Alarm history"
+                android:text="Date"
                 android:textColor="@color/white"
                 android:padding="10dip" />
             <TextView
                 android:layout_column="2"
-                android:text="Another string"
+                android:text="Time"
                 android:textColor="@color/white"
                 android:padding="10dip" />
         </TableRow>
 
-        <TableRow>
-            <TextView
-                android:layout_column="1"
-                android:text="Alarm history"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-            <TextView
-                android:layout_column="2"
-                android:text="Another string"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_column="1"
-                android:text="Alarm history"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-            <TextView
-                android:layout_column="2"
-                android:text="Another string"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_column="1"
-                android:text="Alarm history"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-            <TextView
-                android:layout_column="2"
-                android:text="Another string"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_column="1"
-                android:text="Alarm history"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-            <TextView
-                android:layout_column="2"
-                android:text="Another string"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_column="1"
-                android:text="Alarm history"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-            <TextView
-                android:layout_column="2"
-                android:text="Another string"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_column="1"
-                android:text="Alarm history"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-            <TextView
-                android:layout_column="2"
-                android:text="Another string"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_column="1"
-                android:text="Alarm history"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-            <TextView
-                android:layout_column="2"
-                android:text="Another string"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_column="1"
-                android:text="Alarm history"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-            <TextView
-                android:layout_column="2"
-                android:text="Another string"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_column="1"
-                android:text="Alarm history"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-            <TextView
-                android:layout_column="2"
-                android:text="Another string"
-                android:textColor="@color/white"
-                android:padding="10dip" />
-        </TableRow>
     </TableLayout>
 
 

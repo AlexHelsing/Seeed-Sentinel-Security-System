@@ -91,6 +91,8 @@ public class UserViewModel extends ViewModel{
         });
     }
 
+
+
     // modify the profile picture of the user
     public void editProfilePicture(String profilePicture) {
         db.updateProfilePicture(profilePicture, new UpdateUserDataCallback() {

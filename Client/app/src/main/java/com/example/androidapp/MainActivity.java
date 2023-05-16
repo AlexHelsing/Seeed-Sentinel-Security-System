@@ -4,15 +4,18 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.androidapp.History.HistoryActivity;
-import com.example.androidapp.MQTT.BrokerConnection;
 import com.example.androidapp.Settings.SettingsActivity;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
+
 import io.realm.mongodb.App;
 
 
@@ -26,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout settingsButton;
     LinearLayout historyButton;
     LinearLayout placeHolderbutton;
-
-    BrokerConnection brokerConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
         placeHolderbutton.setOnClickListener(view -> {
             //userViewModel.getUser().getValue().getBreakins().forEach(breakin -> {
             //Log.v(breakin.get("location").toString(), breakin.get("date").toString());
-        //});
-         });
-
+            //});
+        });
     }
-    private void createNotificationChannel() {
+
+    public void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -99,4 +100,10 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+
+
+
+
 }
+
