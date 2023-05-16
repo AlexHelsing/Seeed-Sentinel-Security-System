@@ -9,11 +9,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.androidapp.MQTT.BrokerConnection;
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
 import com.example.androidapp.Settings.SettingsActivity;
 
 import java.util.Objects;
@@ -40,8 +42,22 @@ public class AlarmStatusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarmstatus);
 
+        dbHandler dbHandler = new dbHandler(getApplicationContext());
+
         MyApp myApp = (MyApp) getApplication();
         brokerConnection = myApp.getBrokerConnection();
+
+        UserViewModel userViewModel = new UserViewModelFactory(dbHandler).create(UserViewModel.class);
+       // get the passcode and name and then send it to the broker
+
+        userViewModel.getUser().observe(this, user -> {
+            String passcode = user.getPasscode();
+            String name = user.getName();
+            // send the passcode and name to the broker, refactor in the future
+            brokerConnection.publishMqttMessage("/SeeedSentinel/GetPasscodeFromClient", passcode, "");
+            brokerConnection.publishMqttMessage("/SeeedSentinel/GetUserProfile", name, "");
+        });
+
 
         // VIEW MODEL to get the alarm status
         AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
@@ -59,21 +75,24 @@ public class AlarmStatusActivity extends AppCompatActivity {
         scrollviewEdit = findViewById(R.id.bc_scrollview);
         headerView = findViewById(R.id.header_view);
 
+
+
         deactivateActivateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmOff")) {
+                if(Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmOff")){
                     alarmViewModel.setAlarmStatus("AlarmOn");
-                    brokerConnection.publishMqttMessage("AlarmOn", "ChangeAlarmStatus");
-                } else if (Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmOn")) {
-                    alarmViewModel.setAlarmStatus("AlarmOff");
-                    brokerConnection.publishMqttMessage("AlarmOff", "ChangeAlarmStatus");
-                } else if (Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmIntruder")) {
-                    alarmViewModel.setAlarmStatus("AlarmOff");
-                    brokerConnection.publishMqttMessage("AlarmOff", "ChangeAlarmStatus");
+                    brokerConnection.publishMqttMessage("/SeeedSentinel/AlarmOnOff", "AlarmOn", "ChangeAlarmStatus");
                 }
+                else if(Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmOn")){
+                    alarmViewModel.setAlarmStatus("AlarmOff");
+                    brokerConnection.publishMqttMessage("/SeeedSentinel/AlarmOnOff","AlarmOff", "ChangeAlarmStatus");
+                }
+                else if(Objects.equals(AlarmViewModel.getAlarmStatus().getValue(), "AlarmIntruder")){
+                    alarmViewModel.setAlarmStatus("AlarmOff");
+                    brokerConnection.publishMqttMessage("/SeeedSentinel/AlarmOnOff", "AlarmOff", "ChangeAlarmStatus");
             }
-        });
+        }});
 
         AlarmViewModel.getAlarmStatus().observe(this, alarm -> {
             switch (alarm) {
