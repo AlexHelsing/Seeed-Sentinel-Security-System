@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import java.util.List;
 public class HistoryActivity extends AppCompatActivity {
 
     TableRow tableRow;
-    Button backButton;
+    ImageView backButton;
     UserViewModel userViewModel;
 
     @Override
@@ -72,18 +73,14 @@ public class HistoryActivity extends AppCompatActivity {
 
 
 
-        backButton = (Button) findViewById(R.id.back_button);
+        backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openMainActivity();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
-    }
-
-    public void openMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
 }
