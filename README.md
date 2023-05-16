@@ -16,7 +16,7 @@ Our project aims to create a security system using various sensors including an 
 and a joystick. The system is designed to provide a layer of security for homes or businesses, allowing 
 individuals to feel more secure and protected from burglaries or break-ins. 
 When the security system is activated, the person that activated it has a certain amount of time to deactivate the alarm 
-on the WIO terminal device before "Intruder mode" is initiated. The alarm can be deactivated by entering a joystick pattern.
+on the WIO terminal device before "Intruder mode" is initiated. The alarm can be deactivated by entering a numerical password.
 During "Intruder mode" the system will send an automated message to the homeowner, alerting them of the intrusion.
 The homeowner can then react accordingly, such as calling the police or turning the alarm off from the mobile phone
 app in case of a false alarm.
@@ -24,10 +24,9 @@ app in case of a false alarm.
 ## Key functionalities
 
 - Activate or deactivate alarm through an android app
-- Deactivate alarm using WIO terminal sensors by entering a joystick pattern
-- Change the joystick pattern password in android app
-- Change notification settings in android app
-- Stores password safely in a database
+- Deactivate alarm using WIO terminal sensors by entering a numerical password with the built in joystick
+- Change the password in android app
+- Stores user information and password safely in a database
 
 ## Diagrams and documents
 
@@ -35,14 +34,13 @@ app in case of a false alarm.
 
 ## How is the system supposed to work?
 
-To handle communication between the UI and the SeedSentinel device, we will use MQTT.
-The SeedSentinel gadget is made up of Wio terminal and external sensors as PIR, buzzer, and LED. The Passive Infrared 
-Sensor (PIR), which is the main component, activates the alarm via Wio once it detects an object that emits heat such as
-human body within a range of (2 – 5m).
-Once an object is detected by the PIR the Wio sends a signal to turn on the LED and the buzzer, which start making a loud 
+To handle communication between the client and the SeedSentinel device, we will use an MQTT broker.
+The SeedSentinel gadget is made up of Wio terminal and external sensors as PIR sensor and a buzzer. The Passive Infrared 
+Sensor (PIR), which is the main component, activates the alarm via Wio once it detects an object that emits heat such as a
+human body.
+Once an object is detected by the PIR the Wio sends a signal to turn on the buzzer, which start making a loud 
 buzzing noise to signal that the alarm is activated.
-When an alarm is activated, the owner will be notified through an android notifiation. When entering a password, the database will be used 
-to store user credentials for convenience.
+When the alarm is activated, the owner will be notified in the android app, and can choose to turn off the alarm either through the app or by entering a password using the joystick on the Wio terminal. Users can choose their own passwords, and they will be stored safely in a database.
 
 
 
@@ -54,7 +52,7 @@ to store user credentials for convenience.
 - Android Studio
 - MQTT 
 - Wio Seed Terminal with built-in sensors
-- External sensors such as a PIR motion sensor, RGB LED Stick, and a buzzer
+- External sensors such as a PIR motion sensor, buzzer.
 - MongoDB
 
 
