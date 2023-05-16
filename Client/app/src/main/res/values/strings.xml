@@ -19,10 +19,6 @@
     <string name="AlarmOff">AlarmOff</string>
     <string name="notification_icon">Edit notifications</string>
     <string name="dropdown_alt">dropDownMenuAlternatives</string>
-    <string-array name="notifications">
-        <item>No notifications</item>
-        <item>Notify me for every entry</item>
-    </string-array>
 
 
 

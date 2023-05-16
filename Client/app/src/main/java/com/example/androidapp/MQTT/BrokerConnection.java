@@ -23,6 +23,8 @@ import com.example.androidapp.AlarmViewModel;
 import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
 import com.example.androidapp.Settings.SettingsActivity;
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
 
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -30,15 +32,17 @@ import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.util.Date;
+
 
 public class BrokerConnection extends AppCompatActivity {
 
     public static final String SUB_TOPIC = "/SeeedSentinel/AlarmOnOff";
-    private static final String MQTT_SERVER = "tcp://10.0.2.2:1883";
+    private static final String MQTT_SERVER = "tcp://broker.hivemq.com:1883";
     public static final String CLIENT_ID = "SeeedSentinel";
     public static final int QOS = 1;
     private static final String CHANNEL_ID = "AlarmStatus";
-    private static final String CHANNEL_ID2 = "SilentAlarmStatus";
+    String CHANNEL_ID2 = "CHANNEL_ID2";
 
     private boolean isConnected = false;
     private MqttClient mqttClient;
@@ -113,6 +117,7 @@ public class BrokerConnection extends AppCompatActivity {
                             alarmViewModel.setAlarmStatus("AlarmOn");
                         } else if (mqttMessage.equals("AlarmIntruder")) {
                             alarmViewModel.setAlarmStatus("AlarmIntruder");
+                            UserViewModel.createBreakin("Hallway", new Date());
                             Intent intent = new Intent(context, AlarmStatusActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
@@ -132,7 +137,6 @@ public class BrokerConnection extends AppCompatActivity {
                             notificationManager.notify(10, builder.build());
                         }
                     }
-
                     else {
                         Log.i("BROKER: ", "[MQTT] Topic: " + topic + " | Message: " + message.toString());
                     }
@@ -186,27 +190,25 @@ public class BrokerConnection extends AppCompatActivity {
         return mqttClient;
     }
 
-    public void sendIntruderNotification(String selectedItem) {
-        Log.d("BrokerConnection", "sendIntruderNotification called with selectedItem = " + selectedItem);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        if (selectedItem.equals("No notifications")) {
-            // If "No notifications" is selected, return without sending a notification.
-            //return;
-        }else{
+    public void sendIntruderNotification() {
         Intent intent = new Intent(context, AlarmStatusActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "AlarmStatus");
         builder.setSmallIcon(R.drawable.ic_notification);
         builder.setContentTitle("INTRUDER ALERT");
         builder.setContentText("Call popo");
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);
         builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         notificationManager.notify(10, builder.build());
     }
-    }
+
+
 }

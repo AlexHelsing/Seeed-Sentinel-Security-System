@@ -1,31 +1,17 @@
 package com.example.androidapp;
 
-import static com.example.androidapp.Settings.SettingsActivity.CHANNEL_ID2;
-
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-
 import com.example.androidapp.History.HistoryActivity;
-import com.example.androidapp.MQTT.BrokerConnection;
-import com.example.androidapp.MQTT.MqttClient;
 import com.example.androidapp.Settings.SettingsActivity;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
@@ -44,16 +30,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout historyButton;
     LinearLayout placeHolderbutton;
 
-    private NotificationManagerCompat notificationManager;
-
-    public static String getChannelId() {
-        return CHANNEL_ID;
-    }
-
-    public static String getChannelId2() {
-        return CHANNEL_ID2;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
-        //createNotificationChannel();
+        createNotificationChannel();
 
         // if user is not authed, send them to the starter page
         if (app.currentUser() == null) {
@@ -109,24 +85,29 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-    private void createNotificationChannel() {
+    public void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "AlarmStatus";
             String description = "AlarmStatus";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            int importanceSilent = NotificationManager.IMPORTANCE_NONE;
             NotificationChannel channel = new NotificationChannel("AlarmStatus", name, importance);
+           // NotificationChannel channel2 = new NotificationChannel("SilentAlarm", name, importanceSilent);
             channel.setDescription(description);
+           // channel2.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
+           // notificationManager.createNotificationChannel(channel2);
         }
     }
+
+
+
+
 
 }
 
