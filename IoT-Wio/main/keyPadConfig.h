@@ -23,4 +23,4 @@ char userInputString[MAX_INPUT_LENGTH + 1] = "";
 
 bool isInputting = true;
 // keyword answer store, we will replace this with the sent passcode.
-String answerString = "NaN";
+String answerString = "123"; //doesnt matter what we put here since it will be changed when app connects. In a better world where we had an sd card we could have persistent storage for this :(

@@ -49,12 +49,7 @@ public class MainActivity extends AppCompatActivity {
         brokerConnection = myApp.getBrokerConnection();
 
         AlarmViewModel alarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
-        UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
-        String passcode = userViewModel.getUser().getValue().getPasscode();
-        String name = userViewModel.getUser().getValue().getName();
-        brokerConnection.publishMqttMessage("/SeeedSentinel/GetPatternFromClient", passcode, "password");
-        brokerConnection.publishMqttMessage("/SeeedSentinel/GetUserProfile", name, "name");
-
+        UserViewModel userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
         createNotificationChannel();
 
 

@@ -16,7 +16,7 @@ const char *server = Broker_IP;
 
 // MQTT TOPICS
 const char *AlarmTopic = "/SeeedSentinel/AlarmOnOff";
-const char *GetPasscodeFromClient = "/SeeedSentinel/GetPatternFromClient";
+const char *GetPasscodeFromClient = "/SeeedSentinel/GetPasscodeFromClient";
 const char *GetUserProfile = "/SeeedSentinel/GetUserProfile";
 
 // UI instance so we can use the tft library
@@ -77,9 +77,6 @@ void Callback(char *topic, byte *payload, unsigned int length)
       usernameTemp += (char)payload[i];
     }
      setUserName(usernameTemp);
-     
-    
-    
   }
 }
 // set the answerString
@@ -323,7 +320,6 @@ void loop()
   {
     setUserName(username);
   }
-  Serial.println(username);
 
   if (alarmOn)
   {

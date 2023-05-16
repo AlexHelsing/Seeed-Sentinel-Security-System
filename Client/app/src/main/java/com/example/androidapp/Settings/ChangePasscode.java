@@ -60,7 +60,7 @@ public class ChangePasscode extends AppCompatActivity {
                     TempPasscodeString += InputPasscode.get(i);
                 }
                 userViewModel.editPasscode(TempPasscodeString);
-                brokerConnection.publishMqttMessage("/SeeedSentinel/GetPatternFromClient", TempPasscodeString, "changePasscode");
+                brokerConnection.publishMqttMessage("/SeeedSentinel/GetPasscodeFromClient", TempPasscodeString, "changePasscode");
 
                 Toast.makeText(getApplicationContext(), "Passcode Updated", Toast.LENGTH_SHORT).show();
                 finish();
