@@ -1,6 +1,7 @@
 package com.example.androidapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import com.example.androidapp.Models.UserModel;
 import com.example.androidapp.ViewModels.UpdateUserDataCallback;
@@ -182,6 +183,32 @@ public class dbHandler {
                     }
             );
         }
+    }
+
+
+    //Stati function to set users custom data at the last page of onboarding process.
+    public static void setCustomData(User user, String name, String passcode, String profilePic, UpdateUserDataCallback callback) {
+
+        MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
+        MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
+        MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
+
+        Document doc = new Document("user-id", user.getId())
+                .append("name", name)
+                .append("passcode", passcode)
+                .append("profilePic", profilePic)
+                .append("breakins", Arrays.asList());
+
+        // insert the document
+        mongoCollection.insertOne(doc).getAsync(result -> {
+            if (result.isSuccess()) {
+                Log.v("Data", "Successfully inserted a document with id: " + result.get().getInsertedId());
+                callback.onSuccess();
+            } else {
+                Log.e("Data", "failed to insert document with: ", result.getError());
+                callback.onError();
+            }
+        });
     }
 }
 

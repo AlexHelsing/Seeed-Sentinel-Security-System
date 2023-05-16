@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 
     <application
@@ -25,7 +26,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -34,7 +34,7 @@
         <activity android:name=".StarterPage" />
         <activity android:name=".createAccount.SetName"/>
         <activity android:name=".createAccount.SetProfilePic"/>
-        <activity android:name=".createAccount.SetPattern"/>
+        <activity android:name=".createAccount.SetPasscode"/>
         <activity android:name=".AlarmStatusActivity" />
         <activity android:name=".History.HistoryActivity" />
         <activity android:name=".Settings.SettingsActivity" />

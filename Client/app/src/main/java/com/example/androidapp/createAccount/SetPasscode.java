@@ -1,95 +1,73 @@
-package com.example.androidapp.Settings;
+package com.example.androidapp.createAccount;
 
 import android.graphics.Color;
-import android.os.Bundle;
-import android.widget.*;
+import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
 import com.example.androidapp.KeypadUtils;
-
-import com.example.androidapp.KeypadUtils;
+import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
-import com.example.androidapp.ViewModels.UserViewModel;
-import com.example.androidapp.ViewModels.UserViewModelFactory;
+import com.example.androidapp.ViewModels.UpdateUserDataCallback;
 import com.example.androidapp.dbHandler;
-
+import io.realm.mongodb.App;
+import io.realm.mongodb.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChangePasscode extends AppCompatActivity {
 
+public class SetPasscode extends AppCompatActivity {
 
-    ImageView backBtn;
+    dbHandler db;
+    App app;
+    User currentUser;
+
+    Bundle extra;
     Button inputState;
-    //array of ints to store the passcode
-    List<Integer> InputPasscode = new ArrayList<>();
 
-    String passcode1;
-    UserViewModel userViewModel;
+    String name;
+    String profilePic;
+    Button submitButton;
 
     ArrayList<Button> buttonList = new ArrayList<>();
+
+    List<Integer> InputPasscode = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.change_passcode_layout);
+        setContentView(R.layout.create_account_setpasscode);
+        // get the name from the previous activity
+        extra = getIntent().getExtras();
+        name = extra.getString("name");
+        profilePic = extra.getString("profilePic");
 
-        dbHandler db = new dbHandler(getApplicationContext());
-        userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
+        db = new dbHandler(getApplicationContext());
+        app = db.getApp();
+        currentUser = app.currentUser();
 
         inputState = findViewById(R.id.current_passcode);
 
-        userViewModel.getUser().observe(this, user -> {
-
-            inputState.setText("Current Passcode: " + user.getPasscode());
-        });
-
-        backBtn = findViewById(R.id.back_button_setPasscode);
-        backBtn.setOnClickListener(view -> {
-            finish();
-        });
-
-
-        Button saveButton = findViewById(R.id.savePasscode);
-        saveButton.setOnClickListener(view -> {
-            String TempPasscodeString = "";
-            if (InputPasscode.size() < 3) {
-                Toast.makeText(getApplicationContext(), "Passcode must be at least 3 digits long", Toast.LENGTH_SHORT).show();
-            } else {
-                for (int i = 0; i < InputPasscode.size(); i++) {
-                    TempPasscodeString += InputPasscode.get(i);
-                }
-                userViewModel.editPasscode(TempPasscodeString);
-                Toast.makeText(getApplicationContext(), "Passcode Updated", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
-
-
         Button one = findViewById(R.id.button1);
         setButtonOnClickListener(one, 1);
-
         Button two = findViewById(R.id.button2);
         setButtonOnClickListener(two, 2);
-
         Button three = findViewById(R.id.button3);
         setButtonOnClickListener(three, 3);
-
         Button four = findViewById(R.id.button4);
         setButtonOnClickListener(four, 4);
-
         Button five = findViewById(R.id.button5);
         setButtonOnClickListener(five, 5);
-
         Button six = findViewById(R.id.button6);
         setButtonOnClickListener(six, 6);
-
         Button seven = findViewById(R.id.button7);
         setButtonOnClickListener(seven, 7);
-
         Button eight = findViewById(R.id.button8);
         setButtonOnClickListener(eight, 8);
-
-
         Button nine = findViewById(R.id.button9);
         setButtonOnClickListener(nine, 9);
 
@@ -103,11 +81,32 @@ public class ChangePasscode extends AppCompatActivity {
             }
         });
 
+        submitButton = findViewById(R.id.savePasscode);
+        submitButton.setOnClickListener(view -> {
+            String TempPasscodeString = "";
+            if (InputPasscode.size() < 3) {
+                Toast.makeText(this, "Got to be at least 3 numbers", Toast.LENGTH_SHORT).show();
+            } else {
+                for (int i = 0; i < InputPasscode.size(); i++) {
+                    TempPasscodeString += InputPasscode.get(i);
+                }
+                dbHandler.setCustomData(currentUser, name, TempPasscodeString, profilePic, new UpdateUserDataCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Intent intent = new Intent(SetPasscode.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(SetPasscode.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
 
 
+        });
     }
-
-    // so we dont have to write the same code for each button
     private void setButtonOnClickListener(Button button, final int number) {
         button.setOnClickListener(view -> {
             boolean valid = KeypadUtils.validateButton(number, InputPasscode);

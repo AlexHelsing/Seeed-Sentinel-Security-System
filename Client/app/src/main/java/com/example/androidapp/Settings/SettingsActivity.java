@@ -3,21 +3,22 @@ package com.example.androidapp.Settings;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.*;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
-import com.example.androidapp.MQTT.BrokerConnection;
+
 import com.example.androidapp.R;
 import com.example.androidapp.StarterPage;
-import com.example.androidapp.dbHandler;
-
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
+import com.example.androidapp.dbHandler;
 import com.squareup.picasso.Picasso;
-import io.realm.mongodb.App;
 
+import io.realm.mongodb.App;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -29,7 +30,6 @@ public class SettingsActivity extends AppCompatActivity {
     LinearLayout LogOutButton;
     AppCompatButton editProfileBtn;
 
-    BrokerConnection brokerConnection;
 
 
     @Override
@@ -42,7 +42,6 @@ public class SettingsActivity extends AppCompatActivity {
         app = db.getApp();
 
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
-
 
         TextView username = findViewById(R.id.user_name);
         ImageView profilePic = findViewById(R.id.profilePicture);
@@ -83,7 +82,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         // open a dialog when user clicks on edit profile button
 
-
+        // navigate to change passcode activity
+        navigateToPasscodeBtn = findViewById(R.id.navigateToSetKeyword);
+        navigateToPasscodeBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), ChangePasscode.class);
+            startActivity(intent);
+        });
 
 
         // return to dashboard
@@ -101,12 +105,6 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // navigate to change passcode activity
-        navigateToPasscodeBtn = findViewById(R.id.navigateToSetKeyword);
-        navigateToPasscodeBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), ChangePasscode.class);
-            startActivity(intent);
-        });
-
     }
+
 }

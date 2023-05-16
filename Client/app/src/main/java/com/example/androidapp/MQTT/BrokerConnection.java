@@ -1,12 +1,16 @@
 package com.example.androidapp.MQTT;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,13 +20,21 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.androidapp.AlarmStatusActivity;
 
 import com.example.androidapp.AlarmViewModel;
+import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
+import com.example.androidapp.Settings.SettingsActivity;
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
 
+import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import java.util.Date;
 
 
 public class BrokerConnection extends AppCompatActivity {
@@ -31,6 +43,7 @@ public class BrokerConnection extends AppCompatActivity {
     private static final String MQTT_SERVER = "tcp://broker.hivemq.com:1883";
     public static final String CLIENT_ID = "SeeedSentinel";
     public static final int QOS = 1;
+    private static final String CHANNEL_ID = "AlarmStatus";
 
     private boolean isConnected = false;
     private MqttClient mqttClient;
@@ -39,6 +52,7 @@ public class BrokerConnection extends AppCompatActivity {
 
     // view model that handles the alarm status state
     AlarmViewModel alarmViewModel = new AlarmViewModel();
+
 
     public BrokerConnection(Context context) {
         // use singleton pattern to ensure only one instance of mqtt client
@@ -105,6 +119,7 @@ public class BrokerConnection extends AppCompatActivity {
                             alarmViewModel.setAlarmStatus("AlarmOn");
                         } else if (mqttMessage.equals("AlarmIntruder")) {
                             alarmViewModel.setAlarmStatus("AlarmIntruder");
+                            UserViewModel.createBreakin("Hallway", new Date());
                             Intent intent = new Intent(context, AlarmStatusActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
@@ -123,7 +138,8 @@ public class BrokerConnection extends AppCompatActivity {
                             }
                             notificationManager.notify(10, builder.build());
                         }
-                    } else {
+                    }
+                    else {
                         Log.i("BROKER: ", "[MQTT] Topic: " + topic + " | Message: " + message.toString());
                     }
                 }
@@ -195,4 +211,6 @@ public class BrokerConnection extends AppCompatActivity {
         }
         notificationManager.notify(10, builder.build());
     }
+
+
 }
