@@ -5,6 +5,7 @@
 #include "globalVariables.h"
 #include "config.h"
 #include "keyPadConfig.h"
+#include "UIScreens.h"
 
 //
 const char *ssid = SSID;              // replace with your own wifi network to test
@@ -16,10 +17,10 @@ const char *AlarmTopic = "/SeeedSentinel/AlarmOnOff";
 const char *GetPasscodeFromClient = "/SeeedSentinel/GetPatternFromClient";
 //
 
-//ui lib
-TFT_eSPI tft;
-
-// WIfi/mqtt 
+// ui lib
+TFT_eSPI tftinstance;
+UIScreens uiScreens(tftinstance);
+// WIfi/mqtt
 WiFiClient wioClient;
 PubSubClient client(wioClient);
 
@@ -40,7 +41,7 @@ void Callback(char *topic, byte *payload, unsigned int length)
     {
       Serial.println("Activate motion detection");
 
-      ShowAlarmLoadingScreen();
+      uiScreens.ShowAlarmLoadingScreen();
 
       delay(1000);
       // turn on alarm
@@ -81,10 +82,10 @@ void setupScan()
   WiFi.disconnect();
 
   Serial.println("Connecting to WiFi..");
-  tft.setTextSize(2);
-  tft.setCursor(0, 0);
-  tft.setTextColor(TFT_WHITE);
-  tft.println("Connecting to WiFi...");
+  tftinstance.setTextSize(2);
+  tftinstance.setCursor(0, 0);
+  tftinstance.setTextColor(TFT_WHITE);
+  tftinstance.println("Connecting to WiFi...");
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED)
@@ -114,25 +115,25 @@ void initializeGrid()
   currentCol = 0;
   isInputting = true;
 
-  tft.setRotation(3);
-  tft.fillScreen(TFT_BLACK); // Set background color
+  tftinstance.setRotation(3);
+  tftinstance.fillScreen(TFT_BLACK); // Set background color
 
   // Initialize the rectangle positions
   int gridWidth = NUM_COLS * RECTANGLE_WIDTH + (NUM_COLS - 1) * RECTANGLE_SPACING;
   int gridHeight = NUM_ROWS * RECTANGLE_HEIGHT + (NUM_ROWS - 1) * RECTANGLE_SPACING;
-  int gridX = (tft.width() - gridWidth) / 2;
-  int gridY = (tft.height() - gridHeight) / 2;
+  int gridX = (tftinstance.width() - gridWidth) / 2;
+  int gridY = (tftinstance.height() - gridHeight) / 2;
   for (int row = 0; row < NUM_ROWS; row++)
   {
     for (int col = 0; col < NUM_COLS; col++)
     {
       rectangleX[row][col] = gridX + (RECTANGLE_WIDTH + RECTANGLE_SPACING) * col;
       rectangleY[row][col] = gridY + (RECTANGLE_HEIGHT + RECTANGLE_SPACING) * row;
-      tft.fillRect(rectangleX[row][col], rectangleY[row][col], RECTANGLE_WIDTH, RECTANGLE_HEIGHT, TFT_WHITE);
-      tft.setTextColor(TFT_BLACK);
-      tft.setTextSize(3);
-      tft.setCursor(rectangleX[row][col] + RECTANGLE_WIDTH / 2 - 10, rectangleY[row][col] + RECTANGLE_HEIGHT / 2 - 10);
-      tft.print(rectangleNumber[row][col]);
+      tftinstance.fillRect(rectangleX[row][col], rectangleY[row][col], RECTANGLE_WIDTH, RECTANGLE_HEIGHT, TFT_WHITE);
+      tftinstance.setTextColor(TFT_BLACK);
+      tftinstance.setTextSize(3);
+      tftinstance.setCursor(rectangleX[row][col] + RECTANGLE_WIDTH / 2 - 10, rectangleY[row][col] + RECTANGLE_HEIGHT / 2 - 10);
+      tftinstance.print(rectangleNumber[row][col]);
     }
   }
 }
@@ -150,9 +151,7 @@ void setup()
   pinMode(WIO_5S_PRESS, INPUT_PULLUP);
 
   //
-  tft.init(); // initialize the TFT screen
-  tft.setRotation(3);
-  tft.fillScreen(TFT_BLACK);
+  uiScreens.setup();
 
   // Wifi
   setupScan();
@@ -216,29 +215,29 @@ void keypadauthloop()
         // Deal with all rectangles that have been pressed
         if (pressedRectangles[row][col])
         {
-          tft.fillRect(rectangleX[row][col], rectangleY[row][col], RECTANGLE_WIDTH, RECTANGLE_HEIGHT, 0x8410);
-          tft.setTextColor(TFT_BLACK);
-          tft.setTextSize(3);
-          tft.setCursor(rectangleX[row][col] + RECTANGLE_WIDTH / 2 - 10, rectangleY[row][col] + RECTANGLE_HEIGHT / 2 - 10);
-          tft.print(rectangleNumber[row][col]);
+          tftinstance.fillRect(rectangleX[row][col], rectangleY[row][col], RECTANGLE_WIDTH, RECTANGLE_HEIGHT, 0x8410);
+          tftinstance.setTextColor(TFT_BLACK);
+          tftinstance.setTextSize(3);
+          tftinstance.setCursor(rectangleX[row][col] + RECTANGLE_WIDTH / 2 - 10, rectangleY[row][col] + RECTANGLE_HEIGHT / 2 - 10);
+          tftinstance.print(rectangleNumber[row][col]);
         }
         // deal with the current active rectangle
         else if (row == currentRow && col == currentCol)
         {
-          tft.fillRect(rectangleX[row][col], rectangleY[row][col], RECTANGLE_WIDTH, RECTANGLE_HEIGHT, 0xF81F);
-          tft.setTextColor(TFT_BLACK);
-          tft.setTextSize(3);
-          tft.setCursor(rectangleX[row][col] + RECTANGLE_WIDTH / 2 - 10, rectangleY[row][col] + RECTANGLE_HEIGHT / 2 - 10);
-          tft.print(rectangleNumber[row][col]);
+          tftinstance.fillRect(rectangleX[row][col], rectangleY[row][col], RECTANGLE_WIDTH, RECTANGLE_HEIGHT, 0xF81F);
+          tftinstance.setTextColor(TFT_BLACK);
+          tftinstance.setTextSize(3);
+          tftinstance.setCursor(rectangleX[row][col] + RECTANGLE_WIDTH / 2 - 10, rectangleY[row][col] + RECTANGLE_HEIGHT / 2 - 10);
+          tftinstance.print(rectangleNumber[row][col]);
         }
         // deal with the rest
         else
         {
-          tft.fillRect(rectangleX[row][col], rectangleY[row][col], RECTANGLE_WIDTH, RECTANGLE_HEIGHT, TFT_WHITE);
-          tft.setTextColor(TFT_BLACK);
-          tft.setTextSize(3);
-          tft.setCursor(rectangleX[row][col] + RECTANGLE_WIDTH / 2 - 10, rectangleY[row][col] + RECTANGLE_HEIGHT / 2 - 10);
-          tft.print(rectangleNumber[row][col]);
+          tftinstance.fillRect(rectangleX[row][col], rectangleY[row][col], RECTANGLE_WIDTH, RECTANGLE_HEIGHT, TFT_WHITE);
+          tftinstance.setTextColor(TFT_BLACK);
+          tftinstance.setTextSize(3);
+          tftinstance.setCursor(rectangleX[row][col] + RECTANGLE_WIDTH / 2 - 10, rectangleY[row][col] + RECTANGLE_HEIGHT / 2 - 10);
+          tftinstance.print(rectangleNumber[row][col]);
         }
       }
     }
@@ -268,7 +267,7 @@ void keypadauthloop()
     if (isCorrect)
     {
 
-      AcessGrantedScreen();
+      uiScreens.AcessGrantedScreen();
       client.publish(AlarmTopic, "AlarmOff");
 
       delay(2000);
@@ -277,7 +276,7 @@ void keypadauthloop()
     }
     else
     {
-      AcessDeniedScreen();
+      uiScreens.AcessDeniedScreen();
       delay(2000);
       initializeGrid();
     }
@@ -289,75 +288,6 @@ bool checkAnswer()
 {
   return (strcmp(userInputString, answerString.c_str()) == 0);
 }
-
-// SCREEN UI  //////////////////////
-void ShowHomeScreen()
-{
-  tft.fillScreen(0x07FF);      // set the background color to black
-  tft.setTextColor(TFT_BLACK); // set the text color to white
-  tft.setTextSize(4);          // set the text size to 2
-  tft.setCursor((tft.width() - tft.textWidth("SeeedSentinel")) / 2 - 5, tft.height() / 2 - 30);
-  tft.println("SEEEDSENTINEL"); // print the first line
-  tft.setCursor(30, 150);       // set text position
-  tft.setTextSize(2);
-  tft.println("Turn on alarm on phone"); // print the second line
-}
-
-void ShowAlarmHuntScreen()
-{
-  tft.fillScreen(TFT_BLACK); // set the background color to black
-  tft.setTextColor(TFT_RED); // set the text color to white
-  tft.setTextSize(4);        // set the text size to 3
-  tft.setCursor((tft.width() - tft.textWidth("HUNTING MODE")) / 2, tft.height() / 2 - 20);
-  tft.println("HUNTING MODE"); // print the title
-}
-void ShowAlarmLoadingScreen()
-{
-  tft.fillScreen(TFT_BLACK);   // set the background color to black
-  tft.setTextColor(TFT_WHITE); // set the text color to white
-  tft.setTextSize(3);          // set the text size to 3
-  tft.setCursor((tft.width() - tft.textWidth("LOADING..")) / 2, tft.height() / 2 - 20);
-  tft.println("LOADING..."); // print the title
-}
-
-void ShowIntruderScreen()
-{
-  tft.fillScreen(TFT_RED);     // set the background color to red
-  tft.setTextColor(TFT_WHITE); // set the text color to white
-  tft.setTextSize(4);          // set the text size to 4
-
-  tft.setCursor((tft.width() - tft.textWidth("INTRUDER")) / 2, tft.height() / 2 - 50);
-  tft.println("INTRUDER"); // print the title
-
-  tft.setTextSize(2); // set the text size to 2
-  tft.setCursor((tft.width() - tft.textWidth("Authorize yourself")) / 2, tft.height() / 2 + 20);
-  tft.println("Authorize yourself"); // print the subtitle
-  client.publish(AlarmTopic, "AlarmIntruder");
-}
-
-void AcessGrantedScreen()
-{
-  tft.fillScreen(TFT_BLACK);   // set the background color to black
-  tft.setTextColor(TFT_GREEN); // set the text color to green
-  tft.setTextSize(3);          // set the text size to 3
-  tft.setCursor((tft.width() - tft.textWidth("Access Granted")) / 2, tft.height() / 2 - 30);
-  tft.println("Access Granted"); // print the text
-}
-
-void AcessDeniedScreen()
-{
-  tft.fillScreen(TFT_BLACK); // set the background color to black
-  tft.setTextColor(TFT_RED); // set the text color to green
-  tft.setTextSize(3);        // set the text size to 3
-  tft.setCursor((tft.width() - tft.textWidth("Access Denied")) / 2, tft.height() / 2 - 30);
-  tft.println("Access Denied"); // print the text
-
-  tft.setTextSize(2); // set the text size to 2
-  tft.setCursor((tft.width() - tft.textWidth("Try again!")) / 2, tft.height() / 2 + 20);
-  tft.println("Try again!"); // print the subtitle
-}
-///////////////////////////////////////////////
-
 void loop()
 {
   client.loop();
@@ -369,12 +299,13 @@ void loop()
 
   if (alarmOn)
   {
-    ShowAlarmHuntScreen();
+    uiScreens.ShowAlarmHuntScreen();
 
     delay(3000);
     if (digitalRead(PIR_MOTION_SENSOR))
     {
-      ShowIntruderScreen();
+      uiScreens.ShowIntruderScreen();
+      client.publish(AlarmTopic, "AlarmIntruder");
       Serial.println("intruder found");
       delay(2000);
       // turn on auth since intruder is found
@@ -401,7 +332,7 @@ void loop()
 
   if (!initAuth && !alarmOn)
   {
-    ShowHomeScreen();
+    uiScreens.SHOWHOMESCREEN();
     delay(2000);
   }
 }
