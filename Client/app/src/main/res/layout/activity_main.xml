@@ -186,6 +186,19 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/white" />
+
+                <EditText
+                    android:id="@+id/editTextPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter phone number" />
+
+                <Button
+                    android:id="@+id/callbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Call" />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
