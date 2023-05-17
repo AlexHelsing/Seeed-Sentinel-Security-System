@@ -39,6 +39,8 @@ const unsigned long TIMER_DURATION = 30000;  // 30 seconds in milliseconds
 // only used to make timer work correctly with all the re-initializations of the grid/keypad.
 int attemptCount = 0;
 
+bool sentPub = false;
+
 
 // Callback function where all the incoming topic subscriptions are handled.
 void Callback(char *topic, byte *payload, unsigned int length)
@@ -381,8 +383,12 @@ void loop()
 
     // if 30 secs or whatever we have set passess, trigger some actions ie notice
     if (isTimerElapsed()) {
+      if (sentPub == false) {
+        client.publish(AlarmTopic, "AlarmIntruder");
+        sentPub = true;
+      }
       Serial.print("timer elapsed");
-      client.publish(AlarmTopic, "AlarmIntruder");
+      Serial.print("buzzer sounds");
       timerStart = 0;
     }
   }
