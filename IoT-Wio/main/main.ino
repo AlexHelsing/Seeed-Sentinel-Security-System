@@ -8,6 +8,7 @@
 
 // Pins for sensors
 #define PIR_MOTION_SENSOR D0 // Motion sensor pin
+#define BUZZER D4 
 
 // WIFI Credentials
 const char *ssid = SSID;
@@ -35,7 +36,7 @@ String username = "..."; // doesnt matter what we put here since it will be chan
 
 unsigned long timerStart = 0;
 bool timerRunning = false;
-const unsigned long TIMER_DURATION = 30000;  // 30 seconds in milliseconds
+const unsigned long TIMER_DURATION = 5000;  // 30 seconds in milliseconds
 // only used to make timer work correctly with all the re-initializations of the grid/keypad.
 int attemptCount = 0;
 
@@ -174,6 +175,7 @@ void setup()
 
   // PINS
   pinMode(PIR_MOTION_SENSOR, INPUT);
+  pinMode(BUZZER, INPUT);
   pinMode(WIO_5S_UP, INPUT_PULLUP);
   pinMode(WIO_5S_DOWN, INPUT_PULLUP);
   pinMode(WIO_5S_LEFT, INPUT_PULLUP);
@@ -305,9 +307,10 @@ void keypadauthloop()
 
       uiScreens.AcessGrantedScreen(username);
       client.publish(AlarmTopic, "AlarmOff");
-
+      
       delay(2000);
       timerRunning = false;
+      sentPub = false;
       initAuth = false;
       isInputting = false;
     }
@@ -384,11 +387,13 @@ void loop()
     // if 30 secs or whatever we have set passess, trigger some actions ie notice
     if (isTimerElapsed()) {
       if (sentPub == false) {
+        Serial.println("publish alarmIntuder");
         client.publish(AlarmTopic, "AlarmIntruder");
         sentPub = true;
       }
-      Serial.print("timer elapsed");
-      Serial.print("buzzer sounds");
+      digitalWrite(BUZZER, HIGH);
+      delay(50);
+      digitalWrite(BUZZER, LOW);
       timerStart = 0;
     }
   }
