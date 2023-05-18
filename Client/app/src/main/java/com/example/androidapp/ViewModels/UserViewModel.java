@@ -94,13 +94,13 @@ public class UserViewModel extends ViewModel{
     }
 
     //add breakin to the array of breakins
-    public static void createBreakin(String location, Date date) {
-        db.createBreakInAlert(location, date, new UpdateUserDataCallback() {
+    public static void createBreakin(Date date) {
+        db.createBreakInAlert(_user.getValue().getWioLocation(), date, new UpdateUserDataCallback() {
             @Override
             public void onSuccess() {
                 Log.v("AUTH", "Successfully created breakin.");
                 UserModel userModel = db.getUserData();
-                userModel.addBreakin(new Document("location", location).append("date", date));
+                userModel.addBreakin(new Document("location", _user.getValue().getWioLocation()).append("date", date));
                 _user.setValue(userModel);
             }
 
