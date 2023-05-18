@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout settingsButton;
     LinearLayout historyButton;
     LinearLayout placeHolderbutton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,18 +88,21 @@ public class MainActivity extends AppCompatActivity {
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "AlarmStatus";
+            CharSequence name2 = "Call the police";
             String description = "AlarmStatus";
+            String description2 = "Call the police";
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("AlarmStatus", name, importance);
+            NotificationChannel channel2 = new NotificationChannel("CallPolice", name2, importance);
             channel.setDescription(description);
+            channel2.setDescription(description2);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
+            notificationManager.createNotificationChannel(channel2);
         }
     }
-
-
 
 
 
