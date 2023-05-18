@@ -1,13 +1,19 @@
 package com.example.androidapp;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapp.History.HistoryActivity;
@@ -28,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout settingsButton;
     LinearLayout historyButton;
     LinearLayout placeHolderbutton;
+    private NotificationManagerCompat notificationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         UserViewModel userViewModel = new ViewModelProvider(this, new UserViewModelFactory(db)).get(UserViewModel.class);
 
         createNotificationChannel();
+        notificationManager = NotificationManagerCompat.from(this);
 
         // if user is not authed, send them to the starter page
         if (app.currentUser() == null) {
@@ -103,6 +112,28 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel2);
         }
     }
+
+    /*public void channel2(View v) {
+        Notification notification = new NotificationCompat.Builder(this, "CallPolice")
+                .setContentTitle("Alarm has been activated")
+                .setContentText("Press noticication to call the police")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build();
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManager.notify(1, notification);
+
+    }
+
+     */
 
 
 

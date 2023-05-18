@@ -126,6 +126,20 @@ public class BrokerConnection extends AppCompatActivity {
                                 return;
                             }
                             notificationManager.notify(10, builder.build());
+
+                            /*builder = new NotificationCompat.Builder(context, "CallPolice");
+                            builder.setSmallIcon(R.drawable.ic_notification);
+                            builder.setContentTitle("Alarm has been activated");
+                            builder.setContentText("Press noticication to call the police");
+                            builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+                            builder.setContentIntent(pendingIntent);
+                            builder.setAutoCancel(true);
+
+                            notificationManager = NotificationManagerCompat.from(context);
+                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                                return;
+                            }
+                            notificationManager.notify(5, builder.build());*/
                         }
                     }
                     else {
