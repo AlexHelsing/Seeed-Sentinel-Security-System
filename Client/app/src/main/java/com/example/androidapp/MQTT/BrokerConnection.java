@@ -99,33 +99,20 @@ public class BrokerConnection extends AppCompatActivity {
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     if (topic.equals(SUB_TOPIC)) {
                         String mqttMessage = new String(message.getPayload());
-                        if (mqttMessage.equals("AlarmOff")) {
-                            // set alarm status to false
-                            alarmViewModel.setAlarmStatus("AlarmOff");
-
-                        } else if (mqttMessage.equals("AlarmOn")) {
-                            // set alarm status to true
-                            alarmViewModel.setAlarmStatus("AlarmOn");
-                        } else if (mqttMessage.equals("AlarmIntruder")) {
-                            alarmViewModel.setAlarmStatus("AlarmIntruder");
-                            UserViewModel.createBreakin("Hallway", new Date());
-                            Intent intent = new Intent(context, AlarmStatusActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
-                            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "AlarmStatus");
-                            builder.setSmallIcon(R.drawable.ic_notification);
-                            builder.setContentTitle("INTRUDER ALERT");
-                            builder.setContentText("Call popo");
-                            builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-                            builder.setContentIntent(pendingIntent);
-                            builder.setAutoCancel(true);
-
-                            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                                return;
-                            }
-                            notificationManager.notify(10, builder.build());
+                        switch (mqttMessage) {
+                            case "AlarmOff":
+                                // set alarm status to false
+                                alarmViewModel.setAlarmStatus("AlarmOff");
+                                break;
+                            case "AlarmOn":
+                                // set alarm status to true
+                                alarmViewModel.setAlarmStatus("AlarmOn");
+                                break;
+                            case "AlarmIntruder":
+                                alarmViewModel.setAlarmStatus("AlarmIntruder");
+                                UserViewModel.createBreakin("Hallway", new Date());
+                                sendIntruderNotification();
+                                break;
                         }
                     }
                     else {

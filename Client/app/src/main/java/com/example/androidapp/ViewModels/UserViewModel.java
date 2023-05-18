@@ -56,6 +56,24 @@ public class UserViewModel extends ViewModel{
 
     }
 
+    public void editWioLocation(String wioLocation) {
+        db.updateWioLocation(wioLocation, new UpdateUserDataCallback() {
+            @Override
+            public void onSuccess() {
+                Log.v("AUTH", "Successfully updated wio location.");
+                UserModel userModel = db.getUserData();
+                userModel.setWioLocation(wioLocation);
+                _user.setValue(userModel);
+
+            }
+            @Override
+            public void onError() {
+                Log.e("AUTH", "Failed to update wio location.");
+            }
+        });
+
+    }
+
     // edit passcode of user (hash this later if we have time
     public void editPasscode (String passcode) {
         db.updatePasscode(passcode, new UpdateUserDataCallback() {
