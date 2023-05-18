@@ -36,7 +36,7 @@ public class LoginActivity  extends AppCompatActivity {
         password = findViewById(R.id.password);
 
         loginButton = findViewById(R.id.login);
-        returnButton = findViewById(R.id.goback);
+        returnButton = findViewById(R.id.back_button);
 
         returnButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, StarterPage.class);
