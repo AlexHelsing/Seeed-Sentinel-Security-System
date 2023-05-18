@@ -48,7 +48,6 @@ public class AlarmStatusActivity extends AppCompatActivity {
     private BrokerConnection brokerConnection;
 
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
