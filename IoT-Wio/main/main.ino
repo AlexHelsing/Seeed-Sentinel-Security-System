@@ -71,6 +71,7 @@ void Callback(char *topic, byte *payload, unsigned int length)
     {
       Serial.println("Turn off motion detection");
       // handle the AlarmOff message here .
+      welcomeScreenStatus = false;
       alarmOn = false;
       initAuth = false;
     }
