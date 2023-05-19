@@ -71,6 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_corners_ui"
                     android:id="@+id/edit_profile_button"
                     android:layout_gravity="center"
                     android:backgroundTint="#3b5998"
@@ -170,11 +171,14 @@
             android:layout_marginEnd="20dp"
             android:orientation="vertical"
             android:id="@+id/LogOutButton"
-            android:background="@color/red"
+        android:backgroundTint="@color/red"
+        android:background="@drawable/rounded_corners_ui"
             android:layout_marginTop="40dp">
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+
 
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
