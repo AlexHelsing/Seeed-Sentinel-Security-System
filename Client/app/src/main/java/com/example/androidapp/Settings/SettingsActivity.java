@@ -31,7 +31,6 @@ public class SettingsActivity extends AppCompatActivity {
     dbHandler db;
     App app;
     ImageView backArrow;
-    LinearLayout navigateToPatternBtn;
     LinearLayout navigateToPasscodeBtn;
     LinearLayout LogOutButton;
     LinearLayout navigateToSetNotifications;
@@ -55,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         userViewModel.getUser().observe(this, userModel -> {
                     username.setText(userModel.getName());
-                    Picasso.get().load(userModel.getProfileImg()).into(profilePic);
+                    Picasso.get().load(userModel.getProfileImg()).resize(500,500).into(profilePic);
                 }
 
         );
@@ -103,13 +102,6 @@ public class SettingsActivity extends AppCompatActivity {
             finish();
         });
 
-
-        // navigate to set pattern activity
-        navigateToPatternBtn = findViewById(R.id.NavigateToSetPattern);
-        navigateToPatternBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), ChangePattern.class);
-            startActivity(intent);
-        });
 
         //navigate to notification channels
         navigateToSetNotifications = findViewById(R.id.navigateToSetNotifications);

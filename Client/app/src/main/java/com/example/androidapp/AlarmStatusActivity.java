@@ -1,14 +1,21 @@
 package com.example.androidapp;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapp.MQTT.BrokerConnection;
@@ -16,8 +23,12 @@ import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
-import com.example.androidapp.Settings.SettingsActivity;
+import org.w3c.dom.Text;
 
+import com.example.androidapp.Settings.SettingsActivity;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -28,27 +39,26 @@ public class AlarmStatusActivity extends AppCompatActivity {
     Button deactivateActivateButton;
     TextView alarmStatusText;
     TextView hallwayStatus;
-    TextView livingRoomStatus;
-
     TextView headerView;
     ScrollView scrollviewEdit;
+    TextView wioLocationName;
+    LinearLayout wioLocationCard;
+    UserViewModel userViewModel;
 
     private BrokerConnection brokerConnection;
 
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarmstatus);
 
-        dbHandler dbHandler = new dbHandler(getApplicationContext());
+        dbHandler db = new dbHandler(getApplicationContext());
+        userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
 
         MyApp myApp = (MyApp) getApplication();
         brokerConnection = myApp.getBrokerConnection();
 
-        UserViewModel userViewModel = new UserViewModelFactory(dbHandler).create(UserViewModel.class);
-       // get the passcode and name and then send it to the broker
 
         userViewModel.getUser().observe(this, user -> {
             String passcode = user.getPasscode();
@@ -70,12 +80,12 @@ public class AlarmStatusActivity extends AppCompatActivity {
 
         alarmStatusText = findViewById(R.id.alarmStatusText);
         hallwayStatus = findViewById(R.id.hallwayStatus);
-        deactivateActivateButton = findViewById(R.id.btn_deactivateActivateAlarm);
         scrollviewEdit = findViewById(R.id.bc_scrollview);
         headerView = findViewById(R.id.header_view);
+        wioLocationName = findViewById(R.id.wioLocationName);
 
 
-
+        deactivateActivateButton = findViewById(R.id.btn_deactivateActivateAlarm);
         deactivateActivateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +103,27 @@ public class AlarmStatusActivity extends AppCompatActivity {
             }
         }});
 
+        // Press the card to change name of wio location
+        wioLocationCard = findViewById(R.id.wioCardName);
+        wioLocationCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editWioName();
+            }
+        });
+
+        // Observes name of current users wio terminal location
+        userViewModel.getUser().observe(this, userModel -> {
+            if(userModel.getWioLocation() == null || Objects.equals(userModel.getWioLocation(), "")){
+                wioLocationName.setText("Seeed Sentinel - Press card to enter location");
+            }
+            else{
+            wioLocationName.setText(userModel.getWioLocation());
+        }}
+
+        );
+
+        // Observes global alarm status and changes UI depending on the status
         AlarmViewModel.getAlarmStatus().observe(this, alarm -> {
             switch (alarm) {
                 case "AlarmOff":
@@ -108,6 +139,7 @@ public class AlarmStatusActivity extends AppCompatActivity {
         });
     }
 
+    // Three different UI states depending on alarm status
     public void activateAlarmUI(){
         deactivateActivateButton.setText("Activate Alarm");
         alarmStatusText.setText("The alarm is disarmed");
@@ -137,4 +169,38 @@ public class AlarmStatusActivity extends AppCompatActivity {
         hallwayStatus.setText("Alarm: INTRUDER ALERT");
         hallwayStatus.setTextColor(Color.parseColor("#DDFF0000"));
     }
+
+    // Function for pop up window where user can enter a new location for wio terminal, in case they
+    // change the position of it
+    public void editWioName(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(AlarmStatusActivity.this);
+        builder.setTitle("Seeed Sentinel Name");
+        builder.setMessage("Edit name");
+        builder.setCancelable(true);
+        // Input field for user
+        final EditText input = new EditText(this);
+        builder.setView(input);
+        // Done and cancel button
+        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String newLocation = String.valueOf(input.getText());
+                if(newLocation.length() == 0 || newLocation.length() >= 25){
+                    Toast.makeText(getApplicationContext(), "Please enter between 1-25 characters", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                userViewModel.editWioLocation(newLocation);
+                Toast.makeText(getApplicationContext(), "Seed Sentinel location name has been updated", Toast.LENGTH_SHORT).show();
+            }
+        }});
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 }

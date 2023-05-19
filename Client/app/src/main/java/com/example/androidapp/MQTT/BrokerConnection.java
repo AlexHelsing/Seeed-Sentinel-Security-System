@@ -12,12 +12,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapp.AlarmStatusActivity;
 
 import com.example.androidapp.AlarmViewModel;
+import com.example.androidapp.Models.UserModel;
 import com.example.androidapp.R;
 import com.example.androidapp.ViewModels.UserViewModel;
+import com.example.androidapp.ViewModels.UserViewModelFactory;
+import com.example.androidapp.dbHandler;
+
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
@@ -26,6 +32,9 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.Date;
 
+import io.realm.mongodb.App;
+import io.realm.mongodb.User;
+
 
 public class BrokerConnection extends AppCompatActivity {
 
@@ -33,8 +42,6 @@ public class BrokerConnection extends AppCompatActivity {
     private static final String MQTT_SERVER = "tcp://broker.hivemq.com:1883";
     public static final String CLIENT_ID = "SeeedSentinel";
     public static final int QOS = 1;
-    private static final String CHANNEL_ID = "AlarmStatus";
-
     private boolean isConnected = false;
     private MqttClient mqttClient;
     Context context;
@@ -100,21 +107,21 @@ public class BrokerConnection extends AppCompatActivity {
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     if (topic.equals(SUB_TOPIC)) {
                         String mqttMessage = new String(message.getPayload());
-                        if (mqttMessage.equals("AlarmOff")) {
-                            // set alarm status to false
-                            alarmViewModel.setAlarmStatus("AlarmOff");
 
-                        } else if (mqttMessage.equals("AlarmOn")) {
-                            // set alarm status to true
-                            alarmViewModel.setAlarmStatus("AlarmOn");
-                        } else if (mqttMessage.equals("AlarmIntruder")) {
-                            alarmViewModel.setAlarmStatus("AlarmIntruder");
-                            UserViewModel.createBreakin("Hallway", new Date());
-
-
-                            sendIntruderNotification();
-
-
+                        switch (mqttMessage) {
+                            case "AlarmOff":
+                                // set alarm status to false
+                                alarmViewModel.setAlarmStatus("AlarmOff");
+                                break;
+                            case "AlarmOn":
+                                // set alarm status to true
+                                alarmViewModel.setAlarmStatus("AlarmOn");
+                                break;
+                            case "AlarmIntruder":
+                                alarmViewModel.setAlarmStatus("AlarmIntruder");
+                                UserViewModel.createBreakin(new Date());
+                                sendIntruderNotification();
+                                break;
 
                         }
                     }
