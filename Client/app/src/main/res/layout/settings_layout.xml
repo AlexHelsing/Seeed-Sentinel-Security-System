@@ -25,10 +25,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="10dp"
             android:text="@string/settings"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
 
         <View
                 android:layout_width="match_parent"
@@ -39,121 +39,99 @@
 
     </RelativeLayout>
 
-    <ScrollView android:layout_width="match_parent" android:layout_height="477dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="567dp">
 
-        <LinearLayout  android:orientation="vertical" android:layout_width="match_parent"
-                      android:layout_height="wrap_content">
-            <LinearLayout android:gravity="center" android:layout_width="match_parent" android:layout_height="142dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-                <com.google.android.material.imageview.ShapeableImageView android:layout_height="113dp"
-                                                                          android:layout_width="115dp"
-                                                                          android:paddingTop="1dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="177dp"
+                android:gravity="center">
 
-                                                                          android:layout_marginBottom="-5dp"
-
-                                                                          android:foregroundGravity="center"
-                                                                          android:layout_gravity="center"
-                                                                          android:id="@+id/profilePicture"
-                                                                          app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                                                                          android:padding="2dp"
-                                                                          android:src="@drawable/ic_userpic"
-
-
-                />
-            </LinearLayout>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textSize="22sp"
-                      android:textStyle="bold"
-                      android:textColor="@color/white"
-                      android:layout_gravity="center"
-                      android:id="@+id/user_name"/>
-            <androidx.appcompat.widget.AppCompatButton
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profilePicture"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/edit_profile_button"
+                    android:layout_height="wrap_content"
+
                     android:layout_gravity="center"
-                    android:backgroundTint="#3b5998"
-                    android:text="@string/edit_profile"
-                    android:textColor="@color/white"
-                    android:paddingStart="30dp"
-                    android:paddingEnd="30dp">
-            </androidx.appcompat.widget.AppCompatButton>
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/fbblue"
-                    android:orientation="vertical"
-                    android:padding="15dp"
-                    android:id="@+id/NavigateToSetPattern"
-                    android:background="@drawable/settings_menutab"
-                    android:layout_marginTop="40dp">
-                <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    android:layout_marginBottom="-5dp"
+                    android:foregroundGravity="center"
+                    android:padding="2dp"
+                    android:paddingTop="1dp"
+                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
 
 
-                >
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/pattern_icon"
-                            android:contentDescription="@string/pattern_icon"
-
-
-                    >
-
-                    </ImageView>
-
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:text="@string/edit_pattern" android:textColor="@color/white"
-                              android:layout_marginStart="40dp"
-                              android:layout_centerVertical="true"
                     />
-
-
-                </RelativeLayout>
-
-
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/edit_profile_button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_corners_ui"
+                android:backgroundTint="#3b5998"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:text="@string/edit_profile"
+                android:textColor="@color/white"></androidx.appcompat.widget.AppCompatButton>
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:orientation="vertical"
-                    android:padding="15dp"
+                android:id="@+id/navigateToSetKeyword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/settings_menutab"
                 android:backgroundTint="@color/fbblue"
-                    android:id="@+id/navigateToSetKeyword"
-                    android:background="@drawable/settings_menutab"
-                    android:layout_marginTop="10dp">
+                android:orientation="vertical"
+                android:padding="15dp">
+
                 <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-
-                >
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/baseline_password_24"
-                            android:contentDescription="@string/pattern_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
 
 
                     >
 
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentBottom="true"
+                        android:contentDescription="@string/pattern_icon"
+                        android:src="@drawable/baseline_password_24"
+
+
+                        >
+
                     </ImageView>
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:text="Change passcode" android:textColor="@color/white"
-                              android:layout_marginStart="40dp"
-                              android:layout_centerVertical="true"
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="40dp"
+                        android:text="Change passcode"
+                        android:textColor="@color/white"
+                        android:textSize="20dp" />
 
 
                 </RelativeLayout>
@@ -163,6 +141,7 @@
 
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="54dp"
@@ -170,17 +149,22 @@
             android:layout_marginEnd="20dp"
             android:orientation="vertical"
             android:id="@+id/LogOutButton"
-            android:background="@color/red"
+        android:backgroundTint="@color/red"
+        android:background="@drawable/rounded_corners_ui"
             android:layout_marginTop="40dp">
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
+
+
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="Sign out" android:textColor="@color/white"
-                      android:layout_marginStart="40dp"
-                      android:height="20dp"
+                      android:text="Sign out"
+                    android:textColor="@color/white"
+                android:textSize="20dp"
+                      android:layout_marginStart="150dp"
+                      android:height="25dp"
                       android:layout_centerVertical="true"/>
 
 

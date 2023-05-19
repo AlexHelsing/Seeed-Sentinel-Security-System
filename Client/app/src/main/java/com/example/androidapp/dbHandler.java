@@ -71,9 +71,10 @@ public class dbHandler {
                 String name = customData.getString("name");
                 String passcode = customData.getString("passcode");
                 String profilePic = customData.getString("profilePic");
+                String wioLocation = customData.getString("wioLocation");
                 List<Document> breakins = customData.getList("breakins", Document.class );
 
-                UserModel userModel = new UserModel(name, passcode, profilePic, breakins);
+                UserModel userModel = new UserModel(name, passcode, profilePic, breakins, wioLocation);
 
                 return userModel;
 
@@ -110,7 +111,30 @@ public class dbHandler {
                     }
             );
         }
+    }
 
+    public void updateWioLocation(String wioLocation, UpdateUserDataCallback callback) {
+        User user = app.currentUser();
+        if (user != null) {
+            // not sure if this line even does anything but i'll leave it here
+            user.getCustomData().put("wioLocation", wioLocation);
+
+            MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
+            MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
+
+            mongoCollection.updateOne(new Document("user-id", user.getId()), new Document("$set", new Document("wioLocation", wioLocation))).getAsync(
+                    result -> {
+                        if (result.isSuccess()) {
+                            System.out.println("successfully updated location name");
+                            callback.onSuccess();
+                        } else {
+                            System.out.println("failed to update location name");
+                            callback.onError();
+                        }
+                    }
+            );
+        }
     }
 
     // update passcode

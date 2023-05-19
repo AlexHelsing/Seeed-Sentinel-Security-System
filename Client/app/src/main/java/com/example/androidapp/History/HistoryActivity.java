@@ -3,6 +3,7 @@ package com.example.androidapp.History;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.example.androidapp.dbHandler;
 
 import org.bson.Document;
 
+import java.text.DateFormat;
 import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
@@ -47,16 +49,19 @@ public class HistoryActivity extends AppCompatActivity {
 
                 for (Document timestamp : timestamps) {
                     String location = timestamp.get("location").toString();
-                    String date = timestamp.get("date").toString();
+                    String date = DateFormat.getDateTimeInstance().format(timestamp.getDate("date"));
 
                     tableRow = new TableRow(this);
                     TextView textView1 = new TextView(this);
                     textView1.setText(location);
                     textView1.setTextColor(Color.WHITE);
+                    textView1.setGravity(Gravity.CENTER);
+
 
                     TextView textView2 = new TextView(this);
                     textView2.setText(date);
                     textView2.setTextColor(Color.WHITE);
+                    textView2.setGravity(Gravity.CENTER);
                     tableRow.addView(textView1);
                     tableRow.addView(textView2);
                     tableLayout.addView(tableRow);

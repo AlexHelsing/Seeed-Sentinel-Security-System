@@ -31,6 +31,7 @@ import java.security.Permission;
 import java.util.Date;
 import android.Manifest;
 
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -41,6 +42,8 @@ import com.example.androidapp.Settings.SettingsActivity;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.Objects;
 
 import io.realm.mongodb.App;
 
@@ -54,36 +57,12 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout homeButton;
     LinearLayout settingsButton;
     LinearLayout historyButton;
-    LinearLayout placeHolderbutton;
-    EditText telNum;  //d
-    MaterialButton telBtn;  //d
-    static int code= 100; //d
-    private static final int PERMISSION_CODE = 100;//d
-
+    TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        EditText phoneEditText = findViewById(R.id.editTextPhone); //d
-        telBtn = findViewById(R.id.callbtn); //d
-
-
-        if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CALL_PHONE}, PERMISSION_CODE);
-        }
-
-        telBtn.setOnClickListener(new View.OnClickListener() { //d
-            @Override
-            public void onClick(View view) {
-
-                String telNum =phoneEditText.getText().toString();
-                Intent i = new Intent(Intent.ACTION_DIAL);
-                i.setData (Uri.parse("tel:"+telNum));
-                startActivity(i);
-            }
-        });
 
 
         db = new dbHandler(getApplicationContext());
@@ -127,13 +106,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // PLACEHOLDER BUTTON SETTINGS
-        placeHolderbutton = findViewById(R.id.placeholder_button);
-        placeHolderbutton.setOnClickListener(view -> {
-            //userViewModel.getUser().getValue().getBreakins().forEach(breakin -> {
-            //Log.v(breakin.get("location").toString(), breakin.get("date").toString());
-            //});
+        userName = findViewById(R.id.userWelcome);
+        userViewModel.getUser().observe(this , userModel -> {
+            if(userModel.getName() == null || userModel.getName().equals("")){
+                userName.setText("Welcome");
+            }
+            else {
+                userName.setText("Welcome " + userModel.getName());
+            }
         });
+
     }
 
     public void createNotificationChannel() {
