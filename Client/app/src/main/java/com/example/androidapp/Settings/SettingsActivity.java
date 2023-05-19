@@ -1,16 +1,22 @@
 package com.example.androidapp.Settings;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
 import com.example.androidapp.StarterPage;
 import com.example.androidapp.ViewModels.UserViewModel;
@@ -25,13 +31,12 @@ public class SettingsActivity extends AppCompatActivity {
     dbHandler db;
     App app;
     ImageView backArrow;
-    LinearLayout navigateToPatternBtn;
     LinearLayout navigateToPasscodeBtn;
     LinearLayout LogOutButton;
+    LinearLayout navigateToSetNotifications;
     AppCompatButton editProfileBtn;
 
-
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +102,21 @@ public class SettingsActivity extends AppCompatActivity {
             finish();
         });
 
+
+        //navigate to notification channels
+        navigateToSetNotifications = findViewById(R.id.navigateToSetNotifications);
+        navigateToSetNotifications.setOnClickListener(view ->{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                        .putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        .setData(Uri.fromParts("package", getPackageName(), null));
+                startActivity(intent);
+
+            }
+        });
 
     }
 

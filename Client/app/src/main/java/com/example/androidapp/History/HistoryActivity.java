@@ -55,13 +55,16 @@ public class HistoryActivity extends AppCompatActivity {
                     TextView textView1 = new TextView(this);
                     textView1.setText(location);
                     textView1.setTextColor(Color.WHITE);
+                    textView1.setTextSize(15);
                     textView1.setGravity(Gravity.CENTER);
 
 
                     TextView textView2 = new TextView(this);
                     textView2.setText(date);
                     textView2.setTextColor(Color.WHITE);
+                    textView2.setTextSize(15);
                     textView2.setGravity(Gravity.CENTER);
+
                     tableRow.addView(textView1);
                     tableRow.addView(textView2);
                     tableLayout.addView(tableRow);

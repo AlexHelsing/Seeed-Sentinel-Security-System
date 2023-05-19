@@ -94,50 +94,86 @@
                 android:textColor="@color/white"></androidx.appcompat.widget.AppCompatButton>
 
             <LinearLayout
-                android:id="@+id/navigateToSetKeyword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="60dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/settings_menutab"
-                android:backgroundTint="@color/fbblue"
-                android:orientation="vertical"
-                android:padding="15dp">
-
-                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-
-                    >
-
+                    android:layout_height="54dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="vertical"
+                    android:padding="15dp"
+                    android:backgroundTint="@color/fbblue"
+                    android:id="@+id/navigateToSetNotifications"
+                    android:background="@drawable/settings_menutab"
+                    android:layout_marginTop="10dp">
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_alignParentBottom="true"
-                        android:contentDescription="@string/pattern_icon"
-                        android:src="@drawable/baseline_password_24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_notification"
+                            android:contentDescription="@string/notification_icon">
 
-
-                        >
 
                     </ImageView>
 
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="40dp"
-                        android:text="Change passcode"
+                        android:text="Edit notifications"
                         android:textColor="@color/white"
-                        android:textSize="20dp" />
+                        android:layout_marginStart="40dp"
+                        android:layout_centerVertical="true"
+                    />
 
 
                 </RelativeLayout>
 
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:backgroundTint="@color/fbblue"
+                android:id="@+id/navigateToSetKeyword"
+                android:background="@drawable/settings_menutab"
+                android:layout_marginTop="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/baseline_password_24"
+                        android:contentDescription="@string/pattern_icon"
+
+
+                        >
+
+                    </ImageView>
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Change passcode" android:textColor="@color/white"
+                        android:layout_marginStart="40dp"
+                        android:layout_centerVertical="true"
+                        />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
     </ScrollView>
