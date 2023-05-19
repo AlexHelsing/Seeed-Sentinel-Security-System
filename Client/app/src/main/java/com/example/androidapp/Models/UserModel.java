@@ -11,13 +11,16 @@ public class UserModel {
     private String passcode;
     private String profileImg;
 
-     private List<Document> breakins;
+    private String wioLocation;
 
-    public UserModel(String name, String passcode, String profileImg, List<Document> breakins) {
+    private List<Document> breakins;
+
+    public UserModel(String name, String passcode, String profileImg, List<Document> breakins, String wioLocation) {
         this.name = name;
         this.passcode = passcode;
         this.profileImg = profileImg;
         this.breakins = breakins;
+        this.wioLocation = wioLocation;
     }
 
     public String getName() {
@@ -60,4 +63,13 @@ public class UserModel {
     public void setProfileImg(String profileImg) {
         this.profileImg = profileImg;
     }
+
+    public String getWioLocation() {
+        return wioLocation;
+    }
+
+    public void setWioLocation(String wioLocation) {
+        this.wioLocation = wioLocation;
+    }
+
 }

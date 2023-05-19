@@ -56,6 +56,24 @@ public class UserViewModel extends ViewModel{
 
     }
 
+    public void editWioLocation(String wioLocation) {
+        db.updateWioLocation(wioLocation, new UpdateUserDataCallback() {
+            @Override
+            public void onSuccess() {
+                Log.v("AUTH", "Successfully updated wio location.");
+                UserModel userModel = db.getUserData();
+                userModel.setWioLocation(wioLocation);
+                _user.setValue(userModel);
+
+            }
+            @Override
+            public void onError() {
+                Log.e("AUTH", "Failed to update wio location.");
+            }
+        });
+
+    }
+
     // edit passcode of user (hash this later if we have time
     public void editPasscode (String passcode) {
         db.updatePasscode(passcode, new UpdateUserDataCallback() {
@@ -76,13 +94,13 @@ public class UserViewModel extends ViewModel{
     }
 
     //add breakin to the array of breakins
-    public static void createBreakin(String location, Date date) {
-        db.createBreakInAlert(location, date, new UpdateUserDataCallback() {
+    public static void createBreakin(Date date) {
+        db.createBreakInAlert(_user.getValue().getWioLocation(), date, new UpdateUserDataCallback() {
             @Override
             public void onSuccess() {
                 Log.v("AUTH", "Successfully created breakin.");
                 UserModel userModel = db.getUserData();
-                userModel.addBreakin(new Document("location", location).append("date", date));
+                userModel.addBreakin(new Document("location", _user.getValue().getWioLocation()).append("date", date));
                 _user.setValue(userModel);
             }
 
