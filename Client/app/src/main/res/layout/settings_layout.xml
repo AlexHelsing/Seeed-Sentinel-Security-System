@@ -25,10 +25,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="10dp"
             android:text="@string/settings"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
 
         <View
                 android:layout_width="match_parent"
