@@ -49,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         userViewModel.getUser().observe(this, userModel -> {
                     username.setText(userModel.getName());
-                    Picasso.get().load(userModel.getProfileImg()).resize(410,410).into(profilePic);
+                    Picasso.get().load(userModel.getProfileImg()).resize(500,500).into(profilePic);
                 }
 
         );

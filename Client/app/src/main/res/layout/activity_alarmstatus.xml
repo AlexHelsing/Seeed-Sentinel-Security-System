@@ -109,11 +109,19 @@
                     android:src="@drawable/pic_hallway"></ImageView>
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Press to edit"
+                    android:layout_marginLeft="290dp"
+                    android:textColor="@color/gray"></TextView>
+
+
+                <TextView
                     android:id="@+id/wioLocationName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="-10dp"
                     android:text="Seeed Sentinel"
                     android:textColor="@color/white"
                     android:textSize="20sp"
