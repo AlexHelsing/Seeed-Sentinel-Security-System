@@ -41,8 +41,15 @@ public class EditProfileActivity  extends AppCompatActivity {
 
         EditText newName = findViewById(R.id.editTextName);
         Button saveButton = findViewById(R.id.buttonSave);
+
         EditText newPicture = findViewById(R.id.editpfp);
         Button savePicture = findViewById(R.id.pfpSave);
+        userViewModel.getUser().observe(this, user -> {
+            if (user != null) {
+                newName.setHint(user.getName());
+                newPicture.setHint(user.getProfileImg());
+            }
+        });
 
         saveButton.setOnClickListener(view -> {
             newName.getText().toString();
