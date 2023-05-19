@@ -25,15 +25,17 @@
         android:layout_height="133dp"
         android:layout_row="0"
         android:layout_column="0"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="88dp"
         android:background="@drawable/rounded_corners_ui"
-        android:backgroundTint="@color/bluelaw2"
+        android:backgroundTint="@color/darkfbblue"
         android:gravity="center"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5">
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintVertical_bias="0.02">
 
         <ImageView
             android:layout_width="80dp"
@@ -60,9 +62,8 @@
         android:layout_column="0"
 
         android:layout_marginTop="13dp"
-        android:layout_marginBottom="100dp"
         android:background="@drawable/rounded_corners_ui"
-        android:backgroundTint="@color/bluelaw2"
+        android:backgroundTint="@color/darkfbblue"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -98,14 +99,16 @@
         android:layout_column="0"
 
         android:layout_marginTop="13dp"
-        android:backgroundTint="@color/bluelaw2"
         android:background="@drawable/rounded_corners_ui"
+        android:backgroundTint="@color/darkfbblue"
         android:gravity="center"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_button">
+        app:layout_constraintTop_toBottomOf="@+id/home_button"
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:layout_width="80dp"
