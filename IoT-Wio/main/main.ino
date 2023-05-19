@@ -9,7 +9,8 @@
 // Pins for sensors
 #define PIR_MOTION_SENSOR D0 // Motion sensor pin
 #define BUZZER D4 
-// blalba
+#define SOUND_SENSOR D2
+
 // WIFI Credentials
 const char *ssid = SSID;
 const char *password = WIFI_PASSWORD;
@@ -34,9 +35,15 @@ bool initAuth = false;
 String username = "..."; // doesnt matter what we put here since it will be changed when app connects. In a better world where we had an sd card we could have persistent storage for this :(
 
 
+int SOUND_THRESHOLD = 500;
+
+// Different screens statuses
+bool huntScreenStatus = false;
+bool welcomeScreenStatus = false;
+
 unsigned long timerStart = 0;
 bool timerRunning = false;
-const unsigned long TIMER_DURATION = 5000;  // 30 seconds in milliseconds
+const unsigned long TIMER_DURATION = 30000;  // 30 seconds in milliseconds
 // only used to make timer work correctly with all the re-initializations of the grid/keypad.
 int attemptCount = 0;
 
@@ -176,6 +183,7 @@ void setup()
   // PINS
   pinMode(PIR_MOTION_SENSOR, INPUT);
   pinMode(BUZZER, INPUT);
+  pinMode(SOUND_SENSOR, INPUT);
   pinMode(WIO_5S_UP, INPUT_PULLUP);
   pinMode(WIO_5S_DOWN, INPUT_PULLUP);
   pinMode(WIO_5S_LEFT, INPUT_PULLUP);
@@ -308,7 +316,7 @@ void keypadauthloop()
       uiScreens.AcessGrantedScreen(username);
       client.publish(AlarmTopic, "AlarmOff");
       
-      delay(2000);
+      delay(1000);
       timerRunning = false;
       sentPub = false;
       initAuth = false;
@@ -322,7 +330,7 @@ void keypadauthloop()
       initializeGrid();
     }
   }
-  delay(250);
+  delay(100);
 }
 
 bool isTimerElapsed()
@@ -362,13 +370,18 @@ void loop()
 
   if (alarmOn)
   {
-    uiScreens.ShowAlarmHuntScreen();
-
-    delay(3000);
-    if (digitalRead(PIR_MOTION_SENSOR))
+    if(huntScreenStatus == false){
+      uiScreens.ShowAlarmHuntScreen();
+      huntScreenStatus = true;
+    }
+    else{
+    int soundLevel = analogRead(SOUND_SENSOR);
+    Serial.println(soundLevel);
+    delay(50);
+    if (digitalRead(PIR_MOTION_SENSOR) || soundLevel > SOUND_THRESHOLD)
     {
+      huntScreenStatus = false;
       uiScreens.ShowIntruderScreen();
-     
       Serial.println("intruder found");
       delay(2000);
       // turn on auth since intruder is found
@@ -377,10 +390,11 @@ void loop()
       initializeGrid();
       alarmOn = false;
     }
-  }
+  }}
 
   if (initAuth)
   {
+    welcomeScreenStatus = false;
     // loop keypad auth
     keypadauthloop();
 
@@ -400,7 +414,13 @@ void loop()
 
   if (!initAuth && !alarmOn)
   {
-    uiScreens.SHOWHOMESCREEN();
-    delay(2000);
+    if(welcomeScreenStatus == false){
+      uiScreens.SHOWHOMESCREEN();
+      welcomeScreenStatus = true;
+    }
+    else{
+      delay(50);
+    }
+
   }
-}
+  }
