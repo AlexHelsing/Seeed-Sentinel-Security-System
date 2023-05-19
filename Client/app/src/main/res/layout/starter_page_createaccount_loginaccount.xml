@@ -5,20 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bluegradient"
-    tools:context=".LoginPageActivity">
+    tools:context=".StarterPage">
 
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_width="335dp"
+        android:layout_height="139dp"
 
         android:contentDescription="@string/header"
-        android:src="@drawable/seeed_sentinel1"
+        android:src="@drawable/newlogo"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.171"
-        tools:layout_editor_absoluteX="-16dp" />
+        app:layout_constraintVertical_bias="0.17" />
 
     <TextView
         android:id="@+id/btn_signin"
@@ -26,7 +27,8 @@
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:background="#6897bb"
+        android:background="@drawable/rounded_corners_ui"
+        android:backgroundTint="@color/fbblue"
         android:gravity="center"
         android:text="@string/sign_in"
         android:textColor="@color/white"
@@ -42,7 +44,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
-        android:background="#6897bb"
+        android:background="@drawable/rounded_corners_ui"
+        android:backgroundTint="@color/fbblue"
         android:gravity="center"
         android:text="@string/create_account"
         android:textColor="@color/white"

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,6 +15,8 @@ import com.example.androidapp.History.HistoryActivity;
 import com.example.androidapp.Settings.SettingsActivity;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
+
+import java.util.Objects;
 
 import io.realm.mongodb.App;
 
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout homeButton;
     LinearLayout settingsButton;
     LinearLayout historyButton;
-    LinearLayout placeHolderbutton;
+    TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +78,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // PLACEHOLDER BUTTON SETTINGS
-        placeHolderbutton = findViewById(R.id.placeholder_button);
-        placeHolderbutton.setOnClickListener(view -> {
-            //userViewModel.getUser().getValue().getBreakins().forEach(breakin -> {
-            //Log.v(breakin.get("location").toString(), breakin.get("date").toString());
-            //});
+        userName = findViewById(R.id.userWelcome);
+        userViewModel.getUser().observe(this , userModel -> {
+            if(userModel.getName() == null || userModel.getName().equals("")){
+                userName.setText("Welcome");
+            }
+            else {
+                userName.setText("Welcome " + userModel.getName());
+            }
         });
+
     }
 
     public void createNotificationChannel() {

@@ -17,37 +17,30 @@
         android:src="@drawable/back_arrow"
         tools:ignore="ContentDescription,RtlHardcoded" />
 
-    <GridLayout
+    <RelativeLayout
         android:id="@+id/first_gridlayout"
-        android:columnCount="1"
-        android:rowCount="5"
+        android:layout_width="170dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginEnd="170dp"
+        android:layout_marginRight="170dp"
+        android:layout_marginBottom="170dp"
         android:alignmentMode="alignMargins"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:columnCount="1"
         android:gravity="center"
-        android:layout_margin="170dp"
-        >
-
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:text="@string/history"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+        android:rowCount="5">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
             android:id="@+id/history_logo"
-            android:src="@drawable/ic_history"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:contentDescription="@string/history_button_icon"
-            />
+            android:src="@drawable/ic_history" />
 
 
-    </GridLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,11 +52,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Last 10 alarm activations:"
+            android:text="Last 10 alarm activations"
             android:textColor="@color/white"
             android:padding="10dp"
             android:gravity="center"
-            android:textSize="20dp">
+            android:textSize="25dp">
 
         </TextView>
 
@@ -104,6 +97,15 @@
 
 </ScrollView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/history"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>
