@@ -9,7 +9,7 @@
 // Pins for sensors
 #define PIR_MOTION_SENSOR D0 // Motion sensor pin
 #define BUZZER D4 
-
+// blalba
 // WIFI Credentials
 const char *ssid = SSID;
 const char *password = WIFI_PASSWORD;
