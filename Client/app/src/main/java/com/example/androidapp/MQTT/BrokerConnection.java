@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.example.androidapp.AlarmStatusActivity;
 import com.example.androidapp.AlarmViewModel;
 import com.example.androidapp.Models.UserModel;
 import com.example.androidapp.R;
+import com.example.androidapp.Settings.SettingsActivity;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import com.example.androidapp.dbHandler;
@@ -31,6 +33,7 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.Date;
+import java.util.Objects;
 
 import io.realm.mongodb.App;
 import io.realm.mongodb.User;
@@ -49,6 +52,7 @@ public class BrokerConnection extends AppCompatActivity {
 
     // view model that handles the alarm status state
     AlarmViewModel alarmViewModel = new AlarmViewModel();
+    UserViewModel userViewModel;
 
 
     public BrokerConnection(Context context) {
@@ -179,6 +183,10 @@ public class BrokerConnection extends AppCompatActivity {
     }
 
     public void sendIntruderNotification() {
+        //SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        //String phoneNumber = sharedPreferences.getString("phoneNumber", "");
+
+        //channel 1
         Intent intent = new Intent(context, AlarmStatusActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
@@ -197,6 +205,7 @@ public class BrokerConnection extends AppCompatActivity {
         }
         notificationManager.notify(10, builder.build());
 
+        //channel2
         Intent dialIntent = new Intent(Intent.ACTION_DIAL);
         dialIntent.setData(Uri.parse("tel:112"));
         PendingIntent actionIntent = PendingIntent.getActivity(context, 0, dialIntent, 0);
@@ -210,8 +219,31 @@ public class BrokerConnection extends AppCompatActivity {
         builder.addAction(R.mipmap.ic_launcher, "Call the police", actionIntent);
         builder.setAutoCancel(true);
 
-        notificationManager = NotificationManagerCompat.from(context);
+        //notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(5, builder.build());
+
+        //channel3
+
+        dbHandler db = new dbHandler(getApplicationContext());
+        userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
+        String phoneNumbers = Objects.requireNonNull(userViewModel.getUser().getValue()).getPhoneNumbers();
+        String phoneNumber = phoneNumbers;
+        Intent intent3 = new Intent(Intent.ACTION_DIAL);
+        intent3.setData(Uri.parse(phoneNumber));
+        intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent3 = PendingIntent.getActivity(context, 0, intent3, PendingIntent.FLAG_IMMUTABLE);
+
+        builder = new NotificationCompat.Builder(context, "EmergencyContact");
+        builder.setSmallIcon(R.drawable.ic_notification);
+        builder.setContentTitle("Alarm has been activated");
+        builder.setContentText("Press notification to call emergency contact");
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        builder.setContentIntent(pendingIntent);
+        builder.addAction(R.mipmap.ic_launcher, "Call emergency contact", pendingIntent3);
+        builder.setAutoCancel(true);
+
+        //notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify(15, builder.build());
 
     }
 

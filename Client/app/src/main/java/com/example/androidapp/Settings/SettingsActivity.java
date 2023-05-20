@@ -150,6 +150,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 else {
                     // Perform your desired operations with the userViewModel using the phoneNumber
+                   // userViewModel.userphoneNumbers(phoneNumber);
                     Toast.makeText(getApplicationContext(), "Phone number " + phoneNumber + " has been added", Toast.LENGTH_SHORT).show();
                 }
             }

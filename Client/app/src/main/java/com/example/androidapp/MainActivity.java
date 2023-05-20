@@ -103,18 +103,23 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "AlarmStatus";
             CharSequence name2 = "Call the police";
+            CharSequence name3 = "Call registered emergency contact";
             String description = "AlarmStatus";
             String description2 = "Call the police";
+            String description3 = "Call registered emergency contact";
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("AlarmStatus", name, importance);
             NotificationChannel channel2 = new NotificationChannel("CallPolice", name2, importance);
+            NotificationChannel channel3 = new NotificationChannel("EmergencyContact", name3, importance);
             channel.setDescription(description);
             channel2.setDescription(description2);
+            channel3.setDescription(description3);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
             notificationManager.createNotificationChannel(channel2);
+            notificationManager.createNotificationChannel(channel3);
         }
     }
 
