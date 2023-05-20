@@ -5,45 +5,16 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.os.Bundle;
-import android.widget.LinearLayout;
-import com.example.androidapp.Settings.SettingsActivity;
-import com.example.androidapp.ViewModels.UserViewModel;
-import com.example.androidapp.ViewModels.UserViewModelFactory;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import io.realm.mongodb.App;
-
-import java.security.Permission;
-import java.util.Date;
-import android.Manifest;
-
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapp.History.HistoryActivity;
 import com.example.androidapp.Settings.SettingsActivity;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.Objects;
 
 import io.realm.mongodb.App;
 

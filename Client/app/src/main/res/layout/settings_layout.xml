@@ -139,6 +139,52 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/navigateToPhoneNumbers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/settings_menutab"
+                android:backgroundTint="@color/fbblue"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+
+                    >
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentBottom="true"
+                        android:contentDescription="@string/phone_icon"
+                        android:src="@drawable/phone_icon_foreground"
+
+
+                        >
+
+                    </ImageView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="40dp"
+                        android:text="Add emergency contact"
+                        android:textColor="@color/white"
+                        android:textSize="20dp" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

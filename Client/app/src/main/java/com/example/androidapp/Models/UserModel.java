@@ -14,13 +14,15 @@ public class UserModel {
     private String wioLocation;
 
     private List<Document> breakins;
+    private String phoneNumbers;
 
-    public UserModel(String name, String passcode, String profileImg, List<Document> breakins, String wioLocation) {
+    public UserModel(String name, String passcode, String profileImg, List<Document> breakins, String wioLocation, String phoneNumbers) {
         this.name = name;
         this.passcode = passcode;
         this.profileImg = profileImg;
         this.breakins = breakins;
         this.wioLocation = wioLocation;
+        this.phoneNumbers = phoneNumbers;
     }
 
     public String getName() {
@@ -71,5 +73,7 @@ public class UserModel {
     public void setWioLocation(String wioLocation) {
         this.wioLocation = wioLocation;
     }
+    public void setPhoneNumbers(String phoneNumbers){this.phoneNumbers = phoneNumbers;}
+    public String getPhoneNumbers(){return phoneNumbers;}
 
 }

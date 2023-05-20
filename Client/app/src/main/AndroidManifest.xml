@@ -43,6 +43,7 @@
         <activity android:name=".Settings.EditProfileActivity" />
         <activity android:name=".Settings.ChangePattern" />
         <activity android:name=".Settings.ChangePasscode" />
+        <activity android:name=".Settings.AddPhoneNumber" />
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
 

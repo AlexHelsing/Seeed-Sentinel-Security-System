@@ -193,6 +193,8 @@ public class BrokerConnection extends AppCompatActivity {
             return;
         }
         notificationManager.notify(10, builder.build());
+
+
     }
 
 

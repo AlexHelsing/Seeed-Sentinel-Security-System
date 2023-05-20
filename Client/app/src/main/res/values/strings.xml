@@ -15,6 +15,7 @@
     <string name="user_name">John doe</string>
     <string name="edit_profile">edit profile</string>
     <string name="pattern_icon">Pattern icon</string>
+    <string name="phone_icon">Phone icon</string>
     <string name="left_arrow">return to previous page</string>
     <string name="AlarmOff">AlarmOff</string>
     <string name="notification_icon">Edit notifications</string>
