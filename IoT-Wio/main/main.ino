@@ -8,6 +8,8 @@
 
 // Pins for sensors
 #define PIR_MOTION_SENSOR D0 // Motion sensor pin
+#define BUZZER D4 
+#define SOUND_SENSOR D2
 
 // WIFI Credentials
 const char *ssid = SSID;
@@ -33,6 +35,20 @@ bool initAuth = false;
 String username = "..."; // doesnt matter what we put here since it will be changed when app connects. In a better world where we had an sd card we could have persistent storage for this :(
 
 
+int SOUND_THRESHOLD = 500;
+
+// Different screens statuses
+bool huntScreenStatus = false;
+bool welcomeScreenStatus = false;
+
+unsigned long timerStart = 0;
+bool timerRunning = false;
+const unsigned long TIMER_DURATION = 30000;  // 30 seconds in milliseconds
+// only used to make timer work correctly with all the re-initializations of the grid/keypad.
+int attemptCount = 0;
+
+bool sentPub = false;
+
 
 // Callback function where all the incoming topic subscriptions are handled.
 void Callback(char *topic, byte *payload, unsigned int length)
@@ -48,12 +64,14 @@ void Callback(char *topic, byte *payload, unsigned int length)
 
       delay(1000);
       // turn on alarm
+      attemptCount = 0; // not sure where else to put this rn but it works :)
       alarmOn = true;
     }
     else if (strncmp((char *)payload, "AlarmOff", length) == 0)
     {
       Serial.println("Turn off motion detection");
       // handle the AlarmOff message here .
+      welcomeScreenStatus = false;
       alarmOn = false;
       initAuth = false;
     }
@@ -70,7 +88,6 @@ void Callback(char *topic, byte *payload, unsigned int length)
     // update our answerString
     setAnswerString(answerString);
   } else if (strcmp(topic, GetUserProfile) == 0) {
-    Serial.println("getprofile");
     String usernameTemp = "";
     for (int i = 0; i < length; i++)
     {
@@ -118,6 +135,10 @@ void setupScan()
 
 void initializeGrid()
 {
+    if (attemptCount == 0) {
+    timerRunning = true;  // Start the timer
+    timerStart = millis();  // Store the current time
+   }
   // Resets all our state variables, useful when someone uses more than one attempt.
   for (int row = 0; row < NUM_ROWS; row++)
   {
@@ -134,6 +155,7 @@ void initializeGrid()
 
   tftinstance.setRotation(3);
   tftinstance.fillScreen(TFT_BLACK); // Set background color
+  
 
   // Initialize the rectangle positions
   int gridWidth = NUM_COLS * RECTANGLE_WIDTH + (NUM_COLS - 1) * RECTANGLE_SPACING;
@@ -161,6 +183,8 @@ void setup()
 
   // PINS
   pinMode(PIR_MOTION_SENSOR, INPUT);
+  pinMode(BUZZER, INPUT);
+  pinMode(SOUND_SENSOR, INPUT);
   pinMode(WIO_5S_UP, INPUT_PULLUP);
   pinMode(WIO_5S_DOWN, INPUT_PULLUP);
   pinMode(WIO_5S_LEFT, INPUT_PULLUP);
@@ -194,6 +218,9 @@ void setup()
 
 void keypadauthloop()
 { // Read joystick values
+
+
+  
   int joystickUp = digitalRead(WIO_5S_UP);
   int joystickDown = digitalRead(WIO_5S_DOWN);
   int joystickLeft = digitalRead(WIO_5S_LEFT);
@@ -218,6 +245,7 @@ void keypadauthloop()
   {
     newCol = (currentCol + 1) % NUM_COLS;
   }
+  
 
   // Update the current rectangle
   currentRow = newRow;
@@ -226,6 +254,7 @@ void keypadauthloop()
   // handle the UI For rectangles depending on what state they are in.
   if (isInputting)
   {
+    
     for (int row = 0; row < NUM_ROWS; row++)
     {
       for (int col = 0; col < NUM_COLS; col++)
@@ -287,19 +316,36 @@ void keypadauthloop()
 
       uiScreens.AcessGrantedScreen(username);
       client.publish(AlarmTopic, "AlarmOff");
-
-      delay(2000);
+      
+      delay(1000);
+      timerRunning = false;
+      sentPub = false;
       initAuth = false;
       isInputting = false;
     }
     else
     {
+      attemptCount++;
       uiScreens.AcessDeniedScreen();
       delay(2000);
       initializeGrid();
     }
   }
-  delay(250);
+  delay(100);
+}
+
+bool isTimerElapsed()
+{
+  if (timerRunning)
+  {
+    unsigned long currentTime = millis();
+    unsigned long elapsedTime = currentTime - timerStart;
+    if (elapsedTime >= TIMER_DURATION)
+    {
+      return true;
+    }
+  }
+  return false;
 }
 
 
@@ -308,9 +354,11 @@ bool checkAnswer()
 {
   return (strcmp(userInputString, answerString.c_str()) == 0);
 }
+
 void loop()
 {
   client.loop();
+
 
   if (!answerString.length() == 0)
   {
@@ -323,13 +371,18 @@ void loop()
 
   if (alarmOn)
   {
-    uiScreens.ShowAlarmHuntScreen();
-
-    delay(3000);
-    if (digitalRead(PIR_MOTION_SENSOR))
+    if(huntScreenStatus == false){
+      uiScreens.ShowAlarmHuntScreen();
+      huntScreenStatus = true;
+    }
+    else{
+    int soundLevel = analogRead(SOUND_SENSOR);
+    Serial.println(soundLevel);
+    delay(50);
+    if (digitalRead(PIR_MOTION_SENSOR) || soundLevel > SOUND_THRESHOLD)
     {
+      huntScreenStatus = false;
       uiScreens.ShowIntruderScreen();
-      client.publish(AlarmTopic, "AlarmIntruder");
       Serial.println("intruder found");
       delay(2000);
       // turn on auth since intruder is found
@@ -338,17 +391,37 @@ void loop()
       initializeGrid();
       alarmOn = false;
     }
-  }
+  }}
 
   if (initAuth)
   {
+    welcomeScreenStatus = false;
     // loop keypad auth
     keypadauthloop();
+
+    // if 30 secs or whatever we have set passess, trigger some actions ie notice
+    if (isTimerElapsed()) {
+      if (sentPub == false) {
+        Serial.println("publish alarmIntuder");
+        client.publish(AlarmTopic, "AlarmIntruder");
+        sentPub = true;
+      }
+      digitalWrite(BUZZER, HIGH);
+      delay(50);
+      digitalWrite(BUZZER, LOW);
+      timerStart = 0;
+    }
   }
 
   if (!initAuth && !alarmOn)
   {
-    uiScreens.SHOWHOMESCREEN();
-    delay(2000);
+    if(welcomeScreenStatus == false){
+      uiScreens.SHOWHOMESCREEN();
+      welcomeScreenStatus = true;
+    }
+    else{
+      delay(50);
+    }
+
   }
-}
+  }
