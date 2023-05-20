@@ -26,6 +26,8 @@ import com.example.androidapp.ViewModels.UserViewModelFactory;
 import com.example.androidapp.dbHandler;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import io.realm.mongodb.App;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -39,6 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
     LinearLayout navigateToSetNotifications;
     AppCompatButton editProfileBtn;
     UserViewModel userViewModel;
+    TextView editPhoneNrText;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -127,10 +130,21 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
+        editPhoneNrText = findViewById(R.id.editPhoneNrText);
+        userViewModel.getUser().observe(this, userModel -> {
+            if(userModel.getPhoneNumbers() == null || Objects.equals(userModel.getPhoneNumbers(), "")){
+                editPhoneNrText.setText("Enter emergency contact phone number");
+            }
+            else{
+                editPhoneNrText.setText(userModel.getPhoneNumbers());
+            }}
+
+        );
 
     }
 
     public void addPhoneNumber() {
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
         builder.setTitle("Important Phone Numbers");
         builder.setMessage("Add new phone number");
@@ -140,27 +154,19 @@ public class SettingsActivity extends AppCompatActivity {
         final EditText input = new EditText(this);
         builder.setView(input);
         // Done and cancel button
-        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String phoneNumber = String.valueOf(input.getText());
+        builder.setPositiveButton("Done", (dialog, which) -> {
+            String phoneNumber = String.valueOf(input.getText());
 
-                if (phoneNumber.isEmpty() || phoneNumber.length() >= 20) {
-                    Toast.makeText(getApplicationContext(), "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    // Perform your desired operations with the userViewModel using the phoneNumber
-                   // userViewModel.userphoneNumbers(phoneNumber);
-                    Toast.makeText(getApplicationContext(), "Phone number " + phoneNumber + " has been added", Toast.LENGTH_SHORT).show();
-                }
+            if (phoneNumber.length() == 0 || phoneNumber.length() >= 20) {
+                Toast.makeText(getApplicationContext(), "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                userViewModel.userphoneNumbers(phoneNumber);
+                editPhoneNrText.setText(phoneNumber);
+                Toast.makeText(getApplicationContext(), "Phone number " + phoneNumber + " has been added", Toast.LENGTH_SHORT).show();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }

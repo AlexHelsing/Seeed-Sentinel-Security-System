@@ -20,6 +20,7 @@
     <string name="AlarmOff">AlarmOff</string>
     <string name="notification_icon">Edit notifications</string>
     <string name="dropdown_alt">dropDownMenuAlternatives</string>
+    <string name="editPhoneNrText">Enter emergency contact phone number</string>
 
 
 

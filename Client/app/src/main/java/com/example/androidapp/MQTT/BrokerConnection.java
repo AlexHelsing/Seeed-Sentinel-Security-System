@@ -1,12 +1,15 @@
 package com.example.androidapp.MQTT;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -183,8 +186,6 @@ public class BrokerConnection extends AppCompatActivity {
     }
 
     public void sendIntruderNotification() {
-        //SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        //String phoneNumber = sharedPreferences.getString("phoneNumber", "");
 
         //channel 1
         Intent intent = new Intent(context, AlarmStatusActivity.class);
@@ -224,28 +225,32 @@ public class BrokerConnection extends AppCompatActivity {
 
         //channel3
 
-        dbHandler db = new dbHandler(getApplicationContext());
+        dbHandler db = new dbHandler(this.getApplicationContext());
         userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
-        String phoneNumbers = Objects.requireNonNull(userViewModel.getUser().getValue()).getPhoneNumbers();
-        String phoneNumber = phoneNumbers;
-        Intent intent3 = new Intent(Intent.ACTION_DIAL);
-        intent3.setData(Uri.parse(phoneNumber));
-        intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent3 = PendingIntent.getActivity(context, 0, intent3, PendingIntent.FLAG_IMMUTABLE);
+        UserModel userModel = userViewModel.getUser().getValue();
 
-        builder = new NotificationCompat.Builder(context, "EmergencyContact");
-        builder.setSmallIcon(R.drawable.ic_notification);
-        builder.setContentTitle("Alarm has been activated");
-        builder.setContentText("Press notification to call emergency contact");
-        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-        builder.setContentIntent(pendingIntent);
-        builder.addAction(R.mipmap.ic_launcher, "Call emergency contact", pendingIntent3);
-        builder.setAutoCancel(true);
+        if (userModel != null) {
+            String phoneNumbers = userModel.getPhoneNumbers();
 
-        //notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(15, builder.build());
+                Intent intent3 = new Intent(Intent.ACTION_DIAL);
+                intent3.setData(Uri.parse("tel:" + phoneNumbers));
+                intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                PendingIntent pendingIntent3 = PendingIntent.getActivity(context, 0, intent3, PendingIntent.FLAG_IMMUTABLE);
 
-    }
+                builder = new NotificationCompat.Builder(context, "EmergencyContact");
+                builder.setSmallIcon(R.drawable.ic_notification);
+                builder.setContentTitle("Alarm has been activated");
+                builder.setContentText("Press notification to call emergency contact");
+                builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+                builder.setContentIntent(pendingIntent);
+                builder.addAction(R.mipmap.ic_launcher, "Call emergency contact", pendingIntent3);
+                builder.setAutoCancel(true);
+
+                notificationManager.notify(15, builder.build());
+                Log.e("Notification", "Notification works.");
+
+        }
 
 
-}
+
+}}
