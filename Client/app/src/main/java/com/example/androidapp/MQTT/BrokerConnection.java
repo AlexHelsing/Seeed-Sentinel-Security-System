@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -106,6 +107,7 @@ public class BrokerConnection extends AppCompatActivity {
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     if (topic.equals(SUB_TOPIC)) {
                         String mqttMessage = new String(message.getPayload());
+
                         switch (mqttMessage) {
                             case "AlarmOff":
                                 // set alarm status to false
@@ -120,6 +122,7 @@ public class BrokerConnection extends AppCompatActivity {
                                 UserViewModel.createBreakin(new Date());
                                 sendIntruderNotification();
                                 break;
+
                         }
                     }
                     else {
@@ -194,6 +197,21 @@ public class BrokerConnection extends AppCompatActivity {
         }
         notificationManager.notify(10, builder.build());
 
+        Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+        dialIntent.setData(Uri.parse("tel:112"));
+        PendingIntent actionIntent = PendingIntent.getActivity(context, 0, dialIntent, 0);
+
+        builder = new NotificationCompat.Builder(context, "CallPolice");
+        builder.setSmallIcon(R.drawable.ic_notification);
+        builder.setContentTitle("Alarm has been activated");
+        builder.setContentText("Press notification to call the police");
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        builder.setContentIntent(pendingIntent);
+        builder.addAction(R.mipmap.ic_launcher, "Call the police", actionIntent);
+        builder.setAutoCancel(true);
+
+        notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify(5, builder.build());
 
     }
 
