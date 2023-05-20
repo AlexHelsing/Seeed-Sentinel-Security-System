@@ -35,6 +35,11 @@ public class UserViewModel extends ViewModel{
         return _user;
     }
 
+    // static method to get _user.passcode
+    public static String getEmergencyContactNumber() {
+        return _user.getValue().getPhoneNumbers();
+    }
+
 
     //edit name of user
     public void editName(String name) {
@@ -74,7 +79,7 @@ public class UserViewModel extends ViewModel{
 
     }
 
-    public void userphoneNumbers(String phoneNumbers){
+    public void editPhoneNumber(String phoneNumbers){
         db.updatePhoneNumbers(phoneNumbers, new UpdateUserDataCallback() {
             @Override
             public void onSuccess() {

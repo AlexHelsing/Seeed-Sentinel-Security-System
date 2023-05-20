@@ -37,6 +37,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Observer;
 
 import io.realm.mongodb.App;
 import io.realm.mongodb.User;
@@ -224,17 +225,9 @@ public class BrokerConnection extends AppCompatActivity {
         notificationManager.notify(5, builder.build());
 
         //channel3
-
-       // dbHandler db = new dbHandler(this.getApplicationContext());
-       // userViewModel = new UserViewModelFactory(db).create(UserViewModel.class);
-       // UserModel userModel = userViewModel.getUser().getValue();
-        String phoneNumbers = userViewModel.getUser().getValue().getPhoneNumbers();
-        //if (userModel != null) {
-
-
-
-                Intent intent3 = new Intent(Intent.ACTION_DIAL);
-                intent3.setData(Uri.parse("tel:" + phoneNumbers));
+        String emergencyContactN = UserViewModel.getEmergencyContactNumber();
+        Intent intent3 = new Intent(Intent.ACTION_DIAL);
+                intent3.setData(Uri.parse("tel:" + emergencyContactN));
                 intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 PendingIntent pendingIntent3 = PendingIntent.getActivity(context, 0, intent3, 0);
 
@@ -247,11 +240,7 @@ public class BrokerConnection extends AppCompatActivity {
                 builder.addAction(R.mipmap.ic_launcher, "Call emergency contact", pendingIntent3);
                 builder.setAutoCancel(true);
 
-                notificationManager.notify(1, builder.build());
+               notificationManager.notify(1, builder.build());
                 Log.e("Notification", "Notification works.");
-
-      // }
-
-
 
 }}

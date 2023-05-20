@@ -57,15 +57,21 @@ public class SettingsActivity extends AppCompatActivity {
 
         TextView username = findViewById(R.id.user_name);
         ImageView profilePic = findViewById(R.id.profilePicture);
+        TextView editPhoneNrText = findViewById(R.id.editPhoneNrText);
 
 
         userViewModel.getUser().observe(this, userModel -> {
                     username.setText(userModel.getName());
                     Picasso.get().load(userModel.getProfileImg()).resize(500,500).into(profilePic);
+
+                    if (userModel.getPhoneNumbers() == null || Objects.equals(userModel.getPhoneNumbers(), "")) {
+                        editPhoneNrText.setText("Enter emergency phone number");
+                    } else {
+                        editPhoneNrText.setText(userModel.getPhoneNumbers());
+                    }
                 }
 
         );
-
 
 
         LogOutButton = findViewById(R.id.LogOutButton);
@@ -86,8 +92,27 @@ public class SettingsActivity extends AppCompatActivity {
 
         addPhonenumberBtn = findViewById(R.id.navigateToPhoneNumbers);
         addPhonenumberBtn.setOnClickListener(view -> {
-            addPhoneNumber();
+            // open a dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+            builder.setTitle("Add phone number");
 
+            // set the custom layout
+            final EditText input = new EditText(SettingsActivity.this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+            input.setLayoutParams(lp);
+            builder.setView(input);
+
+            // set the buttons
+            builder.setPositiveButton("Add", (dialogInterface, i) -> {
+                String phoneNumber = input.getText().toString();
+                userViewModel.editPhoneNumber(phoneNumber);
+                Toast.makeText(getApplicationContext(), "Phone number added", Toast.LENGTH_SHORT).show();
+            });
+
+            builder.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());
+            builder.show();
         });
 
 
@@ -130,45 +155,5 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
-        editPhoneNrText = findViewById(R.id.editPhoneNrText);
-        userViewModel.getUser().observe(this, userModel -> {
-            if(userModel.getPhoneNumbers() == null || Objects.equals(userModel.getPhoneNumbers(), "")){
-                editPhoneNrText.setText("Enter emergency contact phone number");
-            }
-            else{
-                editPhoneNrText.setText(userModel.getPhoneNumbers());
-            }}
-
-        );
-
     }
-
-    public void addPhoneNumber() {
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
-        builder.setTitle("Important Phone Numbers");
-        builder.setMessage("Add new phone number");
-        //builder.setMessage("Add name to phone number");
-        builder.setCancelable(true);
-        // Input field for user
-        final EditText input = new EditText(this);
-        builder.setView(input);
-        // Done and cancel button
-        builder.setPositiveButton("Done", (dialog, which) -> {
-            String phoneNumber = String.valueOf(input.getText());
-
-            if (phoneNumber.length() == 0 || phoneNumber.length() >= 20) {
-                Toast.makeText(getApplicationContext(), "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                userViewModel.userphoneNumbers(phoneNumber);
-                editPhoneNrText.setText(phoneNumber);
-                Toast.makeText(getApplicationContext(), "Phone number " + phoneNumber + " has been added", Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
 }
