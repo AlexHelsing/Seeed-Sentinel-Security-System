@@ -1,6 +1,9 @@
 # SeeedSentinel
 
-![alt text](https://i.imgur.com/mYtfjEU.png)
+![alt text](https://i.imgur.com/o3uBdQp.png)
+
+
+
 
 ## ![alt text](https://i.imgur.com/nnc05xy.png) What is SeeedSentinel?
 
@@ -27,6 +30,10 @@ app in case of a false alarm.
 - Deactivate alarm using WIO terminal sensors by entering a numerical password with the built in joystick
 - Change the password in android app
 - Stores user information and password safely in a database
+
+
+## Developer Guide
+Please refer to the [Developer guide](https://git.chalmers.se/courses/dit113/2023/group-4/thief-detector/-/wikis/Developer-guide) for getting started with the project.
 
 ## Diagrams and documents
 
