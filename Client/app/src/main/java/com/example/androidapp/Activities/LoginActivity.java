@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.Activities;
 
 import android.content.Intent;
 import android.widget.Button;
@@ -6,6 +6,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.androidapp.R;
+import com.example.androidapp.dbHandler;
+
 import io.realm.mongodb.App;
 import io.realm.mongodb.Credentials;
 import io.realm.mongodb.User;

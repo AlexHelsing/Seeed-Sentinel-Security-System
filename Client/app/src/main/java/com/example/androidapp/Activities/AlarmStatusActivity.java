@@ -1,12 +1,10 @@
-package com.example.androidapp;
+package com.example.androidapp.Activities;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,17 +16,16 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.androidapp.ViewModels.AlarmViewModel;
 import com.example.androidapp.MQTT.BrokerConnection;
+import com.example.androidapp.MyApp;
+import com.example.androidapp.R;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.w3c.dom.Text;
 
-import com.example.androidapp.Settings.SettingsActivity;
-import com.squareup.picasso.Picasso;
+import com.example.androidapp.dbHandler;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 

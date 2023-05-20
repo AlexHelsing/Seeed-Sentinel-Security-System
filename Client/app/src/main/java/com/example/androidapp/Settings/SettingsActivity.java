@@ -1,6 +1,5 @@
 package com.example.androidapp.Settings;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -20,7 +19,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapp.R;
-import com.example.androidapp.StarterPage;
+import com.example.androidapp.Activities.StarterPage;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import com.example.androidapp.dbHandler;

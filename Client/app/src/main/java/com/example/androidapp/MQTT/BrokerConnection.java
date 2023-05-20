@@ -1,33 +1,23 @@
 package com.example.androidapp.MQTT;
 
 import android.Manifest;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.androidapp.AlarmStatusActivity;
+import com.example.androidapp.Activities.AlarmStatusActivity;
 
-import com.example.androidapp.AlarmViewModel;
-import com.example.androidapp.Models.UserModel;
+import com.example.androidapp.ViewModels.AlarmViewModel;
 import com.example.androidapp.R;
-import com.example.androidapp.Settings.SettingsActivity;
 import com.example.androidapp.ViewModels.UserViewModel;
-import com.example.androidapp.ViewModels.UserViewModelFactory;
-import com.example.androidapp.dbHandler;
 
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -36,18 +26,13 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.Date;
-import java.util.Objects;
-import java.util.Observer;
-
-import io.realm.mongodb.App;
-import io.realm.mongodb.User;
 
 
 public class BrokerConnection extends AppCompatActivity {
 
     public static final String SUB_TOPIC = "/SeeedSentinel/AlarmOnOff";
     private static final String MQTT_SERVER = "tcp://broker.hivemq.com:1883";
-    public static final String CLIENT_ID = "SeeedSentinel";
+    public static final String CLIENT_ID = "SeeedSentinel1";
     public static final int QOS = 1;
     private boolean isConnected = false;
     private MqttClient mqttClient;
@@ -56,7 +41,6 @@ public class BrokerConnection extends AppCompatActivity {
 
     // view model that handles the alarm status state
     AlarmViewModel alarmViewModel = new AlarmViewModel();
-    UserViewModel userViewModel;
 
 
     public BrokerConnection(Context context) {
@@ -221,7 +205,6 @@ public class BrokerConnection extends AppCompatActivity {
         builder.addAction(R.mipmap.ic_launcher, "Call the police", actionIntent);
         builder.setAutoCancel(true);
 
-        //notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(5, builder.build());
 
         //channel3
@@ -241,6 +224,5 @@ public class BrokerConnection extends AppCompatActivity {
                 builder.setAutoCancel(true);
 
                notificationManager.notify(1, builder.build());
-                Log.e("Notification", "Notification works.");
 
 }}
