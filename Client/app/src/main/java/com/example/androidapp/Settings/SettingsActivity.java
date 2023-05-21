@@ -93,7 +93,7 @@ public class SettingsActivity extends AppCompatActivity {
         addPhonenumberBtn.setOnClickListener(view -> {
             // open a dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
-            builder.setTitle("Add phone number");
+            builder.setTitle("Add emergency contact");
 
             // set the custom layout
             final EditText input = new EditText(SettingsActivity.this);
