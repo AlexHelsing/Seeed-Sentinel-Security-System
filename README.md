@@ -34,6 +34,7 @@ app in case of a false alarm.
 - Stores user information and password safely in a database
 
 
+
 ## Developer Guide
 Please refer to the [Developer guide](https://git.chalmers.se/courses/dit113/2023/group-4/thief-detector/-/wikis/Developer-guide) for getting started with the project.
 
@@ -50,6 +51,10 @@ human body.
 Once an object is detected by the PIR the Wio sends a signal to turn on the buzzer, which start making a loud 
 buzzing noise to signal that the alarm is activated. The alarm can also be activated if the sound sensor picks up loud noises.
 When the alarm is activated, the owner will be notified in the android app, and can choose to turn off the alarm either through the app or by entering a password using the joystick on the Wio terminal. Users can choose their own passwords, and they will be stored safely in a database.
+
+## Youtube Video
+
+[![Walkthrough of app](https://i.imgur.com/O0pMj2o.png)](https://www.youtube.com/watch?v=PzLFFU0a8ac "SeeedSentinel")
 
 
 
