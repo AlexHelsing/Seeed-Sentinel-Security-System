@@ -48,6 +48,8 @@ public class HistoryActivity extends AppCompatActivity {
             if (user != null) {
                 List<Document> timestamps = user.getBreakins();
 
+                tableLayout.removeViews(1, tableLayout.getChildCount() - 1);
+
                 for (Document timestamp : timestamps) {
                     String location = timestamp.get("location").toString();
                     Date date = timestamp.getDate("date");
