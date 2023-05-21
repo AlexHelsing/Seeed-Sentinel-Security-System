@@ -39,7 +39,13 @@ Please refer to the [Developer guide](https://git.chalmers.se/courses/dit113/202
 
 ## Diagrams and documents
 
-- [Diagrams](https://git.chalmers.se/courses/dit113/2023/group-4/thief-detector/-/wikis/Diagrams)
+- [Wiki for all diagrams](https://git.chalmers.se/courses/dit113/2023/group-4/thief-detector/-/wikis/Diagrams)
+
+#### Component Diagram
+![Component Diagram](https://git.chalmers.se/courses/dit113/2023/group-4/thief-detector/-/wikis/uploads/eeefd1b934107c67d9e0b9295c1d5475/Blank_diagram_-_Component_Diagram__8_.png)
+
+#### Activity Diagram
+![Activity Diagram](https://git.chalmers.se/courses/dit113/2023/group-4/thief-detector/-/wikis/uploads/c9608a5ea8caf3da0ba27b0900207b4f/Blank_diagram_-_Sequence_Diagram__3_.png)
 
 ## How is the system supposed to work?
 
