@@ -71,3 +71,7 @@ When the alarm is activated, the owner will be notified in the android app, and 
 - [ ] Alexander Helsing (gushelsial@student.gu.se)
 - [ ] Deba Arif Mohammed (gusmohamde@student.gu.se)
 - [ ] Henrik Andren (gusandrhe@student.gu.se)
+
+## Group contributions
+
+[Team member contributions](https://git.chalmers.se/courses/dit113/2023/group-4/thief-detector/-/wikis/Team-member-contributions)
