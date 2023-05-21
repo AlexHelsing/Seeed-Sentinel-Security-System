@@ -42,11 +42,11 @@ Please refer to the [Developer guide](https://git.chalmers.se/courses/dit113/202
 ## How is the system supposed to work?
 
 To handle communication between the client and the SeedSentinel device, we will use an MQTT broker.
-The SeedSentinel gadget is made up of Wio terminal and external sensors as PIR sensor and a buzzer. The Passive Infrared 
+The SeedSentinel gadget is made up of Wio terminal and external sensors as PIR sensor, sound sensor and a buzzer. The Passive Infrared 
 Sensor (PIR), which is the main component, activates the alarm via Wio once it detects an object that emits heat such as a
 human body.
 Once an object is detected by the PIR the Wio sends a signal to turn on the buzzer, which start making a loud 
-buzzing noise to signal that the alarm is activated.
+buzzing noise to signal that the alarm is activated. The alarm can also be activated if the sound sensor picks up loud noises.
 When the alarm is activated, the owner will be notified in the android app, and can choose to turn off the alarm either through the app or by entering a password using the joystick on the Wio terminal. Users can choose their own passwords, and they will be stored safely in a database.
 
 
@@ -59,7 +59,7 @@ When the alarm is activated, the owner will be notified in the android app, and 
 - Android Studio
 - MQTT 
 - Wio Seed Terminal with built-in sensors
-- External sensors such as a PIR motion sensor, buzzer.
+- External sensors such as a PIR motion sensor, buzzer, sound sensor.
 - MongoDB
 
 
