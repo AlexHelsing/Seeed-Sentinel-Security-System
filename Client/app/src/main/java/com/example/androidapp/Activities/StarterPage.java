@@ -1,9 +1,11 @@
-package com.example.androidapp;
+package com.example.androidapp.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.androidapp.R;
 import com.example.androidapp.createAccount.CreateAccountActivity;
 
 public class StarterPage extends AppCompatActivity{

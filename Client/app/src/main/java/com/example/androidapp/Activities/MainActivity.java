@@ -1,28 +1,23 @@
-package com.example.androidapp;
+package com.example.androidapp.Activities;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.androidapp.History.HistoryActivity;
+import com.example.androidapp.ViewModels.AlarmViewModel;
+import com.example.androidapp.R;
 import com.example.androidapp.Settings.SettingsActivity;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
-
-import java.util.Objects;
+import com.example.androidapp.dbHandler;
 
 import io.realm.mongodb.App;
 
@@ -43,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         db = new dbHandler(getApplicationContext());
         app = db.getApp();
@@ -104,18 +100,23 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "AlarmStatus";
             CharSequence name2 = "Call the police";
+            CharSequence name3 = "Call registered emergency contact";
             String description = "AlarmStatus";
             String description2 = "Call the police";
+            String description3 = "Call registered emergency contact";
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("AlarmStatus", name, importance);
             NotificationChannel channel2 = new NotificationChannel("CallPolice", name2, importance);
+            NotificationChannel channel3 = new NotificationChannel("EmergencyContact", name3, importance);
             channel.setDescription(description);
             channel2.setDescription(description2);
+            channel3.setDescription(description3);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
             notificationManager.createNotificationChannel(channel2);
+            notificationManager.createNotificationChannel(channel3);
         }
     }
 

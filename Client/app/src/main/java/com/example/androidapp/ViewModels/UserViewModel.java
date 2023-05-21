@@ -35,6 +35,11 @@ public class UserViewModel extends ViewModel{
         return _user;
     }
 
+    // static method to get _user.passcode
+    public static String getEmergencyContactNumber() {
+        return _user.getValue().getPhoneNumbers();
+    }
+
 
     //edit name of user
     public void editName(String name) {
@@ -73,6 +78,27 @@ public class UserViewModel extends ViewModel{
         });
 
     }
+
+    public void editPhoneNumber(String phoneNumbers){
+        db.updatePhoneNumbers(phoneNumbers, new UpdateUserDataCallback() {
+            @Override
+            public void onSuccess() {
+                Log.v("AUTH", "Successfully updated saved phonenumbers.");
+                UserModel userModel = db.getUserData();
+                userModel.setPhoneNumbers(phoneNumbers);
+                _user.setValue(userModel);
+            }
+
+            @Override
+            public void onError() {
+                Log.e("AUTH", "Failed to update users saved phone number.");
+            }
+        });
+    }
+
+
+
+
 
     // edit passcode of user (hash this later if we have time
     public void editPasscode (String passcode) {

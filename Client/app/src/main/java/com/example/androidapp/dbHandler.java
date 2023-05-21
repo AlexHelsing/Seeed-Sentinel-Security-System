@@ -72,9 +72,10 @@ public class dbHandler {
                 String passcode = customData.getString("passcode");
                 String profilePic = customData.getString("profilePic");
                 String wioLocation = customData.getString("wioLocation");
+                String phoneNumbers = customData.getString("phoneNumbers");
                 List<Document> breakins = customData.getList("breakins", Document.class );
 
-                UserModel userModel = new UserModel(name, passcode, profilePic, breakins, wioLocation);
+                UserModel userModel = new UserModel(name, passcode, profilePic, breakins, wioLocation, phoneNumbers);
 
                 return userModel;
 
@@ -134,6 +135,29 @@ public class dbHandler {
                         }
                     }
             );
+        }
+    }
+
+    public void updatePhoneNumbers(String phoneNumbers, UpdateUserDataCallback callback){
+        User user = app.currentUser();
+        if (user != null){
+
+            user.getCustomData().put("phoneNumbers", phoneNumbers);
+            MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("SeeedDB");
+            MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("UserData");
+
+            mongoCollection.updateOne(new Document("user-id", user.getId()),
+                    new Document("$set", new Document("phoneNumbers",
+                    phoneNumbers))).getAsync(result -> {
+                        if (result.isSuccess()){
+                            System.out.println("successfully updated phone number");
+                            callback.onSuccess();
+                        }else {
+                            System.out.println("failed to update phone number");
+                            callback.onError();
+                        }
+            });
         }
     }
 
@@ -221,7 +245,8 @@ public class dbHandler {
                 .append("name", name)
                 .append("passcode", passcode)
                 .append("profilePic", profilePic)
-                .append("breakins", Arrays.asList());
+                .append("breakins", Arrays.asList()).append("wioLocation", "").append("phoneNumbers", "");
+
 
         // insert the document
         mongoCollection.insertOne(doc).getAsync(result -> {

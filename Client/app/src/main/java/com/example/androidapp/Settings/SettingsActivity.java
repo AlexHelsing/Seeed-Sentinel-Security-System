@@ -6,23 +6,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
-import com.example.androidapp.StarterPage;
+import com.example.androidapp.Activities.StarterPage;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
 import com.example.androidapp.dbHandler;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 import io.realm.mongodb.App;
 
@@ -31,10 +34,13 @@ public class SettingsActivity extends AppCompatActivity {
     dbHandler db;
     App app;
     ImageView backArrow;
+    LinearLayout addPhonenumberBtn;
     LinearLayout navigateToPasscodeBtn;
     LinearLayout LogOutButton;
     LinearLayout navigateToSetNotifications;
     AppCompatButton editProfileBtn;
+    UserViewModel userViewModel;
+    TextView editPhoneNrText;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -50,15 +56,21 @@ public class SettingsActivity extends AppCompatActivity {
 
         TextView username = findViewById(R.id.user_name);
         ImageView profilePic = findViewById(R.id.profilePicture);
+        TextView editPhoneNrText = findViewById(R.id.editPhoneNrText);
 
 
         userViewModel.getUser().observe(this, userModel -> {
                     username.setText(userModel.getName());
                     Picasso.get().load(userModel.getProfileImg()).resize(500,500).into(profilePic);
+
+                    if (userModel.getPhoneNumbers() == null || Objects.equals(userModel.getPhoneNumbers(), "")) {
+                        editPhoneNrText.setText("Enter emergency phone number");
+                    } else {
+                        editPhoneNrText.setText(userModel.getPhoneNumbers());
+                    }
                 }
 
         );
-
 
 
         LogOutButton = findViewById(R.id.LogOutButton);
@@ -75,6 +87,31 @@ public class SettingsActivity extends AppCompatActivity {
                     Log.e("AUTH", "Failed to log out, error: " + result.getError().getErrorMessage());
                 }
             });
+        });
+
+        addPhonenumberBtn = findViewById(R.id.navigateToPhoneNumbers);
+        addPhonenumberBtn.setOnClickListener(view -> {
+            // open a dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+            builder.setTitle("Add emergency contact");
+
+            // set the custom layout
+            final EditText input = new EditText(SettingsActivity.this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+            input.setLayoutParams(lp);
+            builder.setView(input);
+
+            // set the buttons
+            builder.setPositiveButton("Add", (dialogInterface, i) -> {
+                String phoneNumber = input.getText().toString();
+                userViewModel.editPhoneNumber(phoneNumber);
+                Toast.makeText(getApplicationContext(), "Phone number added", Toast.LENGTH_SHORT).show();
+            });
+
+            builder.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());
+            builder.show();
         });
 
 
@@ -117,7 +154,5 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
-
     }
-
 }

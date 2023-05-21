@@ -12,17 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.androidapp.AlarmStatusActivity;
+import com.example.androidapp.Activities.AlarmStatusActivity;
 
-import com.example.androidapp.AlarmViewModel;
-import com.example.androidapp.Models.UserModel;
+import com.example.androidapp.ViewModels.AlarmViewModel;
 import com.example.androidapp.R;
 import com.example.androidapp.ViewModels.UserViewModel;
-import com.example.androidapp.ViewModels.UserViewModelFactory;
-import com.example.androidapp.dbHandler;
 
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -32,15 +27,12 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.Date;
 
-import io.realm.mongodb.App;
-import io.realm.mongodb.User;
-
 
 public class BrokerConnection extends AppCompatActivity {
 
     public static final String SUB_TOPIC = "/SeeedSentinel/AlarmOnOff";
-    private static final String MQTT_SERVER = "tcp://broker.hivemq.com:1883";
-    public static final String CLIENT_ID = "SeeedSentinel";
+    private static final String MQTT_SERVER = "tcp://10.0.2.2:1883";
+    public static final String CLIENT_ID = "SeeedSentinel1";
     public static final int QOS = 1;
     private boolean isConnected = false;
     private MqttClient mqttClient;
@@ -179,6 +171,8 @@ public class BrokerConnection extends AppCompatActivity {
     }
 
     public void sendIntruderNotification() {
+
+        //channel 1
         Intent intent = new Intent(context, AlarmStatusActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
@@ -197,6 +191,7 @@ public class BrokerConnection extends AppCompatActivity {
         }
         notificationManager.notify(10, builder.build());
 
+        //channel2
         Intent dialIntent = new Intent(Intent.ACTION_DIAL);
         dialIntent.setData(Uri.parse("tel:112"));
         PendingIntent actionIntent = PendingIntent.getActivity(context, 0, dialIntent, 0);
@@ -210,9 +205,24 @@ public class BrokerConnection extends AppCompatActivity {
         builder.addAction(R.mipmap.ic_launcher, "Call the police", actionIntent);
         builder.setAutoCancel(true);
 
-        notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(5, builder.build());
-    }
 
+        //channel3
+        String emergencyContactN = UserViewModel.getEmergencyContactNumber();
+        Intent intent3 = new Intent(Intent.ACTION_DIAL);
+                intent3.setData(Uri.parse("tel:" + emergencyContactN));
+                intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                PendingIntent pendingIntent3 = PendingIntent.getActivity(context, 0, intent3, 0);
 
-}
+                builder = new NotificationCompat.Builder(context, "EmergencyContact");
+                builder.setSmallIcon(R.drawable.ic_notification);
+                builder.setContentTitle("Alarm has been activated");
+                builder.setContentText("Press notification to call emergency contact");
+                builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+                builder.setContentIntent(pendingIntent);
+                builder.addAction(R.mipmap.ic_launcher, "Call emergency contact", pendingIntent3);
+                builder.setAutoCancel(true);
+
+               notificationManager.notify(1, builder.build());
+
+}}

@@ -1,11 +1,10 @@
-package com.example.androidapp.History;
+package com.example.androidapp.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -14,8 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.androidapp.AlarmViewModel;
-import com.example.androidapp.MainActivity;
+import com.example.androidapp.ViewModels.AlarmViewModel;
 import com.example.androidapp.R;
 import com.example.androidapp.ViewModels.UserViewModel;
 import com.example.androidapp.ViewModels.UserViewModelFactory;
@@ -24,7 +22,10 @@ import com.example.androidapp.dbHandler;
 import org.bson.Document;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -47,9 +48,14 @@ public class HistoryActivity extends AppCompatActivity {
             if (user != null) {
                 List<Document> timestamps = user.getBreakins();
 
+                tableLayout.removeViews(1, tableLayout.getChildCount() - 1);
+
                 for (Document timestamp : timestamps) {
                     String location = timestamp.get("location").toString();
-                    String date = DateFormat.getDateTimeInstance().format(timestamp.getDate("date"));
+                    Date date = timestamp.getDate("date");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    sdf.setTimeZone(TimeZone.getTimeZone("CET"));
+                    String formattedDate = sdf.format(date);
 
                     tableRow = new TableRow(this);
                     TextView textView1 = new TextView(this);
@@ -60,7 +66,7 @@ public class HistoryActivity extends AppCompatActivity {
 
 
                     TextView textView2 = new TextView(this);
-                    textView2.setText(date);
+                    textView2.setText(formattedDate);
                     textView2.setTextColor(Color.WHITE);
                     textView2.setTextSize(15);
                     textView2.setGravity(Gravity.CENTER);

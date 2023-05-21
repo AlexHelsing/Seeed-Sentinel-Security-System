@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.Settings;
 
 import android.widget.TextView;
 

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.androidapp.R;
-import com.example.androidapp.StarterPage;
+import com.example.androidapp.Activities.StarterPage;
 import com.example.androidapp.dbHandler;
 import io.realm.mongodb.App;
 import io.realm.mongodb.Credentials;

@@ -1,15 +1,14 @@
 package com.example.androidapp.createAccount;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import com.example.androidapp.KeypadUtils;
-import com.example.androidapp.MainActivity;
+import com.example.androidapp.Settings.KeypadUtils;
+import com.example.androidapp.Activities.MainActivity;
 import com.example.androidapp.R;
 import com.example.androidapp.ViewModels.UpdateUserDataCallback;
 import com.example.androidapp.dbHandler;
