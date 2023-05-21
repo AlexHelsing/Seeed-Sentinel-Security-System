@@ -31,7 +31,7 @@ import java.util.Date;
 public class BrokerConnection extends AppCompatActivity {
 
     public static final String SUB_TOPIC = "/SeeedSentinel/AlarmOnOff";
-    private static final String MQTT_SERVER = "tcp://broker.hivemq.com:1883";
+    private static final String MQTT_SERVER = "tcp://10.0.2.2:1883";
     public static final String CLIENT_ID = "SeeedSentinel1";
     public static final int QOS = 1;
     private boolean isConnected = false;

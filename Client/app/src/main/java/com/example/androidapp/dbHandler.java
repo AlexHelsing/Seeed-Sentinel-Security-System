@@ -245,7 +245,8 @@ public class dbHandler {
                 .append("name", name)
                 .append("passcode", passcode)
                 .append("profilePic", profilePic)
-                .append("breakins", Arrays.asList());
+                .append("breakins", Arrays.asList()).append("wioLocation", "").append("phoneNumbers", "");
+
 
         // insert the document
         mongoCollection.insertOne(doc).getAsync(result -> {
