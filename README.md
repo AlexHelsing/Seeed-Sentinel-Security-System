@@ -4,6 +4,7 @@
 
 
 
+(Repository imported from gitlab which Chalmers use, some things might be missing such as our wiki page)
 
 ## ![alt text](https://i.imgur.com/nnc05xy.png) What is SeeedSentinel?
 
